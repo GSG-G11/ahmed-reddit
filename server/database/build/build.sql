@@ -8,7 +8,7 @@ DROP TABLE
 
 CREATE TABLE
   users(
-    id INTEGER NOT NULL,
+    id SERIAL NOT NULL,
     username VARCHAR(155) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -24,7 +24,7 @@ ADD
 
 CREATE TABLE
   posts(
-    id INTEGER NOT NULL,
+    id SERIAL NOT NULL,
     user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
@@ -37,12 +37,7 @@ ADD
   PRIMARY KEY(id);
 
 CREATE TABLE
-  comments(
-    id INTEGER NOT NULL,
-    post_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    content TEXT NOT NULL
-  );
+  comments(id SERIAL NOT NULL, post_id INTEGER NOT NULL, user_id INTEGER NOT NULL, content TEXT NOT NULL);
 
 ALTER TABLE
   comments
@@ -51,7 +46,7 @@ ADD
 
 CREATE TABLE
   votes(
-    id INTEGER NOT NULL,
+    id SERIAL NOT NULL,
     user_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,
     vote_number INTEGER NOT NULL

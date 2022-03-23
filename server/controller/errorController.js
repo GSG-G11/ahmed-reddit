@@ -1,8 +1,12 @@
 /* eslint-disable no-unused-vars */
+const { join } = require('path');
+
 module.exports = {
   handleErrorNotFound: (_, res, next) => {
     try {
-      res.status(404).send(`<h1>404 | Page not Found</h1>`);
+      res
+        .status(301)
+        .sendFile(join(__dirname, '..', '..', 'public', 'views', '404.html'));
     } catch (err) {
       next('SERVER ERROR');
     }

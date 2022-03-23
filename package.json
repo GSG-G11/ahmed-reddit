@@ -1,0 +1,48 @@
+{
+  "name": "ahmed-reddit",
+  "version": "1.0.0",
+  "description": "Ahmed Reddit",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node ./server/",
+    "dev": "cross-env NODE_ENV=development nodemon ./server/",
+    "build": "cross-env NODE_ENV=production node ./server/database/build/command-build.js",
+    "build:dev": "cross-env NODE_ENV=development node ./server/database/build/command-build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GSG-G11/ahmed-reddit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GSG-G11/ahmed-reddit/issues"
+  },
+  "homepage": "https://github.com/GSG-G11/ahmed-reddit#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cross-env": "^7.0.3",
+    "env2": "^2.2.2",
+    "express": "^4.17.3",
+    "helmet": "^5.0.2",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.5.1",
+    "prettier": "^2.5.1",
+    "supertest": "^6.2.2",
+    "nodemon": "^2.0.15"
+  }
+}

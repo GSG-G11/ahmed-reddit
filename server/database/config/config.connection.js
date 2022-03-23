@@ -1,4 +1,5 @@
 require('env2')('./.env');
+const { CustomError } = require('../../util');
 
 const { NODE_ENV, DATABASE_URL, DEV_DB_URL, TEST_DB_URL } = process.env;
 let URL;
@@ -18,7 +19,7 @@ switch (NODE_ENV) {
     SSL = false;
     break;
   default:
-    throw new Error({ message: 'Error when connect DataBase' });
+    throw CustomError('Error when connect DataBase', 500);
 }
 
 module.exports = { URL, SSL };

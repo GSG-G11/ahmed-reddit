@@ -33,9 +33,11 @@ module.exports = {
         // hash password before store it in database
         return hashPassword(password.trim());
       })
+      // create new User Query
       .then((passwordHashed) =>
         createUserQuery(username, email, passwordHashed),
       )
+      // create new Token
       .then((data) =>
         generateToken(
           { id: data.rows[0].id, username },
@@ -43,12 +45,14 @@ module.exports = {
           { expiresIn: '24h' },
         ),
       )
+      // End response
       .then((token) =>
         res.status(200).cookie('accessToken', token).json({
           status: 200,
           message: 'Register successfully',
         }),
       )
+      // Handle Error
       .catch((error) => {
         if (error.name === 'ValidationError') {
           const messages = error.details.map((e) => e.message);

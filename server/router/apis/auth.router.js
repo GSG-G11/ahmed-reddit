@@ -11,7 +11,7 @@ const auth = express.Router();
 auth.post('/login', loginController);
 auth.post('/register', registerController);
 
-auth.get('/logout', logoutController)
+auth.get('/logout', logoutController);
 
 
 module.exports = auth;

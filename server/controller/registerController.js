@@ -1,7 +1,8 @@
 const { join } = require('path');
 
 module.exports = {
-  registerController: (_, res) => {
+  registerController: ({ body }, res) => {
+    const { username, email, password, confirmPassword } = body;
     // create Function To Login
     res.status(200).json({
       status: 200,

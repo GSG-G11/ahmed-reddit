@@ -10,7 +10,8 @@ CREATE TABLE
   users(
     id INTEGER NOT NULL,
     username VARCHAR(155) NOT NULL,
-    email VARCHAR(200) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     age INTEGER,
     url_image TEXT,
     bio TEXT

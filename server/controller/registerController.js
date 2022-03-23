@@ -23,7 +23,7 @@ module.exports = {
         },
         { abortEarly: false },
       )
-      // Check is Email is unique
+      // Check is Email is Exist
       .then(() => checkExistUserQuery(email))
       .then((data) => {
         if (data.rowCount) {

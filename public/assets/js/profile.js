@@ -25,8 +25,10 @@ const textEmail = querySelector('#profile-email');
 const textAge = querySelector('#profile-age');
 const textBio = querySelector('#profile-bio');
 
+const textImage = querySelector('#profile-image');
+
 window.onload = () => {
-   // ---------------------- *** ------------------     Fetch Profile    ----------- *** --------------------------------
+  // ---------------------- *** ------------------     Fetch Profile    ----------- *** --------------------------------
   profile()
     .then(({ status, data }) => {
       if (status === 200) {
@@ -38,7 +40,7 @@ window.onload = () => {
         inputBio.value = bio;
 
         if (urlImage) {
-          querySelector('#profile-image').src = urlImage;
+          textImage.src = urlImage;
         }
 
         textEmail.textContent = email;
@@ -51,7 +53,6 @@ window.onload = () => {
     .catch(() => {
       window.location.href = '/';
     });
-
 
   // ---------------------- *** ------------------     handle Logout    ----------- *** --------------------------------
   const handleLogout = () => {
@@ -86,7 +87,7 @@ window.onload = () => {
   };
   addListener('#auth-logout', 'click', handleLogout);
 
-   // ---------------------- *** ------------------ handle Update Password   ----------- *** --------------------------------
+  // ---------------------- *** ------------------ handle Update Password   ----------- *** --------------------------------
   const handleUpdatePassword = () => {
     btnUpdatePassword.classList.add('active');
     btnUpdateInfo.classList.remove('active');
@@ -132,6 +133,37 @@ window.onload = () => {
   // ---------------------- *** ------------------ Update Information ----------- *** --------------------------------------
   const UpdateInformation = () => {
     // update in dom and fetch to server
+    updateUserInformation({
+      username: inputUsername.value,
+      age: inputAge.value,
+      url_image: inputUrlImage.value,
+      bio: inputBio.value,
+    })
+      .then(({ message, status, data }) => {
+        if (status === 400) {
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+          return false;
+        }
+        const { email, username, age, url_image: image, bio } = data;
+        authUsername.textContent = username;
+        inputUsername.value = username;
+        inputAge.value = age;
+        inputUrlImage.value = image;
+
+        inputBio.value = bio;
+        textEmail.textContent = email;
+        textAge.textContent = age;
+        textBio.textContent = bio;
+
+        if (image) {
+          textImage.src = image;
+        }
+
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+      })
+      .catch((error) =>
+        useAlert('Error', error, 'error', 'Ok', 'center', 2000, false),
+      );
   };
   addListener('#btn-submit-update-information', 'click', UpdateInformation);
 

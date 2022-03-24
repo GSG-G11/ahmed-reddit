@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 const { join } = require('path');
 const {
   getUserProfileQuery,
@@ -11,6 +12,7 @@ const {
   CustomError,
   comparePasswords,
   hashPassword,
+  generateToken,
 } = require('../util');
 
 module.exports = {
@@ -29,6 +31,7 @@ module.exports = {
   profileController: ({ body }, res, next) => {
     // console.log(body.id);
     const { id, username, age, url_image: urlImage, bio } = body;
+    let newInformationUser;
     // Create Update profile
 
     // Validation Server Side
@@ -44,11 +47,20 @@ module.exports = {
       )
       // update profile
       .then(() => updateUserProfileQuery(id, username, age, urlImage, bio))
-      .then((userUpdated) =>
-        res.status(200).json({
+      // create new Token
+      .then((data) => {
+        newInformationUser = data.rows[0];
+        return generateToken(
+          { id: data.rows[0].id, username },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: '24h' },
+        );
+      })
+      .then((token) =>
+        res.status(200).cookie('accessToken', token).json({
           status: 200,
           message: 'Update Your Profile Successfully',
-          data: userUpdated.rows[0],
+          data: newInformationUser,
         }),
       )
       // Handle Error

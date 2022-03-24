@@ -104,3 +104,21 @@ const updateUserPassword = async (formInputs) => {
   const response = await fetch('/api/v1/profile/password/update', options);
   return response.json();
 };
+
+// profile
+const updateUserInformation = async (formInputs) => {
+  const options = {
+    method: 'PUT',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(formInputs),
+  };
+  const response = await fetch('/api/v1/profile/update', options);
+  return response.json();
+};

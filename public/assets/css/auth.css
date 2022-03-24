@@ -15,6 +15,7 @@
   --light-orange: #af441d;
   --btn-color: #ff4500;
   --bg-color-container: #91949e;
+  --red: #a64452;
 }
 
 /* ------------------------------------------------------------------
@@ -206,7 +207,7 @@ button {
 
 .group__card {
   width: 85%;
-  height: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -303,6 +304,7 @@ button {
   border-radius: 8px;
   padding: 10px 10px;
   transition: all ease-in-out 0.5s;
+  margin-top: 10px;
 }
 .submit__btn:hover {
   background: var(--light-orange);
@@ -324,10 +326,14 @@ button {
     flex-direction: column;
     justify-content: space-between;
     padding: 30px 20px;
-    height: 90%;
+    height: 100%;
     background-color: var(--bg-color-container);
     border-radius: 8px;
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
   }
+}
+
+.form__error {
+  color: var(--red);
 }

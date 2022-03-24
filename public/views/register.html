@@ -33,6 +33,7 @@
             autofocus
             autocomplete="off"
           />
+          <p class="form__error" id="username_error"></p>
         </div>
         <div class="group__card__input">
           <label for="email">Email</label>
@@ -42,6 +43,7 @@
             placeholder="your E-mail ..."
             autocomplete="off"
           />
+          <p class="form__error" id="email_error"></p>
         </div>
         <div class="group__card__input">
           <label for="password">password</label>
@@ -51,12 +53,13 @@
             placeholder="your password ..."
             autocomplete="off"
           />
+          <p class="form__error" id="password_error"></p>
         </div>
         <div class="group__card__input">
-          <label for="confirmPassword">confirm Password</label>
+          <label for="confirm-password">confirm Password</label>
           <input
             type="password"
-            id="confirmPassword"
+            id="confirm-password"
             placeholder="Confirm Password ..."
             autocomplete="off"
           />
@@ -67,9 +70,18 @@
         </p>
 
         <div class="group__card__btn">
-          <button type="button" class="submit__btn">Register</button>
+          <button type="button" id="form-submit" class="submit__btn">
+            Register
+          </button>
         </div>
       </div>
     </section>
+
+    <!-- scripts -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/register.js"></script>
   </body>
 </html>

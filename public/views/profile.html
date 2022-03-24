@@ -4,11 +4,39 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/img/favicon.ico" type="image/x-icon"> 
-    <title>profile</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <title>Profile | Reddit</title>
+
+    <link rel="stylesheet" href="/css/profile.css" />
   </head>
   <body>
-    profile
+    <nav class="navbar__container">
+      <a href="/" class="navbar_img">
+        <img src="/img/reddit_logo.svg" alt="reddit logo" />
+      </a>
+
+      <div class="auth__container">
+        <button id="auth-logout" class="auth__login">Logout</button>
+        <a href="/profile" class="auth__register" id="auth-username"></a>
+      </div>
+    </nav>
+
+    <section class="loading" id="loading">
+      <div class="loadingio-spinner-dual-ring-li5ynguz5s">
+        <div class="ldio-sxh7rt7zby">
+          <div></div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/profile.js"></script>
   </body>
 </html>

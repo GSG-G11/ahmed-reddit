@@ -11,13 +11,17 @@
   </head>
   <body>
     <nav class="navbar__container">
-      <div class="navbar_img">
+      <a href="/" class="navbar_img">
         <img src="/img/reddit_logo.svg" alt="reddit logo" />
-      </div>
+      </a>
 
-      <div class="auth__container">
+      <div class="auth__container" id="auth-container">
         <a href="/login" class="auth__login">Login</a>
         <a href="/register" class="auth__register">Join Now</a>
+      </div>
+      <div class="auth__container hidden" id="logout-container">
+        <button id="auth-logout" class="auth__login">Logout</button>
+        <a href="/profile" class="auth__register" id="auth-username"></a>
       </div>
     </nav>
 
@@ -35,5 +39,11 @@
         <img src="/img/banar.svg" alt="banner" />
       </div>
     </section>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/index.js"></script>
   </body>
 </html>

@@ -5,9 +5,11 @@ const {
   profileController,
   getUserProfile,
   getProfilePage,
-  passwordUpdate
+  passwordUpdate,
 } = require('./profileController');
+
 const { logoutController } = require('./logoutController');
+const { checkCookiesController } = require('./checkCookiesController');
 
 module.exports = {
   handleErrorNotFound,
@@ -20,5 +22,6 @@ module.exports = {
   getProfilePage,
   profileController,
   getUserProfile,
-  passwordUpdate
+  passwordUpdate,
+  checkCookiesController,
 };

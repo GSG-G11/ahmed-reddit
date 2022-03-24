@@ -37,3 +37,37 @@ const login = async (formInputs) => {
   const response = await fetch('/api/v1/login', options);
   return response.json();
 };
+
+const checkCookies = async () => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch('/api/v1/check-cookies', options);
+  return response.json();
+};
+
+
+// logout
+const logout = async () => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch('/api/v1/logout', options);
+  return response.json();
+};

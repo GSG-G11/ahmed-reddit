@@ -3,17 +3,6 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-undef */
 
-const checkUsername = () => {
-  const { value: username } = querySelector('#username');
-  if (username.length <= 2) {
-    querySelector('#username_error').textContent =
-      'Please Enter a valid UserName,at least 2 characters';
-    return false;
-  }
-  clearText(['#username_error']);
-  return true;
-};
-
 const checkEmail = () => {
   const { value: email } = querySelector('#email');
   const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -49,52 +38,18 @@ const checkPassword = () => {
   return true;
 };
 
-const checkConfirmPassword = () => {
-  const { value: password } = querySelector('#password');
-  const { value: confirmPassword } = querySelector('#confirm-password');
-  const regexPassword =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-
-  if (confirmPassword !== password) {
-    querySelector('#password_error').textContent =
-      "'Sorry! Your Passwords don't match'";
-    return false;
-  }
-  if (confirmPassword.length <= 8 || confirmPassword.length >= 255) {
-    querySelector('#password_error').textContent =
-      'Password at least 8 characters';
-    return false;
-  }
-  if (!regexPassword.test(confirmPassword) || confirmPassword.length <= 0) {
-    querySelector('#password_error').textContent =
-      'Please Enter a valid Password,The password contain symbols, numbers and letters (uppercase, lowercase)';
-    return false;
-  }
-  clearText(['#password_error']);
-  return true;
-};
-
-addListener('#username', 'focusout', checkUsername);
 addListener('#email', 'focusout', checkEmail);
 addListener('#password', 'focusout', checkPassword);
-addListener('#confirm-password', 'focusout', checkConfirmPassword);
 
 const handleSubmitFrom = () => {
-  if (
-    checkUsername() &&
-    checkEmail() &&
-    checkPassword() &&
-    checkConfirmPassword()
-  ) {
-    clearText(['#password_error', '#username_error', '#email_error']);
+  if (checkEmail() && checkPassword()) {
+    clearText(['#password_error', '#email_error']);
     // handle send request
 
-    const username = querySelector('#username').value.trim();
     const email = querySelector('#email').value.trim();
     const password = querySelector('#password').value.trim();
-    const confirmPassword = querySelector('#confirm-password').value.trim();
 
-    register({ username, email, password, confirmPassword })
+    login({ email, password })
       .then(({ status, message }) => {
         if (status === 400) {
           useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
@@ -103,19 +58,14 @@ const handleSubmitFrom = () => {
 
         useAlert(
           'Success',
-          'Register Successfully 😉',
+          'Login Successfully 😉',
           'success',
           'Ok',
           'center',
           2000,
           false,
         );
-        clearInputText([
-          '#username',
-          '#email',
-          '#password',
-          '#confirm-password',
-        ]);
+        clearInputText(['#email', '#password']);
 
         window.location.href = '/';
       })

@@ -30,18 +30,23 @@
           <input
             type="email"
             id="email"
+            id="email"
             placeholder="your E-mail ..."
             autocomplete="off"
+            autofocus
           />
+          <p class="form__error" id="email_error"></p>
         </div>
         <div class="group__card__input">
           <label for="password">password</label>
           <input
             type="password"
             id="password"
+            id="password"
             placeholder="your password ..."
             autocomplete="off"
           />
+          <p class="form__error" id="password_error"></p>
         </div>
 
         <p class="have__account">
@@ -49,9 +54,17 @@
         </p>
 
         <div class="group__card__btn">
-          <button type="button" class="submit__btn">Login</button>
+          <button type="button" id="form-submit" class="submit__btn">
+            Login
+          </button>
         </div>
       </div>
     </section>
+        <!-- scripts -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="/js/function-dom.js"></script>
+        <script src="/js/fetch-data.js"></script>
+        <script src="/js/login.js"></script>
   </body>
 </html>

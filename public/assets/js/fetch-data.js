@@ -19,3 +19,21 @@ const register = async (formInputs) => {
   const response = await fetch('/api/v1/register', options);
   return response.json();
 };
+
+
+const login = async (formInputs) => {
+  const options = {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(formInputs),
+  };
+  const response = await fetch('/api/v1/login', options);
+  return response.json();
+};

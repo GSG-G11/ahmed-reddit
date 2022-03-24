@@ -1,0 +1,320 @@
+/* ------------------------------------------------------------------
+                          [Table of contents]
+        ***     01.  ==>   Root Variables And Font Family 
+        ***     02.  ==>   General Style   
+
+--------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+
+/* Root Variables */
+
+:root {
+  --black: #333333;
+  --white: #ffffff;
+  --orange: #ef4c10;
+  --light-orange: #af441d;
+  --btn-color: #ff4500;
+  --bg-color-container: #91949e;
+}
+
+/* ------------------------------------------------------------------
+                    ***     General Style        ***
+--------------------------------------------------------------------- */
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Ubuntu', cursive, sans-serif;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--white);
+  overflow-x: hidden;
+  color: #333;
+}
+
+select,
+button,
+button:focus,
+input,
+input:focus textarea,
+textarea:focus {
+  outline: none;
+  border: none;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+img,
+svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--orange);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-orange);
+}
+
+/* navbar Section */
+.navbar__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 20px;
+  height: 10vh;
+}
+
+.navbar_img img {
+  width: 80%;
+  max-width: 80%;
+  min-width: 80%;
+}
+
+.auth__container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all ease-in-out 0.5s;
+}
+
+.auth__login {
+  padding: 7px 12px 7px 7px;
+  background: transparent;
+  border: 3px solid var(--orange);
+  color: var(--black);
+  border-radius: 50px 0 0 50px;
+  margin-right: -15px;
+  clip-path: polygon(0 0, 100% 0, 79% 100%, 0 100%);
+  transition: all ease-in-out 0.5s;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.auth__register {
+  border: 3px solid var(--orange);
+  padding: 7px 12px 7px 7px;
+  background: var(--orange);
+  border-radius: 0 50px 50px 0;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+  transition: all ease-in-out 0.5s;
+  color: var(--white);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.auth__container:hover .auth__login {
+  border: 3px solid var(--orange);
+  background: var(--orange);
+  color: var(--white);
+}
+
+.auth__container:hover .auth__register {
+  background: transparent;
+  border: 3px solid var(--orange);
+  color: var(--black);
+}
+
+@media screen and (min-width: 1200px) {
+  .navbar__container {
+    padding: 50px;
+    height: 15vh;
+  }
+
+  .navbar_img img {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .auth__login {
+    padding: 7px 30px 7px 20px;
+    background: transparent;
+    border: 3px solid var(--orange);
+    color: var(--black);
+    border-radius: 50px 0 0 50px;
+    margin-right: -25px;
+    clip-path: polygon(0 0, 100% 0, 79% 100%, 0 100%);
+    transition: all ease-in-out 0.5s;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 25px;
+  }
+
+  .auth__register {
+    border: 3px solid var(--orange);
+    padding: 7px 30px 7px 20px;
+    background: var(--orange);
+    border-radius: 0 50px 50px 0;
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+    transition: all ease-in-out 0.5s;
+    color: var(--white);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 25px;
+  }
+}
+
+.auth__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  height: 90vh;
+}
+
+.group__card {
+  width: 85%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 20px;
+  background-color: var(--bg-color-container);
+  border-radius: 8px;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
+.auth__card__title {
+  font-family: 'Uncial Antiqua', cursive, Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--white);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 59px;
+  text-align: center;
+}
+
+.group__card__input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.group__card__input input {
+  width: 100%;
+  background: var(--white);
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  color: var(--bg-color-container);
+  height: 35px;
+  padding: 5px 10px;
+}
+.group__card__input input::placeholder {
+  color: #cccccc;
+  font-size: 16px;
+  line-height: 16px;
+}
+.group__card__input label {
+  width: 100%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+  color: var(--white);
+  margin-bottom: 5px;
+}
+
+.have__account {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  color: #cccccc;
+}
+.have__account a:hover {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  color: #b9b8b8;
+  transition: all ease-in-out 0.5s;
+}
+
+.group__card__btn {
+  width: 25%;
+  margin: 0 auto;
+}
+.submit__btn {
+  width: 100%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+  color: var(--white);
+  background: var(--orange);
+  border-radius: 8px;
+  padding: 10px 10px;
+  transition: all ease-in-out 0.5s;
+}
+.submit__btn:hover {
+  background: var(--light-orange);
+}
+
+@media screen and (min-width: 1200px) {
+  .auth__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    height: 85vh;
+  }
+
+  .group__card {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+    height: 90%;
+    background-color: var(--bg-color-container);
+    border-radius: 8px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+  }
+}

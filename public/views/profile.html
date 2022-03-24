@@ -22,6 +22,100 @@
       </div>
     </nav>
 
+    <section class="profile__container">
+      <h2 class="profile__title">Profile</h2>
+      <div class="profile__body">
+        <div class="profile__info-card">
+          <div class="profile__img">
+            <img
+              id="profile-image"
+              src="/img/default_user_img.png"
+              alt="user img"
+            />
+          </div>
+          <p class="profile__email" id="profile-email">Email</p>
+          <p class="profile__age" id="profile-age">Age</p>
+          <p class="profile__bio" id="profile-bio">Bio</p>
+        </div>
+        <div class="profile__update-card">
+          <div class="profile__update__header">
+            <h3>Update Your</h3>
+            <div class="auth__container">
+              <a id="update-password" class="btn_update_password"> Password </a>
+              <a id="update-info" class="btn_update_information">
+                Information
+              </a>
+            </div>
+          </div>
+          <div class="profile__inputs">
+            <div class="update__password hidden" id="update-password-card">
+              <div class="group__input__card">
+                <label for="current-password">Current Password</label>
+                <input
+                  type="password"
+                  id="current-password"
+                  placeholder="Enter your Current Password..."
+                  autocomplete="off"
+                  autofocus
+                />
+              </div>
+              <div class="group__input__card">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Enter your password..."
+                  autocomplete="off"
+                />
+              </div>
+              <div class="group__input__card">
+                <label for="confirm-password">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  placeholder="Enter your Confirm Password..."
+                  autocomplete="off"
+                />
+              </div>
+              <button id="btn-update-password" class="submit__btn">
+                Update Password
+              </button>
+            </div>
+            <div class="update__info" id="update-info-card">
+              <div class="group__input__card">
+                <label for="username">username</label>
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="Enter your username..."
+                  autocomplete="off"
+                  autofocus
+                />
+              </div>
+              <div class="group__input__card">
+                <label for="age">age</label>
+                <input
+                  type="text"
+                  id="age"
+                  placeholder="Enter your age..."
+                  autocomplete="off"
+                />
+              </div>
+              <div class="group__input__card">
+                <label for="bio">bio</label>
+                <textarea id="bio" autocomplete="off">
+Enter your bio...</textarea
+                >
+              </div>
+              <button id="btn-update-information" class="submit__btn">
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="loading" id="loading">
       <div class="loadingio-spinner-dual-ring-li5ynguz5s">
         <div class="ldio-sxh7rt7zby">

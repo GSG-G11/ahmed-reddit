@@ -13,6 +13,7 @@
   --white: #ffffff;
   --orange: #ef4c10;
   --light-orange: #af441d;
+  --bg-color-profile: #e7e7e7;
 }
 
 /* ------------------------------------------------------------------
@@ -43,6 +44,7 @@ body {
 select,
 button,
 button:focus,
+textarea,
 input,
 input:focus textarea,
 textarea:focus {
@@ -151,7 +153,7 @@ button {
   color: var(--black);
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1000px) {
   .navbar__container {
     padding: 50px;
     height: 15vh;
@@ -279,4 +281,240 @@ button {
 }
 .ldio-sxh7rt7zby div {
   box-sizing: content-box;
+}
+
+/* profile container */
+.profile__container {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.profile__title {
+  font-family: 'Uncial Antiqua', cursive, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 20px;
+  text-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+  margin-bottom: 10px;
+}
+
+.profile__body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profile__info-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--bg-color-profile);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+}
+
+.profile__img {
+  width: 100%;
+  text-align: center;
+}
+
+.profile__img img {
+  width: 30%;
+  max-width: 30%;
+  min-width: 30%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.profile__email,
+.profile__age,
+.profile__bio {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  margin-bottom: 10px;
+}
+
+.profile__update-card {
+  background: var(--bg-color-profile);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  max-height: 400px;
+  min-height: 400px;
+}
+
+.profile__update__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn_update_password {
+  padding: 7px 15px 7px 7px;
+  background: transparent;
+  border: 3px solid var(--orange);
+  color: var(--black);
+  border-radius: 50px 0 0 50px;
+  margin-right: -20px;
+  clip-path: polygon(0 0, 100% 0, 79% 100%, 0 100%);
+  transition: all ease-in-out 0.5s;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+}
+.btn_update_information {
+  border: 3px solid var(--orange);
+  padding: 7px 15px;
+  background: var(--orange);
+  border-radius: 0 50px 50px 0;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+  transition: all ease-in-out 0.5s;
+  color: var(--white);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.auth__container:hover .btn_update_password,
+.active {
+  border: 3px solid var(--orange);
+  background: var(--orange);
+  color: var(--white);
+}
+
+.auth__container:hover .btn_update_information,
+.unActive {
+  background: transparent;
+  border: 3px solid var(--orange);
+  color: var(--black);
+}
+
+.group__input__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px auto;
+}
+.group__input__card input {
+  width: 100%;
+  background: var(--white);
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  color: #818181;
+  height: 40px;
+  padding: 5px 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.group__input__card textarea {
+  width: 100%;
+  background: var(--white);
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  color: #818181;
+  height: 90px;
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 90px;
+  min-height: 90px;
+  padding: 5px 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.group__input__card input::placeholder {
+  color: #cccccc;
+  font-size: 14px;
+  line-height: 14px;
+}
+.group__input__card label {
+  width: 100%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+
+.submit__btn {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--white);
+  background: var(--orange);
+  border-radius: 8px;
+  padding: 10px 10px;
+  transition: all ease-in-out 0.5s;
+}
+.submit__btn:hover {
+  background: var(--light-orange);
+}
+
+.update__password {
+  margin-top: 25px;
+}
+
+#btn-update-password {
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+}
+
+@media screen and (min-width: 1000px) {
+  .profile__body {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 30px;
+  }
+  .profile__container {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    padding: 0 50px;
+  }
+  .profile__title {
+    font-family: 'Uncial Antiqua', cursive, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 55px;
+    line-height: 77px;
+    text-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+    margin-bottom: 10px;
+  }
+
+  .profile__img {
+    width: 100%;
+    text-align: center;
+  }
+
+  .profile__img img {
+    width: 250px;
+    max-width: 250px;
+    min-width: 250px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .profile__info-card {
+    flex: 40;
+    padding: 15px 20px;
+  }
+  .profile__update-card {
+    flex: 60;
+    padding: 15px 20px;
+  }
 }

@@ -12,24 +12,29 @@ const btnUpdatePassword = querySelector('#update-password');
 const btnUpdateInfo = querySelector('#update-info');
 
 window.onload = () => {
-  checkCookies()
-    .then(({ status, username }) => {
+  profile()
+    .then(({ status, data }) => {
       if (status === 200) {
+        const { email, username, age, bio, url_image: urlImage } = data;
         authUsername.textContent = username;
+        querySelector('#username').value = username;
+        querySelector('#age').value = age;
+        querySelector('#url-image').value = urlImage;
+        querySelector('#bio').value = bio;
+
+        if (urlImage) {
+          querySelector('#profile-image').src = urlImage;
+        }
+
+        querySelector('#profile-email').textContent = email;
+        querySelector('#profile-age').textContent = age ?? '';
+        querySelector('#profile-bio').textContent = bio ?? '';
       } else {
         window.location.href = '/';
       }
     })
-    .catch((error) => {
-      useAlert(
-        'Error',
-        'Something was wrong ?',
-        'error',
-        'Ok',
-        'center',
-        2000,
-        false,
-      );
+    .catch(() => {
+      window.location.href = '/';
     });
 
   // logout

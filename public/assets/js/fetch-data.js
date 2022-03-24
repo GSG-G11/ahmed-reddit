@@ -71,3 +71,21 @@ const logout = async () => {
   const response = await fetch('/api/v1/logout', options);
   return response.json();
 };
+
+
+// profile
+const profile = async () => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch('/api/v1/profile', options);
+  return response.json();
+};

@@ -5,6 +5,7 @@ const {
   profileController,
   getUserProfile,
   getProfilePage,
+  passwordUpdate
 } = require('./profileController');
 const { logoutController } = require('./logoutController');
 
@@ -19,4 +20,5 @@ module.exports = {
   getProfilePage,
   profileController,
   getUserProfile,
+  passwordUpdate
 };

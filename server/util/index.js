@@ -6,6 +6,7 @@ const {
   registerValidationSchema,
   loginValidationSchema,
   profileValidationSchema,
+  updatePasswordValidationSchema,
 } = require('./validation');
 
 module.exports = {
@@ -17,4 +18,5 @@ module.exports = {
   registerValidationSchema,
   loginValidationSchema,
   profileValidationSchema,
+  updatePasswordValidationSchema,
 };

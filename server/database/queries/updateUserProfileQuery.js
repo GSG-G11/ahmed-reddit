@@ -11,7 +11,13 @@ module.exports = (id, username, age, urlImage, bio) => {
               bio=$5
            WHERE
               id=$1
-           RETURNING *;`,
+           RETURNING 
+              id,
+              username
+              email,
+              age,
+              url_image,
+              bio;`,
     values: [id, username, age, urlImage, bio],
   };
   return connection.query(sqlQuery);

@@ -217,13 +217,26 @@ button {
   border-radius: 8px;
 }
 
+.group__card_login {
+  width: 85%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 20px;
+  background-color: var(--bg-color-container);
+  border-radius: 8px;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
 .auth__card__title {
   font-family: 'Uncial Antiqua', cursive, Tahoma, Geneva, Verdana, sans-serif;
   color: var(--white);
   font-style: normal;
   font-weight: 400;
-  font-size: 45px;
-  line-height: 59px;
+  font-size: 40px;
+  line-height: 40px;
   text-align: center;
 }
 

@@ -13,7 +13,7 @@ module.exports = (id, username, age, urlImage, bio) => {
               id=$1
            RETURNING 
               id,
-              username
+              username,
               email,
               age,
               url_image,

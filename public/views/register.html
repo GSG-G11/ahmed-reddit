@@ -1,14 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/img/favicon.ico" type="image/x-icon"> 
-  <title>Register</title>
-</head>
-<body>
-  Register
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/auth.css" />
+    <title>Join Now | Reddit</title>
+  </head>
+  <body>
+    <nav class="navbar__container">
+      <a href="/" class="navbar_img">
+        <img src="/img/reddit_logo.svg" alt="reddit logo" />
+      </a>
+
+      <div class="auth__container">
+        <a href="/auth/login" class="auth__login">Login</a>
+        <a href="/auth/register" class="auth__register">Join Now</a>
+      </div>
+    </nav>
+
+    <section class="auth__card">
+      <div class="group__card">
+        <h2 class="auth__card__title">Join Now</h2>
+        <div class="group__card__input">
+          <label for="username">username</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="your username ..."
+            autofocus
+            autocomplete="off"
+          />
+          <p class="form__error" id="username_error"></p>
+        </div>
+        <div class="group__card__input">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="your E-mail ..."
+            autocomplete="off"
+          />
+          <p class="form__error" id="email_error"></p>
+        </div>
+        <div class="group__card__input">
+          <label for="password">password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="your password ..."
+            autocomplete="off"
+          />
+          <p class="form__error" id="password_error"></p>
+        </div>
+        <div class="group__card__input">
+          <label for="confirm-password">confirm Password</label>
+          <input
+            type="password"
+            id="confirm-password"
+            placeholder="Confirm Password ..."
+            autocomplete="off"
+          />
+        </div>
+
+        <p class="have__account">
+          You have Account? <a href="/auth/login">Login Now</a>
+        </p>
+
+        <div class="group__card__btn">
+          <button type="button" id="form-submit" class="submit__btn">
+            Register
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- scripts -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/register.js"></script>
+  </body>
 </html>

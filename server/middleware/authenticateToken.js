@@ -7,9 +7,8 @@ module.exports = {
     if (!accessToken) return res.status(302).redirect('/');
 
     return checkToken(accessToken, process.env.ACCESS_TOKEN_SECRET)
-      .then(({ id, username }) => {
+      .then(({ id }) => {
         req.body.id = id;
-        req.body.username = username;
         next();
       })
       .catch((error) => next(error));

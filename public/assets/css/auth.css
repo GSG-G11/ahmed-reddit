@@ -14,7 +14,7 @@
   --orange: #ef4c10;
   --light-orange: #af441d;
   --btn-color: #ff4500;
-  --bg-color-container: #91949e;
+  --bg-color-container: #e7e7e7;
   --red: #a64452;
 }
 
@@ -233,7 +233,7 @@ button {
 
 .auth__card__title {
   font-family: 'Uncial Antiqua', cursive, Tahoma, Geneva, Verdana, sans-serif;
-  color: var(--white);
+  color: var(--black);
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -257,6 +257,7 @@ button {
   color: var(--bg-color-container);
   height: 35px;
   padding: 5px 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .group__card__input input::placeholder {
   color: #cccccc;
@@ -269,7 +270,7 @@ button {
   font-weight: 700;
   font-size: 20px;
   line-height: 23px;
-  color: var(--white);
+  color: var(--black);
   margin-bottom: 5px;
 }
 
@@ -278,14 +279,14 @@ button {
   font-weight: 700;
   font-size: 16px;
   line-height: 16px;
-  color: #cccccc;
+  color: #818181;
 }
 .have__account a:hover {
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 16px;
-  color: #b9b8b8;
+  color: #757575;
   transition: all ease-in-out 0.5s;
 }
 

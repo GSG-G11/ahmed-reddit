@@ -62,8 +62,9 @@ module.exports = {
         if (error.name === 'ValidationError') {
           const messages = error.details.map((e) => e.message);
           next(CustomError('Validation Error', 400, messages));
+        } else {
+          next(error);
         }
-        next(error);
       });
   },
   getLoginPage: (_, res, next) => {

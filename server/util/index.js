@@ -5,6 +5,8 @@ const { generateToken, checkToken } = require('./jwt-webToken');
 const {
   registerValidationSchema,
   loginValidationSchema,
+  profileValidationSchema,
+  updatePasswordValidationSchema,
 } = require('./validation');
 
 module.exports = {
@@ -15,4 +17,6 @@ module.exports = {
   checkToken,
   registerValidationSchema,
   loginValidationSchema,
+  profileValidationSchema,
+  updatePasswordValidationSchema,
 };

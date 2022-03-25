@@ -6,6 +6,9 @@ const getUserPasswordQuery = require('./getUserPasswordQuery');
 const updateUserPasswordQuery = require('./updateUserPasswordQuery');
 const getPostsQuery = require('./getPostsQuery');
 const createPostQuery = require('./createPostQuery');
+const addPostVoteQuery = require('./addPostVoteQuery');
+const checkUserHasVoteQuery = require('./checkUserHasVoteQuery');
+const updatePostVoteQuery = require('./updatePostVoteQuery');
 
 module.exports = {
   checkExistUserQuery,
@@ -16,4 +19,7 @@ module.exports = {
   updateUserPasswordQuery,
   getPostsQuery,
   createPostQuery,
+  addPostVoteQuery,
+  checkUserHasVoteQuery,
+  updatePostVoteQuery,
 };

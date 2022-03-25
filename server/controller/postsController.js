@@ -4,6 +4,7 @@ const {
   getPostsQuery,
   createPostQuery,
   deletePostQuery,
+  showPostQuery,
 } = require('../database/queries');
 const { CustomError } = require('../util');
 
@@ -20,8 +21,14 @@ module.exports = {
 
   getAllPosts: (_, res, next) => {
     getPostsQuery()
-      .then((user) => {
-        res.status(200).json({ status: 200, data: user.rows });
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({ status: 200, data: post.rows });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, Not Found Any Post',
+        });
       })
       .catch((error) => next(error));
   },
@@ -49,6 +56,37 @@ module.exports = {
           });
         }
         throw CustomError('Sorry, this post is Not Exist', 400);
+      })
+      .catch((error) => next(error));
+  },
+
+  getShowPostPage: (_, res, next) => {
+    try {
+      res
+        .status(301)
+        .sendFile(
+          join(__dirname, '..', '..', 'public', 'views', 'single-page.html'),
+        );
+    } catch (err) {
+      next('SERVER ERROR');
+    }
+  },
+
+  showPost: ({ params }, res, next) => {
+    const { postId } = params;
+
+    showPostQuery(postId)
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({
+            status: 200,
+            data: post.rows[0],
+          });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, this post is Not Exist',
+        });
       })
       .catch((error) => next(error));
   },

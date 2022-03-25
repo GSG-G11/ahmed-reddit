@@ -10,6 +10,7 @@ const addPostVoteQuery = require('./addPostVoteQuery');
 const checkUserHasVoteQuery = require('./checkUserHasVoteQuery');
 const updatePostVoteQuery = require('./updatePostVoteQuery');
 const deletePostQuery = require('./deletePostQuery');
+const showPostQuery = require('./showPostQuery');
 
 module.exports = {
   checkExistUserQuery,
@@ -23,5 +24,6 @@ module.exports = {
   addPostVoteQuery,
   checkUserHasVoteQuery,
   updatePostVoteQuery,
-  deletePostQuery
+  deletePostQuery,
+  showPostQuery,
 };

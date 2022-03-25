@@ -15,6 +15,8 @@ const {
   getPostsPage,
   createPost,
   deletePost,
+  showPost,
+  getShowPostPage,
 } = require('./postsController');
 const { addPostVotes } = require('./voteController');
 
@@ -36,4 +38,6 @@ module.exports = {
   createPost,
   addPostVotes,
   deletePost,
+  showPost,
+  getShowPostPage,
 };

@@ -1,14 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/img/favicon.ico" type="image/x-icon"> 
-  <title>posts</title>
-</head>
-<body>
-  posts
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <title>Reddit | Dive into any thing</title>
+    <link rel="stylesheet" href="/css/posts.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <nav class="navbar__container">
+      <div class="navbar__left">
+        <a href="/" class="navbar_img">
+          <img src="/img/reddit_logo.svg" alt="reddit logo" />
+        </a>
+        <a class="list__item" href="/posts">Posts</a>
+      </div>
+
+      <div class="navbar__right">
+        <div class="auth__container" id="auth-container">
+          <a href="/auth/login" class="auth__login">Login</a>
+          <a href="/auth/register" class="auth__register">Join Now</a>
+        </div>
+        <div class="auth__container hidden" id="logout-container">
+          <button id="auth-logout" class="auth__login">Logout</button>
+          <a href="/profile" class="auth__register" id="auth-username"></a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="body__section">
+      <div class="container__posts" id="container-posts">
+        <!-- list of posts -->
+        <!-- <div class="card__posts">
+          <div class="card__header">
+            <div class="post__header">
+              <div class="user__post__img">
+                <img src="/img/default_user_img.png" alt="user_post__img" />
+              </div>
+              <div class="username__post">
+                <p class="username">jon Doe</p>
+                <p class="post__at">Post At | 25-12-2022</p>
+              </div>
+            </div>
+            
+            <div class="post__actions">
+              <i class="fas fa-trash-alt"></i>
+              <i class="fas fa-pen-to-square"></i>
+            </div>
+          </div>
+
+          <div class="card__body">
+            <h2 class="post__title">Title Posts</h2>
+            <p class="post__content">content Posts</p>
+            <div class="post__img">
+              <img src="/img/banar.svg" alt="posts images" />
+            </div>
+            <div class="post__footer">
+              <div class="post__votes">
+                <i class="fas fa-angles-up"></i>
+                <span>230</span>
+                <i class="fas fa-angles-down"></i>
+              </div>
+              <a href="#" class="post__comments">
+                <i class="fas fa-message"></i>
+                <span>230 Comments</span>
+              </a>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="sidebar__container">add later...</div>
+    </section>
+
+    <!-- section loading -->
+    <section class="loading" id="loading">
+      <div class="loadingio-spinner-dual-ring-li5ynguz5s">
+        <div class="ldio-sxh7rt7zby">
+          <div></div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- script -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/posts.js"></script>
+  </body>
 </html>

@@ -10,7 +10,7 @@ module.exports = () => {
           p.content,
           p.url_image,
           p.created_at,
-          COUNT(v.id) AS votes_counts
+          SUM(v.vote_number) AS votes_counts
         FROM
           posts p
           LEFT JOIN votes v

@@ -94,8 +94,6 @@ COMMIT;
 --   posts (user_id, title, content, url_image, created_at)
 -- VALUES
 --   (1, 'test title', 'test body content', NULL, DATE '2022-03-25');
-
-
 -- INSERT INTO
 --   comments (post_id, user_id, content)
 -- VALUES
@@ -114,10 +112,27 @@ COMMIT;
 --   p.content,
 --   p.url_image,
 --   p.created_at,
---   COUNT(v.vote_number) AS votes_counts
+--   COUNT(v.id) AS votes_counts
 -- FROM
 --   posts p
 --   JOIN votes v
+--   ON p.id=v.post_id
+-- GROUP BY
+--   p.id;
+-- INSERT INTO
+--   votes (post_id, user_id, vote_number)
+-- VALUES
+--   (1, 1, 1),
+--   (1, 1, -1),
+--   (1, 1, -1);
+-- SELECT
+--   p.id,
+--   p.user_id,
+--   p.title,
+--   SUM(v.vote_number) AS votes_counts
+-- FROM
+--   posts p
+--   LEFT JOIN votes v
 --   ON p.id=v.post_id
 -- GROUP BY
 --   p.id;

@@ -12,6 +12,6 @@ posts.get('/', getAllPosts);
 posts.post('/', createPost);
 posts.delete('/', deletePost);
 
-posts.get('/show/:postId', showPost);
+posts.get('/:postId/show', showPost);
 
 module.exports = posts;

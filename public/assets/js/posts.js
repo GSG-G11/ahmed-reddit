@@ -116,15 +116,19 @@ window.onload = () => {
 
     // ---- post card Body ----
     const cardBody = createElement('div', 'card__body', cardPosts);
-    const postTitle = createElement('div', 'post__title', cardBody);
+
+    const postTitle = createElement('a', 'post__title', cardBody);
     postTitle.textContent = title;
+    postTitle.href = `/posts/${id}/show`;
+
     const postContent = createElement('div', 'post__content', cardBody);
     postContent.textContent = content;
 
     if (urlImage) {
-      const postImgContainer = createElement('div', 'post__img', cardBody);
+      const postImgContainer = createElement('a', 'post__img', cardBody);
       const postImg = createElement('img', '', postImgContainer);
       postImg.src = urlImage;
+      postImgContainer.href = `/posts/${id}/show`;
     }
 
     const postFooter = createElement('div', 'post__footer', cardBody);
@@ -135,7 +139,8 @@ window.onload = () => {
     numberVote.textContent = votesCounts ?? '0';
     const voteDown = createElement('i', 'fas fa-angles-down', postVotes);
 
-    const postComments = createElement('div', 'post__comments', postFooter);
+    const postComments = createElement('a', 'post__comments', postFooter);
+    postComments.href = `/posts/${id}/show`;
     createElement('i', 'fas fa-message', postComments);
     const numberComments = createElement('span', '', postComments);
     numberComments.textContent =

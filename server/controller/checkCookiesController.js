@@ -8,7 +8,9 @@ module.exports = {
       throw CustomError('You not Authentication', 400);
 
     return checkToken(accessToken, process.env.ACCESS_TOKEN_SECRET)
-      .then(({ username }) => res.status(200).json({ status: 200, username }))
+      .then(({ username, id }) =>
+        res.status(200).json({ status: 200, username, id }),
+      )
       .catch((error) => next(error));
   },
 };

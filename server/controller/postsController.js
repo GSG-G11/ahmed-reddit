@@ -28,6 +28,7 @@ module.exports = {
         return res.status(200).json({
           status: 200,
           message: 'Sorry, Not Found Any Post',
+          data: [],
         });
       })
       .catch((error) => next(error));

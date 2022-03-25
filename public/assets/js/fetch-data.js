@@ -123,7 +123,6 @@ const updateUserInformation = async (formInputs) => {
   return response.json();
 };
 
-
 // posts
 const posts = async () => {
   const options = {
@@ -136,6 +135,24 @@ const posts = async () => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch('/api/v1/posts', options);
+  return response.json();
+};
+
+// Delete posts
+const deletePostUser = async (postId) => {
+  const options = {
+    method: 'DELETE',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(postId),
   };
   const response = await fetch('/api/v1/posts', options);
   return response.json();

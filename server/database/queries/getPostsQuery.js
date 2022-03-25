@@ -4,6 +4,7 @@ module.exports = () => {
   const sqlQuery = {
     text: `SELECT
               p.id,
+              p.user_id,
               u.url_image AS user_image,
               u.username,
               p.title,
@@ -22,7 +23,7 @@ module.exports = () => {
               ON p.id = c.post_id
             GROUP BY
               p.id,
-              u.url_image,
+              user_image,
               u.username;`,
   };
   return connection.query(sqlQuery);

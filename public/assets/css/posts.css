@@ -468,7 +468,6 @@ button {
 @media screen and (min-width: 1000px) {
   .body__section {
     display: flex;
-    /* align-items: center; */
     flex-direction: row;
     padding: 0 200px;
     gap: 80px;
@@ -485,4 +484,18 @@ button {
     width: 100%;
     order: 1;
   }
+}
+
+.not__found__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.not__found__text {
+  font-style: bold;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  margin: 15px auto;
 }

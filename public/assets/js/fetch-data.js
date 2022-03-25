@@ -157,3 +157,22 @@ const deletePostUser = async (postId) => {
   const response = await fetch('/api/v1/posts', options);
   return response.json();
 };
+
+
+// user Vote Post
+const userVotePost = async (inputs) => {
+  const options = {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(inputs),
+  };
+  const response = await fetch('/api/v1/vote', options);
+  return response.json();
+};

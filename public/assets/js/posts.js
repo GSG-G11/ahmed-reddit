@@ -10,6 +10,8 @@ const loading = querySelector('#loading');
 
 let userID;
 let showDefault;
+let counterUserVotedUp = 0;
+let counterUserVotedDown = 0;
 
 window.onload = () => {
   // ------------------- check Cookies ----------------------
@@ -120,10 +122,58 @@ window.onload = () => {
       .catch(console.log);
   };
 
+  const postVoteUp = (postId) => {
+    userVotePost({ postId, vote: 1 })
+      .then(({ status, message }) => {
+        if (status === 200) {
+          if (!counterUserVotedUp) {
+            counterUserVotedDown = 0;
+            useAlert(
+              'Success',
+              message,
+              'success',
+              'Ok',
+              'center',
+              2000,
+              false,
+            );
+            const voteId = querySelector(`#vote-${postId}`);
+            voteId.textContent = +voteId.textContent + 1;
+          }
+          counterUserVotedUp += 1;
+        } else {
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+        }
+      })
+      .catch(console.log);
+  };
+  const postVoteDown = (postId) => {
+    //
+    userVotePost({ postId, vote: -1 })
+      .then(({ status, message }) => {
+        if (status === 200) {
+          if (!counterUserVotedDown) {
+            counterUserVotedUp = 0;
+            useAlert(
+              'Success',
+              message,
+              'success',
+              'Ok',
+              'center',
+              2000,
+              false,
+            );
+            const voteId = querySelector(`#vote-${postId}`);
+            voteId.textContent = +voteId.textContent - 1;
+          }
 
-  const postVoteUp = ()=>{
-    // 
-  }
+          counterUserVotedDown += 1;
+        } else {
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+        }
+      })
+      .catch(console.log);
+  };
 
   const renderCardPost = (
     id,
@@ -188,9 +238,14 @@ window.onload = () => {
     const postVotes = createElement('div', 'post__votes', postFooter);
 
     const voteUp = createElement('i', 'fas fa-angles-up', postVotes);
+    voteUp.addEventListener('click', () => postVoteUp(id));
+
     const numberVote = createElement('span', '', postVotes);
     numberVote.textContent = votesCounts ?? '0';
+    numberVote.id = `vote-${id}`;
+
     const voteDown = createElement('i', 'fas fa-angles-down', postVotes);
+    voteDown.addEventListener('click', () => postVoteDown(id));
 
     const postComments = createElement('a', 'post__comments', postFooter);
     postComments.href = `/posts/${id}/show`;

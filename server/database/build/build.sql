@@ -28,6 +28,7 @@ CREATE TABLE
     user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
+    url_image TEXT,
     created_at DATE NOT NULL
   );
 

@@ -13,7 +13,7 @@ module.exports = {
       .then(({ id, username }) => {
         req.body.id = id;
         req.body.username = username;
-        res.status(302).redirect('/');
+        res.status(302).redirect('/posts');
       })
       .catch((error) => next(error));
   },

@@ -10,7 +10,12 @@ const {
 
 const { logoutController } = require('./logoutController');
 const { checkCookiesController } = require('./checkCookiesController');
-const { getAllPosts, getPostsPage, createPost } = require('./postsController');
+const {
+  getAllPosts,
+  getPostsPage,
+  createPost,
+  deletePost,
+} = require('./postsController');
 const { addPostVotes } = require('./voteController');
 
 module.exports = {
@@ -30,4 +35,5 @@ module.exports = {
   getPostsPage,
   createPost,
   addPostVotes,
+  deletePost,
 };

@@ -5,9 +5,9 @@
 
 const checkUsername = () => {
   const { value: username } = querySelector('#username');
-  if (username.length <= 2) {
+  if (username.length <= 2 || username.length >= 20) {
     querySelector('#username_error').textContent =
-      'Please Enter a valid UserName,at least 2 characters';
+      'Please Enter a valid UserName,at least 2 characters and less than 20 characters';
     return false;
   }
   clearText(['#username_error']);

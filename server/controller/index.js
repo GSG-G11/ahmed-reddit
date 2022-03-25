@@ -10,6 +10,15 @@ const {
 
 const { logoutController } = require('./logoutController');
 const { checkCookiesController } = require('./checkCookiesController');
+const {
+  getAllPosts,
+  getPostsPage,
+  createPost,
+  deletePost,
+  showPost,
+  getShowPostPage,
+} = require('./postsController');
+const { addPostVotes } = require('./voteController');
 
 module.exports = {
   handleErrorNotFound,
@@ -24,4 +33,11 @@ module.exports = {
   getUserProfile,
   passwordUpdate,
   checkCookiesController,
+  getAllPosts,
+  getPostsPage,
+  createPost,
+  addPostVotes,
+  deletePost,
+  showPost,
+  getShowPostPage,
 };

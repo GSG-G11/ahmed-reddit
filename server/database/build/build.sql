@@ -89,3 +89,35 @@ ADD
   ON DELETE CASCADE;
 
 COMMIT;
+
+-- INSERT INTO
+--   posts (user_id, title, content, url_image, created_at)
+-- VALUES
+--   (1, 'test title', 'test body content', NULL, DATE '2022-03-25');
+
+
+-- INSERT INTO
+--   comments (post_id, user_id, content)
+-- VALUES
+--   (1, 1, 'test comment body content'),
+--   (1, 1, 'test 2 comment body content');
+-- INSERT INTO
+--   votes (post_id, user_id, vote_number)
+-- VALUES
+--   (1, 1, 1),
+--   (1, 1, 1),
+--   (1, 1, 1);
+-- SELECT
+--   p.id,
+--   p.user_id,
+--   p.title,
+--   p.content,
+--   p.url_image,
+--   p.created_at,
+--   COUNT(v.vote_number) AS votes_counts
+-- FROM
+--   posts p
+--   JOIN votes v
+--   ON p.id=v.post_id
+-- GROUP BY
+--   p.id;

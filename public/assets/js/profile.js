@@ -24,6 +24,9 @@ const inputBio = querySelector('#bio');
 const textEmail = querySelector('#profile-email');
 const textAge = querySelector('#profile-age');
 const textBio = querySelector('#profile-bio');
+const textPostCounts = querySelector('#profile-post-counts');
+const textCommentPostCounts = querySelector('#profile-comment-post-counts');
+const textVotePostCounts = querySelector('#profile-vote-post-counts');
 
 const textImage = querySelector('#profile-image');
 
@@ -32,7 +35,16 @@ window.onload = () => {
   profile()
     .then(({ status, data }) => {
       if (status === 200) {
-        const { email, username, age, bio, url_image: urlImage } = data;
+        const {
+          email,
+          username,
+          age,
+          bio,
+          url_image: urlImage,
+          post_counts: postCounts,
+          comment_counts: commentCounts,
+          vote_counts: voteCounts,
+        } = data;
         authUsername.textContent = username;
         inputUsername.value = username;
         inputAge.value = age;
@@ -43,9 +55,15 @@ window.onload = () => {
           textImage.src = urlImage;
         }
 
-        textEmail.textContent = email;
-        textAge.textContent = age ?? '';
-        textBio.textContent = bio ?? '';
+        textEmail.textContent = `Email: ${email}`;
+        textAge.textContent = `Age: ${age}` ?? '';
+        textBio.textContent = `Bio: ${bio}` ?? '';
+        textPostCounts.textContent =
+          `You have : ${postCounts} Posts` ?? "You have't nay Post";
+        textCommentPostCounts.textContent =
+          `You have : ${commentCounts} Comments` ?? "You have't nay comment";
+        textVotePostCounts.textContent =
+          `You have : ${voteCounts} Votes` ?? "You have't nay Vote";
       } else {
         window.location.href = '/';
       }

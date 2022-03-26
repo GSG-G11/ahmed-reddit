@@ -336,7 +336,7 @@ button {
   width: 100%;
   order: 2;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 /* card posts Style */
@@ -615,6 +615,7 @@ modal style add posts
   transition: all 0.5s ease-in-out;
   margin: 0 15px;
   padding: 25px 60px;
+  width: 40%;
 }
 
 .modal-post-content .fa-times {
@@ -656,13 +657,13 @@ modal style add posts
   font-size: 18px;
   line-height: 21px;
   color: #1d1d35;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 
 .post-form-input .title-input {
   background: #f8f8f8;
   border-radius: 12px;
-  padding: 15px 10px;
+  padding: 10px;
   font-size: 16px;
   line-height: 20px;
   color: #16171a;
@@ -671,7 +672,7 @@ modal style add posts
 .content-input {
   background: #f8f8f8;
   border-radius: 12px;
-  padding: 15px 10px;
+  padding: 10px;
   font-size: 16px;
   line-height: 20px;
   color: #16171a;
@@ -693,7 +694,7 @@ modal style add posts
   transform: translate(0, -50%);
   background: #f2f2f2;
   border-radius: 12px;
-  padding: 15px;
+  padding: 10px;
   width: 45px;
   text-align: center;
 }
@@ -719,9 +720,9 @@ modal style add posts
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
-  line-height: 27px;
+  line-height: 22px;
   color: #ffffff;
-  padding: 10px 0;
+  padding: 8px 0;
   margin-top: 15px;
   transition: all 0.5s ease-in-out;
 }
@@ -732,6 +733,14 @@ modal style add posts
   color: #e55f34;
 }
 
+.post__error {
+  color: var(--orange);
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  margin-top: 10px;
+  transition: all 0.5s ease-in-out;
+}
 /*  -------- media Query ------------- */
 @media screen and (max-width: 768px) {
   .modal-post-content {
@@ -756,10 +765,21 @@ modal style add posts
   }
   .add-post-title {
     margin: 15px auto 5px auto;
-    font-size: 16px;
+    font-size: 22px;
     text-align: center;
   }
+  .modal-post-content {
+    background-color: var(--white);
+    position: absolute;
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+    margin: 0 15px;
+    padding: 25px 30px;
+    width: 80%;
+  }
 }
+
+/* end modal */
 
 @media screen and (min-width: 1000px) {
   .body__section {

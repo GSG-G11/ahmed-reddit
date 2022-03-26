@@ -5,8 +5,11 @@ const {
   createPostQuery,
   deletePostQuery,
   showPostQuery,
+  getUserProfileQuery,
 } = require('../database/queries');
 const { CustomError } = require('../util');
+
+let newPost;
 
 module.exports = {
   getPostsPage: (_, res, next) => {
@@ -38,8 +41,19 @@ module.exports = {
     const { id, title, content, urlImage, createdAt } = body;
 
     createPostQuery(id, title, content, urlImage, createdAt)
+      .then((post) => {
+        newPost = post.rows[0];
+        return getUserProfileQuery(newPost.user_id);
+      })
       .then((user) => {
-        res.status(200).json({ status: 200, data: user.rows });
+        const { username, url_image: linkImage } = user.rows[0];
+        newPost.username = username;
+        newPost.urlImage = linkImage;
+        res.status(200).json({
+          status: 200,
+          message: 'Create Post Successfully 😉',
+          data: newPost,
+        });
       })
       .catch((error) => next(error));
   },

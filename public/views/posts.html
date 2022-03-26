@@ -85,7 +85,7 @@
       <div class="modal-post-content">
         <i class="fas fa-times" id="close-post-modal"></i>
 
-        <h2 class="add-post-title">Add more products to sell more</h2>
+        <h2 class="add-post-title">Add More Post</h2>
         <div class="add-post-content">
           <div class="post-form-input">
             <label for="title">Title</label>
@@ -97,6 +97,7 @@
               autocomplete="off"
               autofocus
             />
+            <p class="post__error" id="error-title-input"></p>
           </div>
 
           <div class="post-form-input">
@@ -106,9 +107,11 @@
               type="text"
               class="content-input"
               autocomplete="off"
+              placeholder="content of post..."
             >
-content of post...</textarea
+Content of post...</textarea
             >
+            <p class="post__error" id="error-content-input"></p>
           </div>
 
           <div class="post-form-input">
@@ -117,16 +120,19 @@ content of post...</textarea
               <i class="fas fa-link"></i>
               <input
                 class="image-url-input"
-                id="image-url"
-                type="text"
+                id="imageUrl"
+                type="url"
                 placeholder="Image URL of post..."
                 autocomplete="off"
               />
             </div>
+            <p class="post__error" id="error-image-url-input"></p>
           </div>
 
           <div class="post-form-input">
-            <button class="btn-post">Add Post</button>
+            <button class="btn-post" id="submit-form" type="button">
+              Add Post
+            </button>
           </div>
         </div>
       </div>

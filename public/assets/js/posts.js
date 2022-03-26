@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-useless-escape */
 /* eslint-disable valid-typeof */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
@@ -343,11 +345,129 @@ window.onload = () => {
   // --------------------------- modal Post ----------------------
   // show/hide modal
   const handleModalPost = () => {
-    modalPostCreate.classList.toggle('modal-hidden')
+    modalPostCreate.classList.toggle('modal-hidden');
   };
   addListener('#btn-show-modal', 'click', handleModalPost);
   addListener('.modal-post-overview', 'click', handleModalPost);
   addListener('#close-post-modal', 'click', handleModalPost);
+
+  // ------------------  create new post -----------------
+
+  // submit-form
+  const checkTitle = () => {
+    const { value: title } = querySelector('#title');
+    if (title.length <= 2 || title.length >= 100) {
+      querySelector('#error-title-input').textContent =
+        'Please Enter a valid title,at least 2 characters and less than 100 characters';
+      return false;
+    }
+    clearText(['#error-title-input']);
+    return true;
+  };
+
+  const checkContent = () => {
+    const { value: content } = querySelector('#content');
+    if (content.length <= 2) {
+      querySelector('#error-content-input').textContent =
+        'Please Enter a valid content,at least 2 characters';
+      return false;
+    }
+    clearText(['#error-content-input']);
+    return true;
+  };
+
+  const checkImageUrl = () => {
+    const { value: imageUrl } = querySelector('#imageUrl');
+    const regexURL =
+      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
+
+    if (imageUrl && !regexURL.test(imageUrl)) {
+      querySelector('#error-image-url-input').textContent =
+        'Please Enter a valid URL For Image';
+      return false;
+    }
+    clearText(['#error-image-url-input']);
+    return true;
+  };
+
+  addListener('#title', 'focusout', checkTitle);
+  addListener('#content', 'focusout', checkContent);
+  addListener('#imageUrl', 'focusout', checkImageUrl);
+  const handleCreateNewPost = () => {
+    if (checkTitle() && checkContent() && checkImageUrl()) {
+      clearText([
+        '#error-title-input',
+        '#error-content-input',
+        '#error-image-url-input',
+      ]);
+      // handle send request
+
+      const title = querySelector('#title').value.trim();
+      const content = querySelector('#content').value.trim();
+      const urlImage = querySelector('#imageUrl').value.trim();
+      const createdAt = new Date();
+
+      userCreatePost({ title, content, urlImage, createdAt })
+        .then(({ status, message, data }) => {
+          if (status === 400) {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+            return false;
+          }
+
+          const {
+            id: postId,
+            user_id: userId,
+            title: postTitle,
+            username: createdBy,
+            content: postContent,
+            created_at: postCreatedAt,
+            urlImage: userImg,
+            url_image: postImag,
+          } = data;
+
+          renderCardPost(
+            postId,
+            userId,
+            postTitle,
+            createdBy,
+            postContent,
+            postCreatedAt,
+            postImag,
+            userImg,
+            0,
+            null,
+          );
+
+          handleModalPost();
+          clearInputText(['#title', '#content', '#imageUrl']);
+          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        })
+        .catch((error) => {
+          useAlert(
+            'Error',
+            error.message,
+            'error',
+            'Ok',
+            'center',
+            2000,
+            false,
+          );
+        });
+    } else {
+      // handle send request
+      useAlert(
+        'Error!',
+        'Sorry! You invalid credentials',
+        'error',
+        'Ok',
+        'center',
+        2000,
+        false,
+      );
+    }
+  };
+
+  addListener('#submit-form', 'click', handleCreateNewPost);
 
   // ------------------- hidden loading ----------------------
   loading.classList.add('hidden');

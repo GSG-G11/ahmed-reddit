@@ -197,3 +197,38 @@ const userCreatePost = async (inputs) => {
   return response.json();
 };
 
+// latest Five Posts
+const latestFivePosts = async () => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch('/api/v1/posts/latest', options);
+  return response.json();
+};
+
+
+//  Top Voted Posts
+const topVotedPosts = async () => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch('/api/v1/posts/top-voted', options);
+  return response.json();
+};
+

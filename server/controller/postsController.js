@@ -6,6 +6,8 @@ const {
   deletePostQuery,
   showPostQuery,
   getUserProfileQuery,
+  getLastFivePostsQuery,
+  getTopFiveVotedPostsQuery,
 } = require('../database/queries');
 const { CustomError } = require('../util');
 
@@ -104,5 +106,35 @@ module.exports = {
         });
       })
       .catch((error) => next(error));
+  },
+
+  getLastFivePosts: (_, res, next) => {
+    getLastFivePostsQuery()
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({ status: 200, data: post.rows });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, Not Found Any Post',
+          data: [],
+        });
+      })
+      .catch((error) => next(error));
+  },
+
+  getTopFiveVotedPosts: (_, res, next) => {
+    getTopFiveVotedPostsQuery()
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({ status: 200, data: post.rows });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, Not Found Any Post',
+          data: [],
+        });
+      })
+    .catch((error) => next(error));
   },
 };

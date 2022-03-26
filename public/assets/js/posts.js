@@ -103,33 +103,66 @@ window.onload = () => {
     text.textContent = 'Not Found Any Post! 😢';
   };
   const removeDefaultPost = () => {
-    querySelector('#not-found-card').style.display = 'none';
+    if (querySelector('#not-found-card')) {
+      querySelector('#not-found-card').style.display = 'none';
+    }
   };
 
   if (showDefault) {
     createDefaultPost();
   }
+  const renderSideBarPosts = (idParents, postId, title, CreatedAt) => {
+    const parentID = idParents.split('#')[1];
+    if (querySelector(`${parentID}-null-posts`)) {
+      querySelector(`${parentID}-null-posts`).style.display = 'none';
+    }
+    const listParents = querySelector(idParents);
+    const itemPost = createElement('li', 'last__post__item', listParents);
+    const link = createElement('a', '', itemPost);
+    link.href = `/posts/${postId}/show`;
+    const itemTitle = createElement('span', 'item__title', link);
+    itemTitle.textContent = title;
+    const itemCreateAt = createElement('span', 'item__create__at', link);
+    itemCreateAt.textContent = ` | ${formatDate(CreatedAt)}`;
+  };
 
-  // -------------------- function to delete post ----------------------
-  const deletePost = (postId) => {
-    deletePostUser({ postId })
-      .then(({ status, message }) => {
+  renderSideBarNullPosts = (idParents) => {
+    const listParents = querySelector(idParents);
+    listParents.textContent = '';
+    const itemPost = createElement('li', 'last__post__item', listParents);
+    itemPost.id = `${idParents}-null-posts`;
+    const itemTitle = createElement('span', 'item__title', itemPost);
+    itemTitle.textContent = "Sorry We haven't any posts yet 😢";
+  };
+
+  // last 5 posts handle
+  const lastFivePostAdded = () => {
+    latestFivePosts()
+      .then(({ status, data }) => {
+        const listParents = querySelector('#last-post-list');
+        listParents.textContent = '';
         if (status === 200) {
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          querySelector(`#post-${postId}-user-${userID}`).style.display =
-            'none';
+          if (data.length) {
+            data.forEach((post) => {
+              const { id, title, created_at: CreatedAt } = post;
+              renderSideBarPosts('#last-post-list', id, title, CreatedAt);
+            });
+          } else {
+            renderSideBarNullPosts('#last-post-list');
+          }
         } else {
-          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-        }
-        showDefault -= 1;
-        console.log(showDefault);
-        if (!showDefault) {
-          createDefaultPost();
-        } else {
-          removeDefaultPost();
+          useAlert(
+            'Error!',
+            'Sorry! Some things went wrong',
+            'error',
+            'Ok',
+            'center',
+            2000,
+            false,
+          );
         }
       })
-      .catch(() =>
+      .catch((error) => {
         useAlert(
           'Error!',
           'Sorry! Some things went wrong',
@@ -138,8 +171,79 @@ window.onload = () => {
           'center',
           2000,
           false,
-        ),
-      );
+        );
+      });
+  };
+  const topVotedPostsAdded = () => {
+    topVotedPosts()
+      .then(({ status, data }) => {
+        const listParents = querySelector('#top-post-list');
+        listParents.textContent = '';
+        if (status === 200) {
+          if (data.length) {
+            data.forEach((post) => {
+              const { id, title, created_at: CreatedAt } = post;
+              renderSideBarPosts('#top-post-list', id, title, CreatedAt);
+            });
+          } else {
+            renderSideBarNullPosts('#top-post-list');
+          }
+        } else {
+          useAlert(
+            'Error!',
+            'Sorry! Some things went wrong',
+            'error',
+            'Ok',
+            'center',
+            2000,
+            false,
+          );
+        }
+      })
+      .catch((error) => {
+        useAlert(
+          'Error!',
+          'Sorry! Some things went wrong',
+          'error',
+          'Ok',
+          'center',
+          2000,
+          false,
+        );
+      });
+  };
+
+  // -------------------- function to delete post ----------------------
+  const deletePost = (postId) => {
+    deletePostUser({ postId })
+      .then(({ status, message }) => {
+        if (status === 200) {
+          lastFivePostAdded();
+          topVotedPostsAdded();
+          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+          querySelector(`#post-${postId}-user-${userID}`).style.display =
+            'none';
+        } else {
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+        }
+        showDefault -= 1;
+        if (!showDefault) {
+          createDefaultPost();
+        } else {
+          removeDefaultPost();
+        }
+      })
+      .catch((error) => {
+        useAlert(
+          'Error!',
+          'Sorry! Some things went wrong',
+          'error',
+          'Ok',
+          'center',
+          2000,
+          false,
+        );
+      });
   };
 
   const postVoteUp = (postId) => {
@@ -349,6 +453,8 @@ window.onload = () => {
       );
     });
 
+  lastFivePostAdded();
+  topVotedPostsAdded();
   // --------------------------- modal Post ----------------------
   // show/hide modal
   const handleModalPost = () => {
@@ -432,7 +538,6 @@ window.onload = () => {
             url_image: postImag,
           } = data;
           showDefault += 1;
-          console.log(showDefault);
           if (showDefault) {
             removeDefaultPost();
           }
@@ -453,6 +558,8 @@ window.onload = () => {
           handleModalPost();
           clearInputText(['#title', '#content', '#imageUrl']);
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+          lastFivePostAdded();
+          topVotedPostsAdded();
         })
         .catch((error) => {
           useAlert(

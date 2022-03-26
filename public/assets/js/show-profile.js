@@ -66,8 +66,7 @@ window.onload = () => {
       }
     })
     .catch((error) => {
-      // window.location.href = '/';
-      console.log(error);
+      window.location.href = '/';
     });
 
   // ---------------------- *** ------------------     handle Logout    ----------- *** --------------------------------

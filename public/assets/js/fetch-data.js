@@ -140,6 +140,42 @@ const posts = async () => {
   return response.json();
 };
 
+// user Create Post
+const userCreatePost = async (inputs) => {
+  const options = {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(inputs),
+  };
+  const response = await fetch('/api/v1/posts', options);
+  return response.json();
+};
+
+//  user Update Post
+const userUpdatePost = async (formInputs) => {
+  const options = {
+    method: 'PUT',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(formInputs),
+  };
+  const response = await fetch('/api/v1/posts', options);
+  return response.json();
+};
+
 // Delete posts
 const deletePostUser = async (postId) => {
   const options = {
@@ -158,7 +194,6 @@ const deletePostUser = async (postId) => {
   return response.json();
 };
 
-
 // user Vote Post
 const userVotePost = async (inputs) => {
   const options = {
@@ -174,26 +209,6 @@ const userVotePost = async (inputs) => {
     body: JSON.stringify(inputs),
   };
   const response = await fetch('/api/v1/vote', options);
-  return response.json();
-};
-
-
-
-// user Create Post
-const userCreatePost = async (inputs) => {
-  const options = {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(inputs),
-  };
-  const response = await fetch('/api/v1/posts', options);
   return response.json();
 };
 
@@ -214,7 +229,6 @@ const latestFivePosts = async () => {
   return response.json();
 };
 
-
 //  Top Voted Posts
 const topVotedPosts = async () => {
   const options = {
@@ -231,4 +245,3 @@ const topVotedPosts = async () => {
   const response = await fetch('/api/v1/posts/top-voted', options);
   return response.json();
 };
-

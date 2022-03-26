@@ -18,7 +18,8 @@ const {
   showPost,
   getShowPostPage,
   getLastFivePosts,
-  getTopFiveVotedPosts
+  getTopFiveVotedPosts,
+  updatePost
 } = require('./postsController');
 const { addPostVotes } = require('./voteController');
 
@@ -43,5 +44,6 @@ module.exports = {
   showPost,
   getShowPostPage,
   getLastFivePosts,
-  getTopFiveVotedPosts
+  getTopFiveVotedPosts,
+  updatePost
 };

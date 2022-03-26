@@ -8,6 +8,7 @@ const {
   getUserProfileQuery,
   getLastFivePostsQuery,
   getTopFiveVotedPostsQuery,
+  updatePostQuery,
 } = require('../database/queries');
 const { CustomError } = require('../util');
 
@@ -135,6 +136,26 @@ module.exports = {
           data: [],
         });
       })
-    .catch((error) => next(error));
+      .catch((error) => next(error));
+  },
+
+  updatePost: ({ body }, res, next) => {
+    const { postID, id: userId, title, content, urlImage } = body;
+    updatePostQuery(postID, userId, title, content, urlImage)
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({
+            status: 200,
+            message: 'Post Updated Successfully',
+            data: post.rows,
+          });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, this post is Not Exist',
+          data: [],
+        });
+      })
+      .catch((error) => next(error));
   },
 };

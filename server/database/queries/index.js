@@ -13,6 +13,7 @@ const deletePostQuery = require('./deletePostQuery');
 const showPostQuery = require('./showPostQuery');
 const getLastFivePostsQuery = require('./getLastFivePostsQuery');
 const getTopFiveVotedPostsQuery = require('./getTopFiveVotedPostsQuery');
+const updatePostQuery = require('./updatePostQuery');
 
 module.exports = {
   checkExistUserQuery,
@@ -30,4 +31,5 @@ module.exports = {
   showPostQuery,
   getLastFivePostsQuery,
   getTopFiveVotedPostsQuery,
+  updatePostQuery,
 };

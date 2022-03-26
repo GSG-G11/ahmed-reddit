@@ -382,13 +382,16 @@ window.onload = () => {
     const cardHeader = createElement('div', 'card__header', cardPosts);
 
     const postHeader = createElement('div', 'post__header', cardHeader);
-    const userPostImg = createElement('div', 'user__post__img', postHeader);
+    const userPostImg = createElement('a', 'user__post__img', postHeader);
+    userPostImg.href = `/profile/user/${userId}/show`;
     const userImg = createElement('img', '', userPostImg);
     userImg.src = userImage ?? '/img/default_user_img.png';
 
     const usernamePost = createElement('div', 'username__post', postHeader);
-    const userName = createElement('p', 'username', usernamePost);
+    const userName = createElement('a', 'username', usernamePost);
     userName.textContent = username;
+    userName.href = `/profile/user/${userId}/show`;
+
     const postAt = createElement('p', 'post__at', usernamePost);
     postAt.textContent = `Post At | ${formatDate(createdAt)}`;
 

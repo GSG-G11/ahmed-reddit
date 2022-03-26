@@ -548,3 +548,7 @@ button {
     padding: 15px 20px;
   }
 }
+
+.not-found-user {
+  text-align: center;
+}

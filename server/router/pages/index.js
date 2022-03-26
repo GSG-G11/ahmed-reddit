@@ -7,7 +7,7 @@ const posts = require('./posts.router');
 const pageRoute = express.Router();
 
 pageRoute.use('/auth', redirectToDefault, auth);
-pageRoute.use('/profile', authenticateToken, profile);
+pageRoute.use('/profile', profile);
 pageRoute.use('/posts', authenticateToken, posts);
 
 module.exports = pageRoute;

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <title>Profile | Reddit</title>
+
+    <link rel="stylesheet" href="/css/profile.css" />
+  </head>
+  <body>
+    <nav class="navbar__container">
+      <div class="navbar__left">
+        <a href="/" class="navbar_img">
+          <img src="/img/reddit_logo.svg" alt="reddit logo" />
+        </a>
+        <a class="list__item" href="/posts">Posts</a>
+      </div>
+
+      <div class="navbar__right">
+        <div class="auth__container" id="auth-container">
+          <a href="/auth/login" class="auth__login">Login</a>
+          <a href="/auth/register" class="auth__register">Join Now</a>
+        </div>
+        <div class="auth__container hidden" id="logout-container">
+          <button id="auth-logout" class="auth__login">Logout</button>
+          <a href="/profile" class="auth__register" id="auth-username"></a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="profile__container">
+      <h2 class="profile__title">Profile</h2>
+      <div class="profile__body">
+        <div class="profile__info-card" id="profile-body">
+          <div class="profile__img">
+            <img
+              id="profile-image"
+              src="/img/default_user_img.png"
+              alt="user img"
+            />
+          </div>
+          <p class="profile__email" id="profile-email"></p>
+          <p class="profile__age" id="profile-age"></p>
+          <p class="profile__age" id="profile-post-counts"></p>
+          <p class="profile__age" id="profile-comment-post-counts"></p>
+          <p class="profile__age" id="profile-vote-post-counts"></p>
+          <p class="profile__bio" id="profile-bio"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="loading" id="loading">
+      <div class="loadingio-spinner-dual-ring-li5ynguz5s">
+        <div class="ldio-sxh7rt7zby">
+          <div></div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/show-profile.js"></script>
+  </body>
+</html>

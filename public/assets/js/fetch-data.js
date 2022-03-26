@@ -86,8 +86,24 @@ const profile = async () => {
   const response = await fetch('/api/v1/profile', options);
   return response.json();
 };
+// show User Profile
+const showUserProfile = async (userId) => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch(`/api/v1/profile/user/${userId}/show`, options);
+  return response.json();
+};
 
-// profile
+// update User Password
 const updateUserPassword = async (formInputs) => {
   const options = {
     method: 'PUT',
@@ -105,7 +121,7 @@ const updateUserPassword = async (formInputs) => {
   return response.json();
 };
 
-// profile
+// update User Information
 const updateUserInformation = async (formInputs) => {
   const options = {
     method: 'PUT',

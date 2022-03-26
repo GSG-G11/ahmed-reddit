@@ -28,6 +28,18 @@ module.exports = {
     }
   },
 
+  getShowProfilePage: (_, res, next) => {
+    try {
+      res
+        .status(301)
+        .sendFile(
+          join(__dirname, '..', '..', 'public', 'views', 'show-profile.html'),
+        );
+    } catch (err) {
+      next('SERVER ERROR');
+    }
+  },
+
   profileController: ({ body }, res, next) => {
     // console.log(body.id);
     const { id, username, age, url_image: urlImage, bio } = body;
@@ -128,9 +140,40 @@ module.exports = {
   },
 
   getUserProfile: ({ body }, res, next) => {
-    getUserProfileQuery(body.id)
+    const { id } = body;
+
+    getUserProfileQuery(id)
       .then((user) => {
-        res.status(200).json({ status: 200, data: user.rows[0] });
+        if (user.rowCount) {
+          res.status(200).json({ status: 200, data: user.rows[0] });
+        } else {
+          res
+            .status(200)
+            .json({
+              status: 200,
+              message: 'Sorry This User is not Exist!',
+              data: {},
+            });
+        }
+      })
+      .catch((error) => next(error));
+  },
+
+  getShowUserProfile: ({ params }, res, next) => {
+    const { userId } = params;
+    getUserProfileQuery(userId)
+      .then((user) => {
+        if (user.rowCount) {
+          res.status(200).json({ status: 200, data: user.rows[0] });
+        } else {
+          res
+            .status(200)
+            .json({
+              status: 200,
+              message: 'Sorry This User is not Exist!',
+              data: [],
+            });
+        }
       })
       .catch((error) => next(error));
   },

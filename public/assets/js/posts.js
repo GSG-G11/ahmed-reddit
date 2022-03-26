@@ -91,16 +91,19 @@ window.onload = () => {
   // ------------------------------- create Default Post ----------------------------------
   const createDefaultPost = () => {
     const containerPosts = querySelector('#container-posts');
-    const userPostImg = createElement(
+    const notFoundCard = createElement(
       'div',
       'not__found__card',
       containerPosts,
     );
-    userPostImg.id = 'not-found-card';
-    const userImg = createElement('img', '', userPostImg);
+    notFoundCard.id = 'not-found-card';
+    const userImg = createElement('img', '', notFoundCard);
     userImg.src = '/img/banar.svg';
-    const text = createElement('p', 'not__found__text', userPostImg);
+    const text = createElement('p', 'not__found__text', notFoundCard);
     text.textContent = 'Not Found Any Post! 😢';
+  };
+  const removeDefaultPost = () => {
+    querySelector('#not-found-card').style.display = 'none';
   };
 
   if (showDefault) {
@@ -118,8 +121,12 @@ window.onload = () => {
         } else {
           useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
         }
-        if (showDefault) {
+        showDefault -= 1;
+        console.log(showDefault);
+        if (!showDefault) {
           createDefaultPost();
+        } else {
+          removeDefaultPost();
         }
       })
       .catch(() =>
@@ -424,6 +431,11 @@ window.onload = () => {
             urlImage: userImg,
             url_image: postImag,
           } = data;
+          showDefault += 1;
+          console.log(showDefault);
+          if (showDefault) {
+            removeDefaultPost();
+          }
 
           renderCardPost(
             postId,

@@ -480,6 +480,13 @@ button {
   justify-content: center;
   align-items: center;
 }
+.not__found__card img {
+  width: 100%;
+  max-width: 550px;
+  min-width: auto;
+  max-height: 550px;
+  min-height: auto;
+}
 .not__found__text {
   font-style: bold;
   font-weight: 700;

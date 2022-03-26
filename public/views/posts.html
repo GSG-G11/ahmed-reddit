@@ -41,7 +41,95 @@
       <div class="container__posts" id="container-posts">
         <!-- list of posts -->
       </div>
-      <div class="sidebar__container">add later...</div>
+      <div class="sidebar__container">
+        <div class="create__post__container">
+          <button class="btn__create__post" id="btn-show-modal">
+            Create Post
+          </button>
+        </div>
+        <div class="last__post">
+          <h3 class="last__post__title">last post (10)</h3>
+          <ul class="last__post__list">
+            <li class="last__post__item">
+              <a href="#">
+                <span class="item__title">title title</span>
+                <span class="item__create__at">Post at | 20-03-2022</span>
+              </a>
+            </li>
+            <li class="last__post__item">
+              <a href="#">
+                <span class="item__title">title title</span>
+                <span class="item__create__at">Post at | 20-03-2022</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="top__post__voted">
+          <h3 class="top__post__title">top post voted (10)</h3>
+          <ul class="top__post__list">
+            <li class="top__post__item">
+              <a href="#">
+                <span class="item__title">dqawa</span>
+                <span class="item__create__at">Post at | 20-03-2022</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ......  modal .....  -->
+
+    <section class="modal-post-create modal-hidden" id="modal-post-create">
+      <div class="modal-post-overview"></div>
+      <div class="modal-post-content">
+        <i class="fas fa-times" id="close-post-modal"></i>
+
+        <h2 class="add-post-title">Add more products to sell more</h2>
+        <div class="add-post-content">
+          <div class="post-form-input">
+            <label for="title">Title</label>
+            <input
+              id="title"
+              type="text"
+              class="title-input"
+              placeholder="title of post..."
+              autocomplete="off"
+              autofocus
+            />
+          </div>
+
+          <div class="post-form-input">
+            <label for="content">Content</label>
+            <textarea
+              id="content"
+              type="text"
+              class="content-input"
+              autocomplete="off"
+            >
+content of post...</textarea
+            >
+          </div>
+
+          <div class="post-form-input">
+            <label for="image-url">Image</label>
+            <div class="image-url">
+              <i class="fas fa-link"></i>
+              <input
+                class="image-url-input"
+                id="image-url"
+                type="text"
+                placeholder="Image URL of post..."
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="post-form-input">
+            <button class="btn-post">Add Post</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- section loading -->

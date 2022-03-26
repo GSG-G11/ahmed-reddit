@@ -7,6 +7,7 @@ const logoutContainer = querySelector('#logout-container');
 const authUsername = querySelector('#auth-username');
 const btnLogout = querySelector('#auth-logout');
 const loading = querySelector('#loading');
+const modalPostCreate = querySelector('#modal-post-create');
 
 let userID;
 let showDefault;
@@ -28,17 +29,17 @@ window.onload = () => {
         authUsername.textContent = '';
       }
     })
-    .catch((error) => {
+    .catch(() =>
       useAlert(
-        'Error',
-        'Something was wrong ?',
+        'Error!',
+        'Sorry! Some things went wrong',
         'error',
         'Ok',
         'center',
         2000,
         false,
-      );
-    });
+      ),
+    );
 
   // ------------------- handle Logout ----------------------
   const handleLogout = () => {
@@ -119,7 +120,17 @@ window.onload = () => {
           createDefaultPost();
         }
       })
-      .catch(console.log);
+      .catch(() =>
+        useAlert(
+          'Error!',
+          'Sorry! Some things went wrong',
+          'error',
+          'Ok',
+          'center',
+          2000,
+          false,
+        ),
+      );
   };
 
   const postVoteUp = (postId) => {
@@ -145,7 +156,17 @@ window.onload = () => {
           useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
         }
       })
-      .catch(console.log);
+      .catch(() =>
+        useAlert(
+          'Error!',
+          'Sorry! Some things went wrong',
+          'error',
+          'Ok',
+          'center',
+          2000,
+          false,
+        ),
+      );
   };
   const postVoteDown = (postId) => {
     //
@@ -172,7 +193,17 @@ window.onload = () => {
           useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
         }
       })
-      .catch(console.log);
+      .catch(() =>
+        useAlert(
+          'Error!',
+          'Sorry! Some things went wrong',
+          'error',
+          'Ok',
+          'center',
+          2000,
+          false,
+        ),
+      );
   };
 
   const renderCardPost = (
@@ -297,7 +328,26 @@ window.onload = () => {
         createDefaultPost();
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      useAlert(
+        'Error!',
+        'Sorry! Some things went wrong',
+        'error',
+        'Ok',
+        'center',
+        2000,
+        false,
+      );
+    });
+
+  // --------------------------- modal Post ----------------------
+  // show/hide modal
+  const handleModalPost = () => {
+    modalPostCreate.classList.toggle('modal-hidden')
+  };
+  addListener('#btn-show-modal', 'click', handleModalPost);
+  addListener('.modal-post-overview', 'click', handleModalPost);
+  addListener('#close-post-modal', 'click', handleModalPost);
 
   // ------------------- hidden loading ----------------------
   loading.classList.add('hidden');

@@ -10,6 +10,7 @@ const authUsername = querySelector('#auth-username');
 const btnLogout = querySelector('#auth-logout');
 const loading = querySelector('#loading');
 const modalPostCreate = querySelector('#modal-post-create');
+const buttonShowModal = querySelector('#btn-show-modal');
 
 let userID;
 let postID;
@@ -30,6 +31,8 @@ window.onload = () => {
         authContainer.classList.remove('hidden');
         logoutContainer.classList.add('hidden');
         authUsername.textContent = '';
+        modalPostCreate.remove();
+        buttonShowModal.remove();
       }
     })
     .catch(() =>
@@ -47,23 +50,26 @@ window.onload = () => {
   // --------------------------- modal Post ----------------------
   // ----------------------------  show/hide modal --------------------------------
   const handleModalPost = () => {
-    modalPostCreate.classList.toggle('modal-hidden');
+    if (userID) {
+      modalPostCreate.classList.toggle('modal-hidden');
 
-    const btnUpdatePost = querySelector('#submit-form');
-    const headerPostTitle = querySelector('.add-post-title');
+      const btnUpdatePost = querySelector('#submit-form');
+      const headerPostTitle = querySelector('.add-post-title');
 
-    clearInputText(['#title', '#content', '#imageUrl']);
+      clearInputText(['#title', '#content', '#imageUrl']);
 
-    postID = undefined;
-    headerPostTitle.textContent = 'Add More Post';
-    btnUpdatePost.textContent = 'Add Post';
-    btnUpdatePost.setAttribute('data-update-post', false);
+      postID = undefined;
+      headerPostTitle.textContent = 'Add More Post';
+      btnUpdatePost.textContent = 'Add Post';
+      btnUpdatePost.setAttribute('data-update-post', false);
+    }
   };
 
-  addListener('#btn-show-modal', 'click', handleModalPost);
-  addListener('.modal-post-overview', 'click', handleModalPost);
-  addListener('#close-post-modal', 'click', handleModalPost);
-
+  if (userID) {
+    addListener('#btn-show-modal', 'click', handleModalPost);
+    addListener('.modal-post-overview', 'click', handleModalPost);
+    addListener('#close-post-modal', 'click', handleModalPost);
+  }
   // ------------------- handle Logout ----------------------
   const handleLogout = () => {
     logout()
@@ -96,7 +102,6 @@ window.onload = () => {
       );
   };
   addListener('#auth-logout', 'click', handleLogout);
-
 
   // ------------------------------- create Undefined Posts ----------------------------------
   const createDefaultPost = () => {
@@ -226,125 +231,148 @@ window.onload = () => {
 
   // -------------------- function to delete post ----------------------
   const deletePost = (postId) => {
-    deletePostUser({ postId })
-      .then(({ status, message }) => {
-        if (status === 200) {
-          lastFivePostAdded();
-          topVotedPostsAdded();
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          querySelector(`#post-${postId}-user-${userID}`).style.display =
-            'none';
-        } else {
-          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-        }
-        showDefault -= 1;
-        if (!showDefault) {
-          createDefaultPost();
-        } else {
-          removeDefaultPost();
-        }
-      })
-      .catch((error) => {
-        useAlert(
-          'Error!',
-          'Sorry! Some things went wrong',
-          'error',
-          'Ok',
-          'center',
-          2000,
-          false,
-        );
-      });
+    if (userID) {
+      deletePostUser({ postId })
+        .then(({ status, message }) => {
+          if (status === 200) {
+            lastFivePostAdded();
+            topVotedPostsAdded();
+            useAlert(
+              'Success',
+              message,
+              'success',
+              'Ok',
+              'center',
+              2000,
+              false,
+            );
+            querySelector(`#post-${postId}-user-${userID}`).style.display =
+              'none';
+          } else {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+          }
+          showDefault -= 1;
+          if (!showDefault) {
+            createDefaultPost();
+          } else {
+            removeDefaultPost();
+          }
+        })
+        .catch((error) => {
+          useAlert(
+            'Error!',
+            'Sorry! Some things went wrong',
+            'error',
+            'Ok',
+            'center',
+            2000,
+            false,
+          );
+        });
+    } else {
+      window.location.href = '/auth/login';
+    }
   };
 
   // -------------------- function to Edit post ----------------------
   const showEditPost = (postId, postTitle, postContent, postURLImage) => {
-    modalPostCreate.classList.toggle('modal-hidden');
-    postID = postId;
-    const headerPostTitle = querySelector('.add-post-title');
-    headerPostTitle.textContent = 'Update This Post';
-    const btnUpdatePost = querySelector('#submit-form');
-    btnUpdatePost.textContent = 'Update Post';
-    btnUpdatePost.setAttribute('data-update-post', true);
+    if (userID) {
+      modalPostCreate.classList.toggle('modal-hidden');
+      postID = postId;
+      const headerPostTitle = querySelector('.add-post-title');
+      headerPostTitle.textContent = 'Update This Post';
+      const btnUpdatePost = querySelector('#submit-form');
+      btnUpdatePost.textContent = 'Update Post';
+      btnUpdatePost.setAttribute('data-update-post', true);
 
-    querySelector('#title').value = postTitle;
-    querySelector('#content').value = postContent;
-    querySelector('#imageUrl').value = postURLImage;
+      querySelector('#title').value = postTitle;
+      querySelector('#content').value = postContent;
+      querySelector('#imageUrl').value = postURLImage;
+    } else {
+      window.location.href = '/auth/login';
+    }
   };
 
   // ------------------------------------- To post Vote Up ---------------------
   const postVoteUp = (postId) => {
-    userVotePost({ postId, vote: 1 })
-      .then(({ status, message }) => {
-        if (status === 200) {
-          if (!counterUserVotedUp) {
-            counterUserVotedDown = 0;
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            const voteId = querySelector(`#vote-${postId}`);
-            voteId.textContent = +voteId.textContent + 1;
+    if (userID) {
+      userVotePost({ postId, vote: 1 })
+        .then(({ status, message }) => {
+          if (status === 200) {
+            if (!counterUserVotedUp) {
+              counterUserVotedDown = 0;
+              useAlert(
+                'Success',
+                message,
+                'success',
+                'Ok',
+                'center',
+                2000,
+                false,
+              );
+              const voteId = querySelector(`#vote-${postId}`);
+              voteId.textContent = +voteId.textContent + 1;
+            }
+            counterUserVotedUp += 1;
+          } else {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
-          counterUserVotedUp += 1;
-        } else {
-          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-        }
-      })
-      .catch(() =>
-        useAlert(
-          'Error!',
-          'Sorry! Some things went wrong',
-          'error',
-          'Ok',
-          'center',
-          2000,
-          false,
-        ),
-      );
+        })
+        .catch(() =>
+          useAlert(
+            'Error!',
+            'Sorry! Some things went wrong',
+            'error',
+            'Ok',
+            'center',
+            2000,
+            false,
+          ),
+        );
+    } else {
+      window.location.href = '/auth/login';
+    }
   };
   // ------------------------------------- To post Vote Down ---------------------
   const postVoteDown = (postId) => {
-    //
-    userVotePost({ postId, vote: -1 })
-      .then(({ status, message }) => {
-        if (status === 200) {
-          if (!counterUserVotedDown) {
-            counterUserVotedUp = 0;
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            const voteId = querySelector(`#vote-${postId}`);
-            voteId.textContent = +voteId.textContent - 1;
-          }
+    if (userID) {
+      userVotePost({ postId, vote: -1 })
+        .then(({ status, message }) => {
+          if (status === 200) {
+            if (!counterUserVotedDown) {
+              counterUserVotedUp = 0;
+              useAlert(
+                'Success',
+                message,
+                'success',
+                'Ok',
+                'center',
+                2000,
+                false,
+              );
+              const voteId = querySelector(`#vote-${postId}`);
+              voteId.textContent = +voteId.textContent - 1;
+            }
 
-          counterUserVotedDown += 1;
-        } else {
-          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-        }
-      })
-      .catch(() =>
-        useAlert(
-          'Error!',
-          'Sorry! Some things went wrong',
-          'error',
-          'Ok',
-          'center',
-          2000,
-          false,
-        ),
-      );
+            counterUserVotedDown += 1;
+          } else {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+          }
+        })
+        .catch(() =>
+          useAlert(
+            'Error!',
+            'Sorry! Some things went wrong',
+            'error',
+            'Ok',
+            'center',
+            2000,
+            false,
+          ),
+        );
+    } else {
+      window.location.href = '/auth/login';
+    }
   };
 
   // -------------------- function of render Card Post ----------------------
@@ -496,195 +524,233 @@ window.onload = () => {
   // ------------------  create new post -----------------
 
   const updateDomPost = (postId, userId, title, content, urlImage) => {
-    const parentPost = querySelector(`#post-${postId}-user-${userId}`);
-    const child = parentPost.children;
-    const cardBody = child[1];
-    const postTitle = cardBody.children[0];
-    const postContent = cardBody.children[1];
-    const postImageCard = cardBody.children[2];
-    const postImage = postImageCard.children[0];
+    if (userID) {
+      const parentPost = querySelector(`#post-${postId}-user-${userId}`);
+      const child = parentPost.children;
+      const cardBody = child[1];
+      const postTitle = cardBody.children[0];
+      const postContent = cardBody.children[1];
+      const postImageCard = cardBody.children[2];
+      const postImage = postImageCard.children[0];
 
-    postTitle.textContent = title;
-    postContent.textContent = content;
-    postImage.src = urlImage;
+      postTitle.textContent = title;
+      postContent.textContent = content;
+      postImage.src = urlImage;
+    } else {
+      window.location.href = '/auth/login';
+    }
   };
   // -------------------------- checkTitle --------------------------
   const checkTitle = () => {
-    const { value: title } = querySelector('#title');
-    if (title.length <= 2 || title.length >= 100) {
-      querySelector('#error-title-input').textContent =
-        'Please Enter a valid title,at least 2 characters and less than 100 characters';
-      return false;
+    if (userID) {
+      const { value: title } = querySelector('#title');
+      if (title.length <= 2 || title.length >= 100) {
+        querySelector('#error-title-input').textContent =
+          'Please Enter a valid title,at least 2 characters and less than 100 characters';
+        return false;
+      }
+      clearText(['#error-title-input']);
+      return true;
     }
-    clearText(['#error-title-input']);
-    return true;
+    window.location.href = '/auth/login';
   };
 
   // -------------------------- checkContent --------------------------
   const checkContent = () => {
-    const { value: content } = querySelector('#content');
-    if (content.length <= 2) {
-      querySelector('#error-content-input').textContent =
-        'Please Enter a valid content,at least 2 characters';
-      return false;
+    if (userID) {
+      const { value: content } = querySelector('#content');
+      if (content.length <= 2) {
+        querySelector('#error-content-input').textContent =
+          'Please Enter a valid content,at least 2 characters';
+        return false;
+      }
+      clearText(['#error-content-input']);
+      return true;
     }
-    clearText(['#error-content-input']);
-    return true;
+    window.location.href = '/auth/login';
   };
 
   // -------------------------- checkImageUrl --------------------------
   const checkImageUrl = () => {
-    const { value: imageUrl } = querySelector('#imageUrl');
-    const regexURL =
-      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
+    if (userID) {
+      const { value: imageUrl } = querySelector('#imageUrl');
+      const regexURL =
+        /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
 
-    if (imageUrl && !regexURL.test(imageUrl)) {
-      querySelector('#error-image-url-input').textContent =
-        'Please Enter a valid URL For Image';
-      return false;
+      if (imageUrl && !regexURL.test(imageUrl)) {
+        querySelector('#error-image-url-input').textContent =
+          'Please Enter a valid URL For Image';
+        return false;
+      }
+      clearText(['#error-image-url-input']);
+      return true;
     }
-    clearText(['#error-image-url-input']);
-    return true;
+    window.location.href = '/auth/login';
   };
 
-  addListener('#title', 'focusout', checkTitle);
-  addListener('#content', 'focusout', checkContent);
-  addListener('#imageUrl', 'focusout', checkImageUrl);
+  if (userID) {
+    addListener('#title', 'focusout', checkTitle);
+    addListener('#content', 'focusout', checkContent);
+    addListener('#imageUrl', 'focusout', checkImageUrl);
+  }
+
   // ---------------------- Form Create Post Submit To Create New Post -----------------------------
   const handleCreateNewPost = () => {
-    if (checkTitle() && checkContent() && checkImageUrl()) {
-      clearText([
-        '#error-title-input',
-        '#error-content-input',
-        '#error-image-url-input',
-      ]);
-      // handle send request
+    if (userID) {
+      if (checkTitle() && checkContent() && checkImageUrl()) {
+        clearText([
+          '#error-title-input',
+          '#error-content-input',
+          '#error-image-url-input',
+        ]);
+        // handle send request
 
-      const btnFormSubmitModal = querySelector('#submit-form');
-      const title = querySelector('#title').value.trim();
-      const content = querySelector('#content').value.trim();
-      const urlImage = querySelector('#imageUrl').value.trim();
-      const createdAt = new Date();
+        const btnFormSubmitModal = querySelector('#submit-form');
+        const title = querySelector('#title').value.trim();
+        const content = querySelector('#content').value.trim();
+        const urlImage = querySelector('#imageUrl').value.trim();
+        const createdAt = new Date();
 
-      // update-post
-      const isUpdate =
-        btnFormSubmitModal.getAttribute('data-update-post') === 'true';
+        // update-post
+        const isUpdate =
+          btnFormSubmitModal.getAttribute('data-update-post') === 'true';
 
-      if (isUpdate) {
-        userUpdatePost({ postID, title, content, urlImage })
-          .then(({ status, message, data }) => {
-            if (status === 400) {
-              useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-              return false;
-            }
+        if (isUpdate) {
+          userUpdatePost({ postID, title, content, urlImage })
+            .then(({ status, message, data }) => {
+              if (status === 400) {
+                useAlert(
+                  'Error',
+                  message,
+                  'error',
+                  'Ok',
+                  'center',
+                  2000,
+                  false,
+                );
+                return false;
+              }
 
-            // ------------------------ function to update dom when update any post -----------------
+              // ------------------------ function to update dom when update any post -----------------
 
-            updateDomPost(postID, userID, title, content, urlImage);
-            // update this dom post
+              updateDomPost(postID, userID, title, content, urlImage);
+              // update this dom post
 
-            handleModalPost();
-            clearInputText(['#title', '#content', '#imageUrl']);
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            lastFivePostAdded();
-            topVotedPostsAdded();
-          })
-          .catch((error) => {
-            useAlert(
-              'Error',
-              error.message,
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-          });
+              handleModalPost();
+              clearInputText(['#title', '#content', '#imageUrl']);
+              useAlert(
+                'Success',
+                message,
+                'success',
+                'Ok',
+                'center',
+                2000,
+                false,
+              );
+              lastFivePostAdded();
+              topVotedPostsAdded();
+            })
+            .catch((error) => {
+              useAlert(
+                'Error',
+                error.message,
+                'error',
+                'Ok',
+                'center',
+                2000,
+                false,
+              );
+            });
+        } else {
+          userCreatePost({ title, content, urlImage, createdAt })
+            .then(({ status, message, data }) => {
+              if (status === 400) {
+                useAlert(
+                  'Error',
+                  message,
+                  'error',
+                  'Ok',
+                  'center',
+                  2000,
+                  false,
+                );
+                return false;
+              }
+
+              const {
+                id: postId,
+                user_id: userId,
+                title: postTitle,
+                username: createdBy,
+                content: postContent,
+                created_at: postCreatedAt,
+                urlImage: userImg,
+                url_image: postImag,
+              } = data;
+              showDefault += 1;
+              if (showDefault) {
+                removeDefaultPost();
+              }
+
+              renderCardPost(
+                postId,
+                userId,
+                postTitle,
+                createdBy,
+                postContent,
+                postCreatedAt,
+                postImag,
+                userImg,
+                0,
+                null,
+              );
+
+              handleModalPost();
+              clearInputText(['#title', '#content', '#imageUrl']);
+              useAlert(
+                'Success',
+                message,
+                'success',
+                'Ok',
+                'center',
+                2000,
+                false,
+              );
+              lastFivePostAdded();
+              topVotedPostsAdded();
+            })
+            .catch((error) => {
+              useAlert(
+                'Error',
+                error.message,
+                'error',
+                'Ok',
+                'center',
+                2000,
+                false,
+              );
+            });
+        }
       } else {
-        userCreatePost({ title, content, urlImage, createdAt })
-          .then(({ status, message, data }) => {
-            if (status === 400) {
-              useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-              return false;
-            }
-
-            const {
-              id: postId,
-              user_id: userId,
-              title: postTitle,
-              username: createdBy,
-              content: postContent,
-              created_at: postCreatedAt,
-              urlImage: userImg,
-              url_image: postImag,
-            } = data;
-            showDefault += 1;
-            if (showDefault) {
-              removeDefaultPost();
-            }
-
-            renderCardPost(
-              postId,
-              userId,
-              postTitle,
-              createdBy,
-              postContent,
-              postCreatedAt,
-              postImag,
-              userImg,
-              0,
-              null,
-            );
-
-            handleModalPost();
-            clearInputText(['#title', '#content', '#imageUrl']);
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            lastFivePostAdded();
-            topVotedPostsAdded();
-          })
-          .catch((error) => {
-            useAlert(
-              'Error',
-              error.message,
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-          });
+        // handle send request
+        useAlert(
+          'Error!',
+          'Sorry! You invalid credentials',
+          'error',
+          'Ok',
+          'center',
+          2000,
+          false,
+        );
       }
     } else {
-      // handle send request
-      useAlert(
-        'Error!',
-        'Sorry! You invalid credentials',
-        'error',
-        'Ok',
-        'center',
-        2000,
-        false,
-      );
+      window.location.href = '/auth/login';
     }
   };
 
-  addListener('#submit-form', 'click', handleCreateNewPost);
+  if (userID) {
+    addListener('#submit-form', 'click', handleCreateNewPost);
+  }
 
   // ------------------- hidden loading ----------------------
   loading.classList.add('hidden');

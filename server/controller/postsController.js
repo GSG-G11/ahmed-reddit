@@ -52,7 +52,6 @@ module.exports = {
         {
           title,
           content,
-          urlImage,
           createdAt,
         },
         { abortEarly: false },
@@ -171,7 +170,6 @@ module.exports = {
           postID,
           title,
           content,
-          urlImage,
         },
         { abortEarly: false },
       )

@@ -428,13 +428,16 @@ window.onload = () => {
 
     const postTitle = createElement('a', 'post__title', cardBody);
     postTitle.textContent = title;
+    postTitle.id = `post-title-${id}-post`;
     postTitle.href = `/posts/${id}/show`;
 
     const postContent = createElement('div', 'post__content', cardBody);
     postContent.textContent = content;
+    postContent.id = `post-content-${id}-post`;
 
+    const postImgContainer = createElement('a', 'post__img', cardBody);
+    postImgContainer.id = `card-image-${id}-post`;
     if (urlImage) {
-      const postImgContainer = createElement('a', 'post__img', cardBody);
       const postImg = createElement('img', '', postImgContainer);
       postImg.src = urlImage;
       postImgContainer.href = `/posts/${id}/show`;
@@ -522,18 +525,25 @@ window.onload = () => {
 
   // ------------------  create new post -----------------
 
-  const updateDomPost = (postId, userId, title, content, urlImage) => {
-    const parentPost = querySelector(`#post-${postId}-user-${userId}`);
-    const child = parentPost.children;
-    const cardBody = child[1];
-    const postTitle = cardBody.children[0];
-    const postContent = cardBody.children[1];
-    const postImageCard = cardBody.children[2];
-    const postImage = postImageCard.children[0];
+  const updateDomPost = (postId, title, content, urlImage) => {
+    const postTitle = querySelector(`#post-title-${postId}-post`);
+    const postContent = querySelector(`#post-content-${postId}-post`);
+    const cardImage = querySelector(`#card-image-${postId}-post`);
+
+    const hasImage = cardImage.children[0];
 
     postTitle.textContent = title;
     postContent.textContent = content;
-    postImage.src = urlImage;
+    if (urlImage) {
+      if (hasImage) {
+        hasImage.src = urlImage;
+      } else {
+        cardImage.textContent = '';
+        const postImg = createElement('img', '', cardImage);
+        postImg.src = urlImage;
+        cardImage.href = `/posts/${postId}/show`;
+      }
+    }
   };
   // -------------------------- checkTitle --------------------------
   const checkTitle = () => {
@@ -591,7 +601,7 @@ window.onload = () => {
       const btnFormSubmitModal = querySelector('#submit-form');
       const title = querySelector('#title').value.trim();
       const content = querySelector('#content').value.trim();
-      const urlImage = querySelector('#imageUrl').value.trim();
+      const urlImage = querySelector('#imageUrl').value;
       const createdAt = new Date();
 
       // update-post
@@ -617,7 +627,7 @@ window.onload = () => {
 
               // ------------------------ function to update dom when update any post -----------------
 
-              updateDomPost(postID, userID, title, content, urlImage);
+              updateDomPost(postID, title, content, urlImage);
               // update this dom post
 
               handleModalPost();

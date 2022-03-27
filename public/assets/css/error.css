@@ -1,0 +1,145 @@
+/* ------------------------------------------------------------------
+                          [Table of contents]
+        ***     01.  ==>   Root Variables And Font Family 
+        ***     02.  ==>   General Style   
+
+--------------------------------------------------------------------- */
+
+/* Root Variables */
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --bg-color-error-page: #af441d;
+  --light-orange: #af441d;
+  --primary: #e55f34;
+}
+
+/* ------------------------------------------------------------------
+                    ***     General Style        ***
+--------------------------------------------------------------------- */
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  max-height: 100vh;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: 'Ubuntu', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+select,
+button,
+button:focus,
+input,
+input:focus textarea,
+textarea:focus {
+  outline: none;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img,
+svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+/* ---------------- 404  ---------------------*/
+
+.page_404 {
+  padding: 40px 0;
+  background: var(--white);
+  font-family: 'Arvo', serif;
+  width: 70%;
+  height: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.page_404 img {
+  width: 100%;
+}
+
+.four_zero_four_bg {
+  background-image: url('/img/reddit_404.png');
+  background-position: center;
+  background-repeat: no-repeat;
+
+  height: 600px;
+  background-position: center;
+}
+
+.four_zero_four_bg h1 {
+  font-size: 100px;
+  font-weight: bold;
+  line-height: 120px;
+}
+
+.four_zero_four_bg h3 {
+  font-size: 80px;
+}
+
+.link_404 {
+  color: var(--white) !important;
+  padding: 10px 20px;
+  background: var(--bg-color-error-page);
+  margin: 20px 0;
+  display: inline-block;
+}
+.contant_box_404 {
+  margin-top: -50px;
+}
+
+/* ---------------------- 500 ----------------------  */
+
+.page_500 {
+  padding: 40px 0;
+  background: var(--white);
+  font-family: 'Arvo', serif;
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.page_500 img {
+  width: 100%;
+}
+
+.link_500 {
+  color: var(--white) !important;
+  padding: 10px 20px;
+  background: var(--bg-color-error-page);
+  margin: 20px 0;
+  display: inline-block;
+}
+.contant_box_500 {
+  margin-top: -50px;
+}

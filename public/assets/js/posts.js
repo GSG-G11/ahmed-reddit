@@ -97,17 +97,6 @@ window.onload = () => {
   };
   addListener('#auth-logout', 'click', handleLogout);
 
-  // ------------------- Function  format Date ----------------------
-
-  const formatDate = (date) => {
-    const options = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    };
-    return new Date(date).toLocaleDateString('en-us', options);
-  };
 
   // ------------------------------- create Undefined Posts ----------------------------------
   const createDefaultPost = () => {

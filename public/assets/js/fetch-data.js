@@ -155,6 +155,21 @@ const posts = async () => {
   const response = await fetch('/api/v1/posts', options);
   return response.json();
 };
+const singlePost = async (postId) => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch(`/api/v1/posts/${postId}/show`, options);
+  return response.json();
+};
 
 // user Create Post
 const userCreatePost = async (inputs) => {

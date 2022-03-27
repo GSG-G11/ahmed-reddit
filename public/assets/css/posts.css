@@ -809,3 +809,10 @@ modal style add posts
     order: 1;
   }
 }
+
+.important__sup {
+  color: var(--primary);
+  margin-left: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}

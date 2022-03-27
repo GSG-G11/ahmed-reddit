@@ -46,3 +46,16 @@ const useAlert = (
     showConfirmButton,
   });
 };
+
+
+  // ------------------- Function  format Date ----------------------
+
+  const formatDate = (date) => {
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+    return new Date(date).toLocaleDateString('en-us', options);
+  };

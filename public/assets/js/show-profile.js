@@ -63,6 +63,11 @@ window.onload = () => {
         authContainer.classList.remove('hidden');
         logoutContainer.classList.add('hidden');
         authUsername.textContent = '';
+
+        profileBody.textContent = '';
+        const notFound = createElement('p', 'not-found-user', profileBody);
+        notFound.textContent =
+          'Sorry This User is not Exist! Please Use Valid user';
       }
     })
     .catch((error) => {

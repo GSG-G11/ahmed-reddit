@@ -7,14 +7,48 @@
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
     <title>single page</title>
+    <link rel="stylesheet" href="/css/single-post.css" />
   </head>
   <body>
-    single page <span id="post-id"></span>
+    <nav class="navbar__container">
+      <div class="navbar__left">
+        <a href="/" class="navbar_img">
+          <img src="/img/reddit_logo.svg" alt="reddit logo" />
+        </a>
+        <a class="list__item" href="/posts">Posts</a>
+      </div>
 
-    <script>
-      const postId = window.location.href.split('/')[4];
-      document.querySelector('#post-id').textContent = postId;
+      <div class="navbar__right">
+        <div class="auth__container" id="auth-container">
+          <a href="/auth/login" class="auth__login">Login</a>
+          <a href="/auth/register" class="auth__register">Join Now</a>
+        </div>
+        <div class="auth__container hidden" id="logout-container">
+          <button id="auth-logout" class="auth__login">Logout</button>
+          <a href="/profile" class="auth__register" id="auth-username"></a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="single__post__container"  id="single-post-container">
       
-    </script>
+    </section>
+    
+
+    <section class="loading" id="loading">
+      <div class="loadingio-spinner-dual-ring-li5ynguz5s">
+        <div class="ldio-sxh7rt7zby">
+          <div></div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/single-post.js"></script>
   </body>
 </html>

@@ -104,8 +104,10 @@ module.exports = {
         return res.status(200).json({
           status: 200,
           message: 'Sorry, this post is Not Exist',
+          data: [],
         });
       })
+
       .catch((error) => next(error));
   },
 

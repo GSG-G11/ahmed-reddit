@@ -1,14 +1,17 @@
 {
   "name": "ahmed-reddit",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.11.1"
+  },
   "description": "Ahmed Reddit",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server/",
-    "dev": "cross-env NODE_ENV=development nodemon ./server/",
+    "start": "NODE_ENV=production node server/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js",
     "build": "cross-env NODE_ENV=production node server/database/build/command-build.js",
     "test": "cross-env NODE_ENV=test jest",
-    "build:dev": "cross-env NODE_ENV=development node ./server/database/build/command-build.js"
+    "build:dev": "cross-env NODE_ENV=development node server/database/build/command-build.js"
   },
   "repository": {
     "type": "git",

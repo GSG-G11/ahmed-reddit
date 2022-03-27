@@ -8,7 +8,7 @@ const authUsername = querySelector('#auth-username');
 const btnLogout = querySelector('#auth-logout');
 const loading = querySelector('#loading');
 window.onload = () => {
-  checkCookies()
+  fetchCheckAuthLoginApi()
     .then(({ status, username }) => {
       if (status === 200) {
         logoutContainer.classList.remove('hidden');
@@ -34,7 +34,7 @@ window.onload = () => {
 
   // logout
   const handleLogout = () => {
-    logout()
+    fetchLogoutApi()
       .then(({ status, message }) => {
         if (status === 200) {
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);

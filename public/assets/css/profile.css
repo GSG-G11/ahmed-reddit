@@ -376,8 +376,8 @@ button {
   border-radius: 8px;
   padding: 5px 10px;
   margin-bottom: 15px;
-  max-height: 450px;
-  min-height: 450px;
+  /* max-height: 450px;
+  min-height: 450px; */
 }
 
 .profile__update__header {
@@ -431,7 +431,7 @@ button {
 .group__input__card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   margin: 10px auto;
 }
 .group__input__card input {
@@ -477,6 +477,7 @@ button {
   line-height: 16px;
   color: var(--black);
   margin-bottom: 8px;
+  position: relative;
 }
 
 .submit__btn {
@@ -551,4 +552,21 @@ button {
 
 .not-found-user {
   text-align: center;
+}
+
+.important__sup {
+  color: var(--primary);
+  margin-left: 2px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.profile__error {
+  color: var(--orange);
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  margin-top: 10px;
+  transition: all 0.5s ease-in-out;
+  text-align: start;
 }

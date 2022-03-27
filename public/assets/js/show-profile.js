@@ -21,7 +21,7 @@ const profileBody = querySelector('#profile-body');
 
 window.onload = () => {
   // ---------------------- *** ------------------     Fetch Profile    ----------- *** --------------------------------
-  showUserProfile(userID)
+  fetchShowUserProfileApi(userID)
     .then(({ status, message, data }) => {
       if (status === 200) {
         if (data && !Array.isArray(data)) {
@@ -76,7 +76,7 @@ window.onload = () => {
 
   // ---------------------- *** ------------------     handle Logout    ----------- *** --------------------------------
   const handleLogout = () => {
-    logout()
+    fetchLogoutApi()
       .then(({ status, message }) => {
         if (status === 200) {
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);

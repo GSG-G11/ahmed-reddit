@@ -53,6 +53,7 @@ module.exports = {
           title,
           content,
           createdAt,
+          urlImage
         },
         { abortEarly: false },
       )
@@ -170,6 +171,7 @@ module.exports = {
           postID,
           title,
           content,
+          urlImage
         },
         { abortEarly: false },
       )

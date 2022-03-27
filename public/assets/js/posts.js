@@ -15,12 +15,10 @@ const buttonShowModal = querySelector('#btn-show-modal');
 let userID;
 let postID;
 let showDefault;
-let counterUserVotedUp = 0;
-let counterUserVotedDown = 0;
 
 window.onload = () => {
-  // ------------------- check Cookies ----------------------
-  checkCookies()
+  // --------- ***** ------ *** ---- check Authentication ---------- *** *** *** *** *** ------------
+  fetchCheckAuthLoginApi()
     .then(({ status, id, username }) => {
       userID = id;
       if (status === 200) {
@@ -47,6 +45,34 @@ window.onload = () => {
       ),
     );
 
+  // --------- ***** ------ *** ---- handle a post Vote Value ---------- *** *** *** *** *** ------------
+  const handleVoteValue = (postId) => {
+    fetchGetVotePostApi(postId).then(({ data }) => {
+      const { votes_counts: votesCounts, id } = data;
+      const voteId = querySelector(`#vote-${id}`);
+      voteId.textContent = votesCounts;
+    });
+  };
+
+  // --------- ***** ------ *** ---- handle Check User Voted  ---------- *** *** *** *** *** ------------
+  const handleCheckUserVoted = (postId) => {
+    fetchCheckUserVotePostApi(postId).then(({ data }) => {
+      const { vote_number: voteNumber, post_id: votedPostId } = data;
+      const voteUp = querySelector(`#vote-up-${votedPostId}`);
+      const voteDown = querySelector(`#vote-down-${votedPostId}`);
+      if (voteNumber === 1) {
+        voteUp.classList.add('voted__up');
+        voteDown.classList.remove('voted__down');
+      } else if (voteNumber === -1) {
+        voteUp.classList.remove('voted__up');
+        voteDown.classList.add('voted__down');
+      } else {
+        voteUp.classList.remove('voted__up');
+        voteDown.classList.remove('voted__down');
+      }
+    });
+  };
+
   // --------------------------- modal Post ----------------------
   // ----------------------------  show/hide modal --------------------------------
   const handleModalPost = () => {
@@ -71,7 +97,7 @@ window.onload = () => {
 
   // ------------------- handle Logout ----------------------
   const handleLogout = () => {
-    logout()
+    fetchLogoutApi()
       .then(({ status, message }) => {
         if (status === 200) {
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
@@ -152,7 +178,7 @@ window.onload = () => {
 
   // -----------------  last and top Voted 5 posts handle ---------------------
   const lastFivePostAdded = () => {
-    latestFivePosts()
+    fetchGetLatestPostsApi()
       .then(({ status, data }) => {
         const listParents = querySelector('#last-post-list');
         listParents.textContent = '';
@@ -190,7 +216,7 @@ window.onload = () => {
       });
   };
   const topVotedPostsAdded = () => {
-    topVotedPosts()
+    fetchGetIopVotedPostsApi()
       .then(({ status, data }) => {
         const listParents = querySelector('#top-post-list');
         listParents.textContent = '';
@@ -242,7 +268,7 @@ window.onload = () => {
       )
         .then((result) => {
           if (result.isConfirmed) {
-            return deletePostUser({ postId });
+            return fetchDeletePostApi({ postId });
           }
           const cancel = new Error('Cancel delete post');
           cancel.type = 'cancel';
@@ -313,24 +339,11 @@ window.onload = () => {
   // ------------------------------------- To post Vote Up ---------------------
   const postVoteUp = (postId) => {
     if (userID) {
-      userVotePost({ postId, vote: 1 })
+      fetchAddVoteToPostApi({ postId, vote: 1 })
         .then(({ status, message }) => {
           if (status === 200) {
-            if (!counterUserVotedUp) {
-              counterUserVotedDown = 0;
-              useAlert(
-                'Success',
-                message,
-                'success',
-                'Ok',
-                'center',
-                2000,
-                false,
-              );
-              const voteId = querySelector(`#vote-${postId}`);
-              voteId.textContent = +voteId.textContent + 1;
-            }
-            counterUserVotedUp += 1;
+            handleVoteValue(postId);
+            handleCheckUserVoted(postId);
           } else {
             useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
@@ -353,25 +366,11 @@ window.onload = () => {
   // ------------------------------------- To post Vote Down ---------------------
   const postVoteDown = (postId) => {
     if (userID) {
-      userVotePost({ postId, vote: -1 })
+      fetchAddVoteToPostApi({ postId, vote: -1 })
         .then(({ status, message }) => {
           if (status === 200) {
-            if (!counterUserVotedDown) {
-              counterUserVotedUp = 0;
-              useAlert(
-                'Success',
-                message,
-                'success',
-                'Ok',
-                'center',
-                2000,
-                false,
-              );
-              const voteId = querySelector(`#vote-${postId}`);
-              voteId.textContent = +voteId.textContent - 1;
-            }
-
-            counterUserVotedDown += 1;
+            handleVoteValue(postId);
+            handleCheckUserVoted(postId);
           } else {
             useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
@@ -465,13 +464,15 @@ window.onload = () => {
     const postVotes = createElement('div', 'post__votes', postFooter);
 
     const voteUp = createElement('i', 'fas fa-angles-up', postVotes);
+    voteUp.id = `vote-up-${id}`;
     voteUp.addEventListener('click', () => postVoteUp(id));
 
     const numberVote = createElement('span', '', postVotes);
-    numberVote.textContent = votesCounts ?? '0';
+    numberVote.textContent = votesCounts;
     numberVote.id = `vote-${id}`;
 
     const voteDown = createElement('i', 'fas fa-angles-down', postVotes);
+    voteDown.id = `vote-down-${id}`;
     voteDown.addEventListener('click', () => postVoteDown(id));
 
     const postComments = createElement('a', 'post__comments', postFooter);
@@ -485,7 +486,7 @@ window.onload = () => {
   };
 
   // -------------------- function posts to use render Card Post ----------------------
-  posts()
+  fetchGetAllPostsApi()
     .then(({ status, data }) => {
       if (status === 200) {
         showDefault = data.length;
@@ -515,10 +516,12 @@ window.onload = () => {
                 votesCounts,
                 commentsCounts,
               );
+              if (userID) {
+                handleCheckUserVoted(id);
+              }
             },
           );
         } else {
-          // parent all card
           createDefaultPost();
         }
       } else {
@@ -628,7 +631,7 @@ window.onload = () => {
 
       if (isUpdate) {
         if (userID) {
-          userUpdatePost({ postID, title, content, urlImage })
+          fetchUpdatePostApi({ postID, title, content, urlImage })
             .then(({ status, message, data }) => {
               if (status === 400) {
                 useAlert(
@@ -677,7 +680,7 @@ window.onload = () => {
           window.location.href = '/auth/login';
         }
       } else if (userID) {
-        userCreatePost({ title, content, urlImage, createdAt })
+        fetchCreatePostApi({ title, content, urlImage, createdAt })
           .then(({ status, message, data }) => {
             if (status === 400) {
               useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);

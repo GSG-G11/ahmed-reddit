@@ -53,6 +53,7 @@ module.exports = {
           username,
           age,
           bio,
+          urlImage,
         },
         { abortEarly: false },
       )
@@ -146,13 +147,11 @@ module.exports = {
         if (user.rowCount) {
           res.status(200).json({ status: 200, data: user.rows[0] });
         } else {
-          res
-            .status(200)
-            .json({
-              status: 200,
-              message: 'Sorry This User is not Exist!',
-              data: {},
-            });
+          res.status(200).json({
+            status: 200,
+            message: 'Sorry This User is not Exist!',
+            data: {},
+          });
         }
       })
       .catch((error) => next(error));
@@ -165,13 +164,11 @@ module.exports = {
         if (user.rowCount) {
           res.status(200).json({ status: 200, data: user.rows[0] });
         } else {
-          res
-            .status(200)
-            .json({
-              status: 200,
-              message: 'Sorry This User is not Exist!',
-              data: [],
-            });
+          res.status(200).json({
+            status: 200,
+            message: 'Sorry This User is not Exist!',
+            data: [],
+          });
         }
       })
       .catch((error) => next(error));

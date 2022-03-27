@@ -56,7 +56,9 @@
           <div class="profile__inputs">
             <div class="update__password hidden" id="update-password-card">
               <div class="group__input__card">
-                <label for="current-password">Current Password</label>
+                <label for="current-password"
+                  >Current Password<sup class="important__sup">*</sup></label
+                >
                 <input
                   type="password"
                   id="current-password"
@@ -64,24 +66,31 @@
                   autocomplete="off"
                   autofocus
                 />
+                <p class="profile__error" id="error-current-password-input"></p>
               </div>
               <div class="group__input__card">
-                <label for="password">Password</label>
+                <label for="password"
+                  >Password<sup class="important__sup">*</sup></label
+                >
                 <input
                   type="password"
                   id="password"
                   placeholder="Enter your password..."
                   autocomplete="off"
                 />
+                <p class="profile__error" id="error-password-input"></p>
               </div>
               <div class="group__input__card">
-                <label for="confirm-password">Confirm Password</label>
+                <label for="confirm-password"
+                  >Confirm Password<sup class="important__sup">*</sup></label
+                >
                 <input
                   type="password"
                   id="confirm-password"
                   placeholder="Enter your Confirm Password..."
                   autocomplete="off"
                 />
+                <p class="profile__error" id="error-confirm-password-input"></p>
               </div>
               <button id="btn-submit-update-password" class="submit__btn">
                 Update Password
@@ -89,7 +98,9 @@
             </div>
             <div class="update__info" id="update-info-card">
               <div class="group__input__card">
-                <label for="username">username</label>
+                <label for="username"
+                  >Username<sup class="important__sup">*</sup></label
+                >
                 <input
                   type="text"
                   id="username"
@@ -97,15 +108,17 @@
                   autocomplete="off"
                   autofocus
                 />
+                <p class="profile__error" id="error-username-input"></p>
               </div>
               <div class="group__input__card">
-                <label for="age">age</label>
+                <label for="age">Age<sup class="important__sup">*</sup></label>
                 <input
                   type="text"
                   id="age"
                   placeholder="Enter your age..."
                   autocomplete="off"
                 />
+                <p class="profile__error" id="error-age-input"></p>
               </div>
               <div class="group__input__card">
                 <label for="url-image">URL Image</label>
@@ -115,12 +128,14 @@
                   placeholder="Enter your url image..."
                   autocomplete="off"
                 />
+                <p class="profile__error" id="error-user-image-input"></p>
               </div>
               <div class="group__input__card">
-                <label for="bio">bio</label>
+                <label for="bio">Bio</label>
                 <textarea id="bio" autocomplete="off">
 Enter your bio...</textarea
                 >
+                <p class="profile__error" id="error-bio-input"></p>
               </div>
               <button id="btn-submit-update-information" class="submit__btn">
                 Update

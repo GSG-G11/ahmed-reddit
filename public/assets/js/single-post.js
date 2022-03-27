@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable valid-typeof */
 /* eslint-disable no-unused-vars */
@@ -276,7 +277,23 @@ window.onload = () => {
 
   const deleteCommentPost = (commentId) => {
     if (userID) {
-      deleteCommentUser({ commentId })
+      useConfirmAlert(
+        'Are you sure?',
+        "You won't Delete this Comment!",
+        'warning',
+        true,
+        '#3085d6',
+        '#e55f34',
+        'Yes, delete it!',
+      )
+        .then((result) => {
+          if (result.isConfirmed) {
+            return deleteCommentUser({ commentId });
+          }
+          const cancel = new Error('Cancel delete Comment');
+          cancel.type = 'cancel';
+          throw cancel;
+        })
         .then(({ status, message }) => {
           if (status === 200) {
             useAlert(
@@ -302,16 +319,18 @@ window.onload = () => {
             removeDefaultNotFoundComment();
           }
         })
-        .catch((error) => {
-          useAlert(
-            'Error!',
-            'Sorry! Some things went wrong',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        .catch(({ type }) => {
+          if (type !== 'cancel') {
+            useAlert(
+              'Error!',
+              'Sorry! Some things went wrong',
+              'error',
+              'Ok',
+              'center',
+              2000,
+              false,
+            );
+          }
         });
     } else {
       window.location.href = '/auth/login';
@@ -497,6 +516,11 @@ window.onload = () => {
               2000,
               false,
             );
+
+            scroll({
+              top: 400,
+              behavior: 'smooth',
+            });
           })
           .catch((error) => {
             useAlert(

@@ -47,15 +47,30 @@ const useAlert = (
   });
 };
 
+const useConfirmAlert = (title,text,icon,showCancelButton,confirmButtonColor,cancelButtonColor,confirmButtonText) =>
+  Swal.fire({
+    title,
+    text,
+    icon,
+    showCancelButton,
+    confirmButtonColor,
+    cancelButtonColor,
+    confirmButtonText,
+  });
 
-  // ------------------- Function  format Date ----------------------
+// .then((result) => {
+//   if (result.isConfirmed) {
+//     Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+//   }
+// })
+// ------------------- Function  format Date ----------------------
 
-  const formatDate = (date) => {
-    const options = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    };
-    return new Date(date).toLocaleDateString('en-us', options);
+const formatDate = (date) => {
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   };
+  return new Date(date).toLocaleDateString('en-us', options);
+};

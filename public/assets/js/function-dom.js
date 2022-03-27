@@ -47,7 +47,15 @@ const useAlert = (
   });
 };
 
-const useConfirmAlert = (title,text,icon,showCancelButton,confirmButtonColor,cancelButtonColor,confirmButtonText) =>
+const useConfirmAlert = (
+  title,
+  text,
+  icon,
+  showCancelButton,
+  confirmButtonColor,
+  cancelButtonColor,
+  confirmButtonText,
+) =>
   Swal.fire({
     title,
     text,
@@ -58,11 +66,6 @@ const useConfirmAlert = (title,text,icon,showCancelButton,confirmButtonColor,can
     confirmButtonText,
   });
 
-// .then((result) => {
-//   if (result.isConfirmed) {
-//     Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-//   }
-// })
 // ------------------- Function  format Date ----------------------
 
 const formatDate = (date) => {

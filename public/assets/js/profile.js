@@ -32,7 +32,7 @@ const textImage = querySelector('#profile-image');
 
 window.onload = () => {
   // ---------------------- *** ------------------     Fetch Profile    ----------- *** --------------------------------
-  profile()
+  fetchProfileApi()
     .then(({ status, data }) => {
       if (status === 200) {
         const {
@@ -74,7 +74,7 @@ window.onload = () => {
 
   // ---------------------- *** ------------------     handle Logout    ----------- *** --------------------------------
   const handleLogout = () => {
-    logout()
+    fetchLogoutApi()
       .then(({ status, message }) => {
         if (status === 200) {
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
@@ -129,7 +129,7 @@ window.onload = () => {
 
   // ---------------------- *** ------------------ Update Password   ----------- *** --------------------------------------
   const UpdatePassword = () => {
-    updateUserPassword({
+    fetchUpdateUserPasswordApi({
       currentPassword: userCurrentPassword.value,
       password: newPassword.value,
       confirmPassword: confirmNewPassword.value,
@@ -151,7 +151,7 @@ window.onload = () => {
   // ---------------------- *** ------------------ Update Information ----------- *** --------------------------------------
   const UpdateInformation = () => {
     // update in dom and fetch to server
-    updateUserInformation({
+    fetchUpdateUserInformationApi({
       username: inputUsername.value,
       age: inputAge.value,
       url_image: inputUrlImage.value,

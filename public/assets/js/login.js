@@ -49,7 +49,7 @@ const handleSubmitFrom = () => {
     const email = querySelector('#email').value.trim();
     const password = querySelector('#password').value.trim();
 
-    login({ email, password })
+    fetchLoginApi({ email, password })
       .then(({ status, message }) => {
         if (status === 400) {
           useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);

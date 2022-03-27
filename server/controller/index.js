@@ -24,7 +24,7 @@ const {
   getTopFiveVotedPosts,
   updatePost,
 } = require('./postsController');
-const { addPostVotes } = require('./voteController');
+const { addPostVotes, checkUserVotes,getPostVotes } = require('./voteController');
 
 const {
   getAllCommentsPost,
@@ -50,6 +50,8 @@ module.exports = {
   getPostsPage,
   createPost,
   addPostVotes,
+  checkUserVotes,
+  getPostVotes,
   deletePost,
   showPost,
   getShowPostPage,

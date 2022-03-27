@@ -433,6 +433,21 @@ button {
   flex-direction: column;
 }
 
+.voted__up{
+  color: #50afee;
+}
+.voted__up:hover {
+  color: #3983b4;
+}
+
+.voted__down {
+  color: #ef4c10;
+}
+.voted__down:hover {
+  color: #b94318;
+}
+
+
 .post__title {
   font-style: normal;
   font-weight: 500;

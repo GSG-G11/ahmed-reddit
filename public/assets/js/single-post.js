@@ -18,7 +18,7 @@ let numberOfComments;
 
 window.onload = () => {
   //  ------------------------- Check Authentication -----------------------------
-  checkCookies()
+  fetchCheckAuthLoginApi()
     .then(({ status, id, username }) => {
       userID = id;
       if (status === 200) {
@@ -46,7 +46,7 @@ window.onload = () => {
 
   //  ------------------------- handle logout -----------------------------
   const handleLogout = () => {
-    logout()
+    fetchLogoutApi()
       .then(({ status, message }) => {
         if (status === 200) {
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
@@ -212,7 +212,7 @@ window.onload = () => {
   };
 
   //  ------------------------- Render Form API singlePost -----------------------------
-  singlePost(postID)
+  fetchGetPostApi(postID)
     .then(({ status, message, data }) => {
       if (status === 200) {
         if (data && !Array.isArray(data)) {
@@ -288,7 +288,7 @@ window.onload = () => {
       )
         .then((result) => {
           if (result.isConfirmed) {
-            return deleteCommentUser({ commentId });
+            return fetchDeleteCommentPostApi({ commentId });
           }
           const cancel = new Error('Cancel delete Comment');
           cancel.type = 'cancel';
@@ -413,7 +413,7 @@ window.onload = () => {
   };
 
   //  ------------------------- Render Form API singlePost -----------------------------
-  singlePostComment(postID)
+  fetchGetPostCommentApi(postID)
     .then(({ status, message, data }) => {
       if (status === 200) {
         numberOfComments = data.length;
@@ -471,7 +471,7 @@ window.onload = () => {
       // const createdAt = new Date();
 
       if (userID) {
-        createCommentPost({ postID, content })
+        fetchCreateCommentPostApi({ postID, content })
           .then(({ status, message, data }) => {
             if (status === 400) {
               useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);

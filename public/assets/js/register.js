@@ -94,7 +94,7 @@ const handleSubmitFrom = () => {
     const password = querySelector('#password').value.trim();
     const confirmPassword = querySelector('#confirm-password').value.trim();
 
-    register({ username, email, password, confirmPassword })
+    fetchRegisterApi({ username, email, password, confirmPassword })
       .then(({ status, message }) => {
         if (status === 400) {
           useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);

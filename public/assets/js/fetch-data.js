@@ -3,7 +3,8 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-unused-vars */
 
-const register = async (formInputs) => {
+// ----------------------------- fetch *** Register *** Api ------------------------
+const fetchRegisterApi = async (formInputs) => {
   const options = {
     method: 'POST',
     mode: 'cors',
@@ -20,7 +21,8 @@ const register = async (formInputs) => {
   return response.json();
 };
 
-const login = async (formInputs) => {
+// ----------------------------- fetch *** Login *** Api ------------------------
+const fetchLoginApi = async (formInputs) => {
   const options = {
     method: 'POST',
     mode: 'cors',
@@ -37,7 +39,9 @@ const login = async (formInputs) => {
   return response.json();
 };
 
-const checkCookies = async () => {
+// ----------------------------- fetch Check Auth Login Api ------------------------
+
+const fetchCheckAuthLoginApi = async () => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -53,8 +57,8 @@ const checkCookies = async () => {
   return response.json();
 };
 
-// logout
-const logout = async () => {
+// ----------------------------- fetch logout  Api ------------------------
+const fetchLogoutApi = async () => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -70,8 +74,8 @@ const logout = async () => {
   return response.json();
 };
 
-// profile
-const profile = async () => {
+// ----------------------------- fetch Get profile  Api ------------------------
+const fetchProfileApi = async () => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -86,8 +90,9 @@ const profile = async () => {
   const response = await fetch('/api/v1/profile', options);
   return response.json();
 };
-// show User Profile
-const showUserProfile = async (userId) => {
+
+// ----------------------------- fetch  show User Profile  Api ------------------------
+const fetchShowUserProfileApi = async (userId) => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -103,8 +108,8 @@ const showUserProfile = async (userId) => {
   return response.json();
 };
 
-// update User Password
-const updateUserPassword = async (formInputs) => {
+// ----------------------------- fetch Update User Password Api ------------------------
+const fetchUpdateUserPasswordApi = async (formInputs) => {
   const options = {
     method: 'PUT',
     mode: 'cors',
@@ -121,8 +126,8 @@ const updateUserPassword = async (formInputs) => {
   return response.json();
 };
 
-// update User Information
-const updateUserInformation = async (formInputs) => {
+// ----------------------------- fetch Update User Information Api ------------------------
+const fetchUpdateUserInformationApi = async (formInputs) => {
   const options = {
     method: 'PUT',
     mode: 'cors',
@@ -139,8 +144,8 @@ const updateUserInformation = async (formInputs) => {
   return response.json();
 };
 
-// posts
-const posts = async () => {
+// ----------------------------- fetch Get All Posts Api ------------------------
+const fetchGetAllPostsApi = async () => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -155,7 +160,9 @@ const posts = async () => {
   const response = await fetch('/api/v1/posts', options);
   return response.json();
 };
-const singlePost = async (postId) => {
+
+// ----------------------------- fetch  Get One Post  Api ------------------------
+const fetchGetPostApi = async (postId) => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -171,8 +178,8 @@ const singlePost = async (postId) => {
   return response.json();
 };
 
-// user Create Post
-const userCreatePost = async (inputs) => {
+// ----------------------------- fetch  Create Post  Api ------------------------
+const fetchCreatePostApi = async (inputs) => {
   const options = {
     method: 'POST',
     mode: 'cors',
@@ -189,8 +196,8 @@ const userCreatePost = async (inputs) => {
   return response.json();
 };
 
-//  user Update Post
-const userUpdatePost = async (formInputs) => {
+// ----------------------------- fetch  Update Post  Api ------------------------
+const fetchUpdatePostApi = async (formInputs) => {
   const options = {
     method: 'PUT',
     mode: 'cors',
@@ -207,8 +214,8 @@ const userUpdatePost = async (formInputs) => {
   return response.json();
 };
 
-// Delete posts
-const deletePostUser = async (postId) => {
+// ----------------------------- fetch Delete posts Api ------------------------
+const fetchDeletePostApi = async (postId) => {
   const options = {
     method: 'DELETE',
     mode: 'cors',
@@ -225,8 +232,8 @@ const deletePostUser = async (postId) => {
   return response.json();
 };
 
-// user Vote Post
-const userVotePost = async (inputs) => {
+// ----------------------------- fetch Add Vote To Post Api ------------------------
+const fetchAddVoteToPostApi = async (inputs) => {
   const options = {
     method: 'POST',
     mode: 'cors',
@@ -243,8 +250,42 @@ const userVotePost = async (inputs) => {
   return response.json();
 };
 
-// latest Five Posts
-const latestFivePosts = async () => {
+// ----------------------------- fetch Get Vote Post Api ------------------------
+const fetchGetVotePostApi = async (postId) => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch(`/api/v1/vote/post/${postId}`, options);
+  return response.json();
+};
+
+// ----------------------------- fetch Check User Vote Post Api ------------------------
+const fetchCheckUserVotePostApi = async (postId) => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch(`/api/v1/vote/post/${postId}/check`, options);
+  return response.json();
+};
+
+// ----------------------------- fetch  latest Five Posts Api ------------------------
+const fetchGetLatestPostsApi = async () => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -260,8 +301,8 @@ const latestFivePosts = async () => {
   return response.json();
 };
 
-//  Top Voted Posts
-const topVotedPosts = async () => {
+// ----------------------------- fetch  Top Voted Posts Api ------------------------
+const fetchGetIopVotedPostsApi = async () => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -277,9 +318,8 @@ const topVotedPosts = async () => {
   return response.json();
 };
 
-// single Post Comment
-
-const singlePostComment = async (postId) => {
+// ----------------------------- fetch  Get Post Comment Api ------------------------
+const fetchGetPostCommentApi = async (postId) => {
   const options = {
     method: 'GET',
     mode: 'cors',
@@ -295,9 +335,8 @@ const singlePostComment = async (postId) => {
   return response.json();
 };
 
-
-// create Comment Post
-const createCommentPost = async (inputs) => {
+// ----------------------------- fetch Create Comment Post Api ------------------------
+const fetchCreateCommentPostApi = async (inputs) => {
   const options = {
     method: 'POST',
     mode: 'cors',
@@ -314,10 +353,8 @@ const createCommentPost = async (inputs) => {
   return response.json();
 };
 
-
-
-// Delete posts
-const deleteCommentUser = async (commentId) => {
+// ----------------------------- fetch Delete Comment Post Api  ------------------------
+const fetchDeleteCommentPostApi = async (commentId) => {
   const options = {
     method: 'DELETE',
     mode: 'cors',

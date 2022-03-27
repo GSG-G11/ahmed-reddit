@@ -13,7 +13,7 @@ const modalCommentCreate = querySelector('#modal-comment-create');
 const postID = window.location.href.split('/')[4];
 
 let userID;
-const isNoComment = 0;
+let numberOfComments;
 
 window.onload = () => {
   //  ------------------------- Check Authentication -----------------------------
@@ -289,13 +289,14 @@ window.onload = () => {
               false,
             );
             querySelector(
-              `#post-${postId}-user-${userID}-comment-${commentId}`,
-            ).style.display = 'none';
+              `#post-${postID}-user-${userID}-comment-${commentId}`,
+            ).remove();
           } else {
             useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
-          showDefault -= 1;
-          if (!showDefault) {
+          numberOfComments -= 1;
+          querySelector('#comment-counts').textContent = numberOfComments;
+          if (!numberOfComments) {
             renderEmptyNotFoundComments("Sorry This Post has't comments!");
           } else {
             removeDefaultNotFoundComment();
@@ -396,6 +397,7 @@ window.onload = () => {
   singlePostComment(postID)
     .then(({ status, message, data }) => {
       if (status === 200) {
+        numberOfComments = data.length;
         if (data.length) {
           data.forEach((comment) => {
             const {
@@ -450,7 +452,7 @@ window.onload = () => {
       // const createdAt = new Date();
 
       if (userID) {
-        createCommentPost({ postId, content })
+        createCommentPost({ postID, content })
           .then(({ status, message, data }) => {
             if (status === 400) {
               useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
@@ -476,11 +478,13 @@ window.onload = () => {
               username,
             );
 
-            showDefault += 1;
+            numberOfComments += 1;
 
-            if (showDefault) {
+            if (numberOfComments) {
               removeDefaultNotFoundComment();
             }
+
+            querySelector('#comment-counts').textContent = numberOfComments;
 
             handleModalComment();
             clearInputText(['#content']);

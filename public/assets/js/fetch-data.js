@@ -313,3 +313,23 @@ const createCommentPost = async (inputs) => {
   const response = await fetch('/api/v1/comments', options);
   return response.json();
 };
+
+
+
+// Delete posts
+const deleteCommentUser = async (commentId) => {
+  const options = {
+    method: 'DELETE',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(commentId),
+  };
+  const response = await fetch('/api/v1/comments', options);
+  return response.json();
+};

@@ -27,11 +27,11 @@ module.exports = {
       .catch((error) => next(error));
   },
   createCommentsPost: ({ body }, res, next) => {
-    const { id: userId, content, postId } = body;
+    const { id: userId, content, postID } = body;
 
     createCommentValidationSchema
-      .validateAsync({ postId, content }, { abortEarly: false })
-      .then(() => createPostCommentQuery(postId, userId, content))
+      .validateAsync({ postID, content }, { abortEarly: false })
+      .then(() => createPostCommentQuery(postID, userId, content))
       .then((post) => {
         newComment = post.rows[0];
         return getUserProfileQuery(newComment.user_id);

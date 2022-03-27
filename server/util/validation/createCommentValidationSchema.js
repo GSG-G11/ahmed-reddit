@@ -2,7 +2,7 @@
 const Joi = require('joi');
 
 const createCommentValidationSchema = Joi.object({
-  postId: Joi.number().required(),
+  postID: Joi.number().required(),
   content: Joi.string().min(2).required(),
 });
 

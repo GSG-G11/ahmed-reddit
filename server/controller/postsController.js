@@ -107,8 +107,7 @@ module.exports = {
           data: [],
         });
       })
-
-      .catch((error) => next(error));
+    .catch((error) => next(error));
   },
 
   getLastFivePosts: (_, res, next) => {

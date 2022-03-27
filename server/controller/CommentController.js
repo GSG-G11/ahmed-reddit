@@ -5,7 +5,7 @@ const {
   getUserProfileQuery,
   deleteCommentsPostQuery,
 } = require('../database/queries');
-const { CustomError } = require('../util');
+const { CustomError, createCommentValidationSchema } = require('../util');
 
 let newComment;
 
@@ -29,7 +29,9 @@ module.exports = {
   createCommentsPost: ({ body }, res, next) => {
     const { id: userId, content, postId } = body;
 
-    createPostCommentQuery(postId, userId, content)
+    createCommentValidationSchema
+      .validateAsync({ postId, content }, { abortEarly: false })
+      .then(() => createPostCommentQuery(postId, userId, content))
       .then((post) => {
         newComment = post.rows[0];
         return getUserProfileQuery(newComment.user_id);
@@ -44,7 +46,15 @@ module.exports = {
           data: newComment,
         });
       })
-      .catch((error) => next(error));
+      .catch((error) => {
+        // Handle Error
+        if (error.name === 'ValidationError') {
+          const messages = error.details.map((e) => e.message);
+          next(CustomError('Validation Error', 400, messages));
+        } else {
+          next(error);
+        }
+      });
   },
 
   deleteCommentsPost: ({ body }, res, next) => {

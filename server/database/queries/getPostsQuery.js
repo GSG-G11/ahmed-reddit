@@ -25,7 +25,7 @@ module.exports = () => {
               p.id,
               user_image,
               u.username
-            ORDER BY p.id DESC;`,
+            ORDER BY p.id;`,
   };
   return connection.query(sqlQuery);
 };

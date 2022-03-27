@@ -337,7 +337,7 @@ button {
   width: 100%;
   order: 2;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 
 /* card posts Style */

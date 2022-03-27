@@ -8,6 +8,13 @@
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
     <title>single page</title>
     <link rel="stylesheet" href="/css/single-post.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <nav class="navbar__container">
@@ -30,10 +37,61 @@
       </div>
     </nav>
 
-    <section class="single__post__container"  id="single-post-container">
-      
+    <section
+      class="single__post__container"
+      id="single-post-container"
+    ></section>
+
+    <section
+      class="single__post__comment__container"
+      id="single-post-comment-container"
+    >
+      <div class="single__post__comment__head">
+        <h3 class="single__post__comment__title">
+          Comments <sup class="comment__counts" id="comment-counts"></sup>
+        </h3>
+        <button id="btn-show-modal" class="btn__show__modal">
+          Create Comment
+        </button>
+      </div>
+      <div class="comment__container" id="comment-container"></div>
     </section>
-    
+
+    <!-- ......  modal .....  -->
+
+    <section
+      class="modal-comment-create modal-hidden"
+      id="modal-comment-create"
+    >
+      <div class="modal-comment-overview"></div>
+      <div class="modal-comment-content">
+        <i class="fas fa-times" id="close-comment-modal"></i>
+
+        <h2 class="add-comment-title">Add More Comment</h2>
+        <div class="add-comment-content">
+          <div class="comment-form-input">
+            <label for="content"
+              >Comment Content <sup class="important__sup">*</sup></label
+            >
+            <textarea
+              id="content"
+              type="text"
+              class="content-input"
+              autocomplete="off"
+              placeholder="content of Comment..."
+              autofocus
+            ></textarea>
+            <p class="content__error" id="error-content-input"></p>
+          </div>
+
+          <div class="comment-form-input">
+            <button class="btn-comment" id="submit-form" type="button">
+              Add Comment
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="loading" id="loading">
       <div class="loadingio-spinner-dual-ring-li5ynguz5s">

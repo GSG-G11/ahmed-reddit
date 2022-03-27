@@ -52,7 +52,6 @@ module.exports = {
         {
           username,
           age,
-          urlImage,
           bio,
         },
         { abortEarly: false },

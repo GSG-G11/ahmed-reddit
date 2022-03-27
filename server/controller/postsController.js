@@ -10,7 +10,11 @@ const {
   getTopFiveVotedPostsQuery,
   updatePostQuery,
 } = require('../database/queries');
-const { CustomError } = require('../util');
+const {
+  CustomError,
+  createPostValidationSchema,
+  updatePostValidationSchema,
+} = require('../util');
 
 let newPost;
 
@@ -42,8 +46,17 @@ module.exports = {
 
   createPost: ({ body }, res, next) => {
     const { id, title, content, urlImage, createdAt } = body;
-
-    createPostQuery(id, title, content, urlImage, createdAt)
+    // Server Side Validation
+    createPostValidationSchema
+      .validateAsync(
+        {
+          title,
+          content,
+          createdAt,
+        },
+        { abortEarly: false },
+      )
+      .then(() => createPostQuery(id, title, content, urlImage, createdAt))
       .then((post) => {
         newPost = post.rows[0];
         return getUserProfileQuery(newPost.user_id);
@@ -58,7 +71,15 @@ module.exports = {
           data: newPost,
         });
       })
-      .catch((error) => next(error));
+      .catch((error) => {
+        // Handle Error
+        if (error.name === 'ValidationError') {
+          const messages = error.details.map((e) => e.message);
+          next(CustomError('Validation Error', 400, messages));
+        } else {
+          next(error);
+        }
+      });
   },
 
   deletePost: ({ body }, res, next) => {
@@ -107,7 +128,6 @@ module.exports = {
           data: [],
         });
       })
-
       .catch((error) => next(error));
   },
 
@@ -143,7 +163,17 @@ module.exports = {
 
   updatePost: ({ body }, res, next) => {
     const { postID, id: userId, title, content, urlImage } = body;
-    updatePostQuery(postID, userId, title, content, urlImage)
+
+    updatePostValidationSchema
+      .validateAsync(
+        {
+          postID,
+          title,
+          content,
+        },
+        { abortEarly: false },
+      )
+      .then(() => updatePostQuery(postID, userId, title, content, urlImage))
       .then((post) => {
         if (post.rowCount) {
           return res.status(200).json({
@@ -158,6 +188,13 @@ module.exports = {
           data: [],
         });
       })
-      .catch((error) => next(error));
+      .catch((error) => {
+        if (error.name === 'ValidationError') {
+          const messages = error.details.map((e) => e.message);
+          next(CustomError('Validation Error', 400, messages));
+        } else {
+          next(error);
+        }
+      });
   },
 };

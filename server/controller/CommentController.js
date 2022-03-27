@@ -5,7 +5,7 @@ const {
   getUserProfileQuery,
   deleteCommentsPostQuery,
 } = require('../database/queries');
-const { CustomError } = require('../util');
+const { CustomError, createCommentValidationSchema } = require('../util');
 
 let newComment;
 
@@ -19,7 +19,7 @@ module.exports = {
         } else {
           res.status(200).json({
             status: 200,
-            message: 'Sorry This Post has not any comments!',
+            message: "Sorry This Post has't comments! 😢",
             data: [],
           });
         }
@@ -27,9 +27,11 @@ module.exports = {
       .catch((error) => next(error));
   },
   createCommentsPost: ({ body }, res, next) => {
-    const { id: userId, content, postId } = body;
+    const { id: userId, content, postID } = body;
 
-    createPostCommentQuery(postId, userId, content)
+    createCommentValidationSchema
+      .validateAsync({ postID, content }, { abortEarly: false })
+      .then(() => createPostCommentQuery(postID, userId, content))
       .then((post) => {
         newComment = post.rows[0];
         return getUserProfileQuery(newComment.user_id);
@@ -44,7 +46,15 @@ module.exports = {
           data: newComment,
         });
       })
-      .catch((error) => next(error));
+      .catch((error) => {
+        // Handle Error
+        if (error.name === 'ValidationError') {
+          const messages = error.details.map((e) => e.message);
+          next(CustomError('Validation Error', 400, messages));
+        } else {
+          next(error);
+        }
+      });
   },
 
   deleteCommentsPost: ({ body }, res, next) => {

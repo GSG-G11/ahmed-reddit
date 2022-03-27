@@ -8,9 +8,10 @@ const {
   passwordUpdate,
   getShowProfilePage,
   getShowUserProfile,
-} = require('./profileController');
+} = require('./ProfileController');
 
 const { logoutController } = require('./logoutController');
+
 const { checkCookiesController } = require('./checkCookiesController');
 const {
   getAllPosts,
@@ -24,6 +25,12 @@ const {
   updatePost,
 } = require('./postsController');
 const { addPostVotes } = require('./voteController');
+
+const {
+  getAllCommentsPost,
+  createCommentsPost,
+  deleteCommentsPost,
+} = require('./CommentController');
 
 module.exports = {
   handleErrorNotFound,
@@ -50,4 +57,7 @@ module.exports = {
   getTopFiveVotedPosts,
   updatePost,
   getShowUserProfile,
+  getAllCommentsPost,
+  createCommentsPost,
+  deleteCommentsPost,
 };

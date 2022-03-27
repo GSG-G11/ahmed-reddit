@@ -14,6 +14,9 @@ const showPostQuery = require('./showPostQuery');
 const getLastFivePostsQuery = require('./getLastFivePostsQuery');
 const getTopFiveVotedPostsQuery = require('./getTopFiveVotedPostsQuery');
 const updatePostQuery = require('./updatePostQuery');
+const getCommentsPostQuery = require('./getCommentsPostQuery');
+const createPostCommentQuery = require('./createPostCommentQuery');
+const deleteCommentsPostQuery = require('./deleteCommentsPostQuery');
 
 module.exports = {
   checkExistUserQuery,
@@ -32,4 +35,7 @@ module.exports = {
   getLastFivePostsQuery,
   getTopFiveVotedPostsQuery,
   updatePostQuery,
+  getCommentsPostQuery,
+  createPostCommentQuery,
+  deleteCommentsPostQuery,
 };

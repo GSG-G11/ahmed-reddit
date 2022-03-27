@@ -65,11 +65,10 @@ window.onload = () => {
     }
   };
 
-  if (userID) {
-    addListener('#btn-show-modal', 'click', handleModalPost);
-    addListener('.modal-post-overview', 'click', handleModalPost);
-    addListener('#close-post-modal', 'click', handleModalPost);
-  }
+  addListener('#btn-show-modal', 'click', handleModalPost);
+  addListener('.modal-post-overview', 'click', handleModalPost);
+  addListener('#close-post-modal', 'click', handleModalPost);
+
   // ------------------- handle Logout ----------------------
   const handleLogout = () => {
     logout()
@@ -524,98 +523,83 @@ window.onload = () => {
   // ------------------  create new post -----------------
 
   const updateDomPost = (postId, userId, title, content, urlImage) => {
-    if (userID) {
-      const parentPost = querySelector(`#post-${postId}-user-${userId}`);
-      const child = parentPost.children;
-      const cardBody = child[1];
-      const postTitle = cardBody.children[0];
-      const postContent = cardBody.children[1];
-      const postImageCard = cardBody.children[2];
-      const postImage = postImageCard.children[0];
+    const parentPost = querySelector(`#post-${postId}-user-${userId}`);
+    const child = parentPost.children;
+    const cardBody = child[1];
+    const postTitle = cardBody.children[0];
+    const postContent = cardBody.children[1];
+    const postImageCard = cardBody.children[2];
+    const postImage = postImageCard.children[0];
 
-      postTitle.textContent = title;
-      postContent.textContent = content;
-      postImage.src = urlImage;
-    } else {
-      window.location.href = '/auth/login';
-    }
+    postTitle.textContent = title;
+    postContent.textContent = content;
+    postImage.src = urlImage;
   };
   // -------------------------- checkTitle --------------------------
   const checkTitle = () => {
-    if (userID) {
-      const { value: title } = querySelector('#title');
-      if (title.length <= 2 || title.length >= 100) {
-        querySelector('#error-title-input').textContent =
-          'Please Enter a valid title,at least 2 characters and less than 100 characters';
-        return false;
-      }
-      clearText(['#error-title-input']);
-      return true;
+    const { value: title } = querySelector('#title');
+    if (title.length <= 2 || title.length >= 100) {
+      querySelector('#error-title-input').textContent =
+        'Please Enter a valid title,at least 2 characters and less than 100 characters';
+      return false;
     }
-    window.location.href = '/auth/login';
+    clearText(['#error-title-input']);
+    return true;
   };
 
   // -------------------------- checkContent --------------------------
   const checkContent = () => {
-    if (userID) {
-      const { value: content } = querySelector('#content');
-      if (content.length <= 2) {
-        querySelector('#error-content-input').textContent =
-          'Please Enter a valid content,at least 2 characters';
-        return false;
-      }
-      clearText(['#error-content-input']);
-      return true;
+    const { value: content } = querySelector('#content');
+    if (content.length <= 2) {
+      querySelector('#error-content-input').textContent =
+        'Please Enter a valid content,at least 2 characters';
+      return false;
     }
-    window.location.href = '/auth/login';
+    clearText(['#error-content-input']);
+    return true;
   };
 
   // -------------------------- checkImageUrl --------------------------
   const checkImageUrl = () => {
-    if (userID) {
-      const { value: imageUrl } = querySelector('#imageUrl');
-      const regexURL =
-        /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
+    const { value: imageUrl } = querySelector('#imageUrl');
+    const regexURL =
+      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
 
-      if (imageUrl && !regexURL.test(imageUrl)) {
-        querySelector('#error-image-url-input').textContent =
-          'Please Enter a valid URL For Image';
-        return false;
-      }
-      clearText(['#error-image-url-input']);
-      return true;
+    if (imageUrl && !regexURL.test(imageUrl)) {
+      querySelector('#error-image-url-input').textContent =
+        'Please Enter a valid URL For Image';
+      return false;
     }
-    window.location.href = '/auth/login';
+    clearText(['#error-image-url-input']);
+    return true;
   };
 
-  if (userID) {
-    addListener('#title', 'focusout', checkTitle);
-    addListener('#content', 'focusout', checkContent);
-    addListener('#imageUrl', 'focusout', checkImageUrl);
-  }
+  addListener('#title', 'focusout', checkTitle);
+  addListener('#content', 'focusout', checkContent);
+  addListener('#imageUrl', 'focusout', checkImageUrl);
 
   // ---------------------- Form Create Post Submit To Create New Post -----------------------------
   const handleCreateNewPost = () => {
-    if (userID) {
-      if (checkTitle() && checkContent() && checkImageUrl()) {
-        clearText([
-          '#error-title-input',
-          '#error-content-input',
-          '#error-image-url-input',
-        ]);
-        // handle send request
+    if (checkTitle() && checkContent() && checkImageUrl()) {
+      clearText([
+        '#error-title-input',
+        '#error-content-input',
+        '#error-image-url-input',
+      ]);
+      // handle send request
 
-        const btnFormSubmitModal = querySelector('#submit-form');
-        const title = querySelector('#title').value.trim();
-        const content = querySelector('#content').value.trim();
-        const urlImage = querySelector('#imageUrl').value.trim();
-        const createdAt = new Date();
+      const btnFormSubmitModal = querySelector('#submit-form');
+      const title = querySelector('#title').value.trim();
+      const content = querySelector('#content').value.trim();
+      const urlImage = querySelector('#imageUrl').value.trim();
+      const createdAt = new Date();
 
-        // update-post
-        const isUpdate =
-          btnFormSubmitModal.getAttribute('data-update-post') === 'true';
+      // update-post
+      const isUpdate =
+        btnFormSubmitModal.getAttribute('data-update-post') === 'true';
 
-        if (isUpdate) {
+      if (isUpdate) {
+        if (userID) {
           userUpdatePost({ postID, title, content, urlImage })
             .then(({ status, message, data }) => {
               if (status === 400) {
@@ -662,95 +646,87 @@ window.onload = () => {
               );
             });
         } else {
-          userCreatePost({ title, content, urlImage, createdAt })
-            .then(({ status, message, data }) => {
-              if (status === 400) {
-                useAlert(
-                  'Error',
-                  message,
-                  'error',
-                  'Ok',
-                  'center',
-                  2000,
-                  false,
-                );
-                return false;
-              }
-
-              const {
-                id: postId,
-                user_id: userId,
-                title: postTitle,
-                username: createdBy,
-                content: postContent,
-                created_at: postCreatedAt,
-                urlImage: userImg,
-                url_image: postImag,
-              } = data;
-              showDefault += 1;
-              if (showDefault) {
-                removeDefaultPost();
-              }
-
-              renderCardPost(
-                postId,
-                userId,
-                postTitle,
-                createdBy,
-                postContent,
-                postCreatedAt,
-                postImag,
-                userImg,
-                0,
-                null,
-              );
-
-              handleModalPost();
-              clearInputText(['#title', '#content', '#imageUrl']);
-              useAlert(
-                'Success',
-                message,
-                'success',
-                'Ok',
-                'center',
-                2000,
-                false,
-              );
-              lastFivePostAdded();
-              topVotedPostsAdded();
-            })
-            .catch((error) => {
-              useAlert(
-                'Error',
-                error.message,
-                'error',
-                'Ok',
-                'center',
-                2000,
-                false,
-              );
-            });
+          window.location.href = '/auth/login';
         }
+      } else if (userID) {
+        userCreatePost({ title, content, urlImage, createdAt })
+          .then(({ status, message, data }) => {
+            if (status === 400) {
+              useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+              return false;
+            }
+
+            const {
+              id: postId,
+              user_id: userId,
+              title: postTitle,
+              username: createdBy,
+              content: postContent,
+              created_at: postCreatedAt,
+              urlImage: userImg,
+              url_image: postImag,
+            } = data;
+            showDefault += 1;
+            if (showDefault) {
+              removeDefaultPost();
+            }
+
+            renderCardPost(
+              postId,
+              userId,
+              postTitle,
+              createdBy,
+              postContent,
+              postCreatedAt,
+              postImag,
+              userImg,
+              0,
+              null,
+            );
+
+            handleModalPost();
+            clearInputText(['#title', '#content', '#imageUrl']);
+            useAlert(
+              'Success',
+              message,
+              'success',
+              'Ok',
+              'center',
+              2000,
+              false,
+            );
+            lastFivePostAdded();
+            topVotedPostsAdded();
+          })
+          .catch((error) => {
+            useAlert(
+              'Error',
+              error.message,
+              'error',
+              'Ok',
+              'center',
+              2000,
+              false,
+            );
+          });
       } else {
-        // handle send request
-        useAlert(
-          'Error!',
-          'Sorry! You invalid credentials',
-          'error',
-          'Ok',
-          'center',
-          2000,
-          false,
-        );
+        window.location.href = '/auth/login';
       }
     } else {
-      window.location.href = '/auth/login';
+      // handle send request
+      useAlert(
+        'Error!',
+        'Sorry! You invalid credentials',
+        'error',
+        'Ok',
+        'center',
+        2000,
+        false,
+      );
     }
   };
 
-  if (userID) {
-    addListener('#submit-form', 'click', handleCreateNewPost);
-  }
+  addListener('#submit-form', 'click', handleCreateNewPost);
 
   // ------------------- hidden loading ----------------------
   loading.classList.add('hidden');

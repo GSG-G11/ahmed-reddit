@@ -276,3 +276,40 @@ const topVotedPosts = async () => {
   const response = await fetch('/api/v1/posts/top-voted', options);
   return response.json();
 };
+
+// single Post Comment
+
+const singlePostComment = async (postId) => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch(`/api/v1/comments/${postId}/show`, options);
+  return response.json();
+};
+
+
+// create Comment Post
+const createCommentPost = async (inputs) => {
+  const options = {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(inputs),
+  };
+  const response = await fetch('/api/v1/comments', options);
+  return response.json();
+};

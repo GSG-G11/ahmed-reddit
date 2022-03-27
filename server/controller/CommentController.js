@@ -19,7 +19,7 @@ module.exports = {
         } else {
           res.status(200).json({
             status: 200,
-            message: 'Sorry This Post has not any comments!',
+            message: "Sorry This Post has't comments! 😢",
             data: [],
           });
         }

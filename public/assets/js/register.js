@@ -117,7 +117,7 @@ const handleSubmitFrom = () => {
           '#confirm-password',
         ]);
 
-        window.location.href = '/';
+        window.location.href = '/posts';
       })
       .catch((error) => {
         useAlert('Error', error.message, 'error', 'Ok', 'center', 2000, false);

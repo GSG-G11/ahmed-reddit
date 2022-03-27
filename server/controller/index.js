@@ -6,6 +6,8 @@ const {
   getUserProfile,
   getProfilePage,
   passwordUpdate,
+  getShowProfilePage,
+  getShowUserProfile,
 } = require('./profileController');
 
 const { logoutController } = require('./logoutController');
@@ -17,6 +19,9 @@ const {
   deletePost,
   showPost,
   getShowPostPage,
+  getLastFivePosts,
+  getTopFiveVotedPosts,
+  updatePost,
 } = require('./postsController');
 const { addPostVotes } = require('./voteController');
 
@@ -31,6 +36,7 @@ module.exports = {
   getProfilePage,
   profileController,
   getUserProfile,
+  getShowProfilePage,
   passwordUpdate,
   checkCookiesController,
   getAllPosts,
@@ -40,4 +46,8 @@ module.exports = {
   deletePost,
   showPost,
   getShowPostPage,
+  getLastFivePosts,
+  getTopFiveVotedPosts,
+  updatePost,
+  getShowUserProfile,
 };

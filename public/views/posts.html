@@ -1,14 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/img/favicon.ico" type="image/x-icon"> 
-  <title>posts</title>
-</head>
-<body>
-  posts
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <title>Reddit | Dive into any thing</title>
+    <link rel="stylesheet" href="/css/posts.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <nav class="navbar__container">
+      <div class="navbar__left">
+        <a href="/" class="navbar_img">
+          <img src="/img/reddit_logo.svg" alt="reddit logo" />
+        </a>
+        <a class="list__item" href="/posts">Posts</a>
+      </div>
+
+      <div class="navbar__right">
+        <div class="auth__container" id="auth-container">
+          <a href="/auth/login" class="auth__login">Login</a>
+          <a href="/auth/register" class="auth__register">Join Now</a>
+        </div>
+        <div class="auth__container hidden" id="logout-container">
+          <button id="auth-logout" class="auth__login">Logout</button>
+          <a href="/profile" class="auth__register" id="auth-username"></a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="body__section">
+      <div class="container__posts" id="container-posts">
+        <!-- list of posts -->
+      </div>
+      <div class="sidebar__container">
+        <div class="create__post__container">
+          <button class="btn__create__post" id="btn-show-modal">
+            Create Post
+          </button>
+        </div>
+        <div class="last__post">
+          <h3 class="last__post__title">Last Post Added</h3>
+          <ul class="last__post__list" id="last-post-list"></ul>
+        </div>
+
+        <div class="top__post__voted">
+          <h3 class="top__post__title">Top Voted Post</h3>
+          <ul class="top__post__list" id="top-post-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ......  modal .....  -->
+
+    <section class="modal-post-create modal-hidden" id="modal-post-create">
+      <div class="modal-post-overview"></div>
+      <div class="modal-post-content">
+        <i class="fas fa-times" id="close-post-modal"></i>
+
+        <h2 class="add-post-title">Add More Post</h2>
+        <div class="add-post-content">
+          <div class="post-form-input">
+            <label for="title">Title <sup class="important__sup">*</sup></label>
+            <input
+              id="title"
+              type="text"
+              class="title-input"
+              placeholder="title of post..."
+              autocomplete="off"
+              autofocus
+            />
+            <p class="post__error" id="error-title-input"></p>
+          </div>
+
+          <div class="post-form-input">
+            <label for="content">Content <sup class="important__sup">*</sup></label>
+            <textarea
+              id="content"
+              type="text"
+              class="content-input"
+              autocomplete="off"
+              placeholder="content of post..."
+            >
+Content of post...</textarea
+            >
+            <p class="post__error" id="error-content-input"></p>
+          </div>
+
+          <div class="post-form-input">
+            <label for="image-url">Image</label>
+            <div class="image-url">
+              <i class="fas fa-link"></i>
+              <input
+                class="image-url-input"
+                id="imageUrl"
+                type="url"
+                placeholder="Image URL of post..."
+                autocomplete="off"
+              />
+            </div>
+            <p class="post__error" id="error-image-url-input"></p>
+          </div>
+
+          <div class="post-form-input">
+            <button class="btn-post" id="submit-form" type="button">
+              Add Post
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- section loading -->
+    <section class="loading" id="loading">
+      <div class="loadingio-spinner-dual-ring-li5ynguz5s">
+        <div class="ldio-sxh7rt7zby">
+          <div></div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- script -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/function-dom.js"></script>
+    <script src="/js/fetch-data.js"></script>
+    <script src="/js/posts.js"></script>
+  </body>
 </html>

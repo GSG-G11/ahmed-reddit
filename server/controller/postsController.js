@@ -5,8 +5,14 @@ const {
   createPostQuery,
   deletePostQuery,
   showPostQuery,
+  getUserProfileQuery,
+  getLastFivePostsQuery,
+  getTopFiveVotedPostsQuery,
+  updatePostQuery,
 } = require('../database/queries');
 const { CustomError } = require('../util');
+
+let newPost;
 
 module.exports = {
   getPostsPage: (_, res, next) => {
@@ -28,6 +34,7 @@ module.exports = {
         return res.status(200).json({
           status: 200,
           message: 'Sorry, Not Found Any Post',
+          data: [],
         });
       })
       .catch((error) => next(error));
@@ -37,8 +44,19 @@ module.exports = {
     const { id, title, content, urlImage, createdAt } = body;
 
     createPostQuery(id, title, content, urlImage, createdAt)
+      .then((post) => {
+        newPost = post.rows[0];
+        return getUserProfileQuery(newPost.user_id);
+      })
       .then((user) => {
-        res.status(200).json({ status: 200, data: user.rows });
+        const { username, url_image: linkImage } = user.rows[0];
+        newPost.username = username;
+        newPost.urlImage = linkImage;
+        res.status(200).json({
+          status: 200,
+          message: 'Create Post Successfully 😉',
+          data: newPost,
+        });
       })
       .catch((error) => next(error));
   },
@@ -86,6 +104,58 @@ module.exports = {
         return res.status(200).json({
           status: 200,
           message: 'Sorry, this post is Not Exist',
+          data: [],
+        });
+      })
+
+      .catch((error) => next(error));
+  },
+
+  getLastFivePosts: (_, res, next) => {
+    getLastFivePostsQuery()
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({ status: 200, data: post.rows });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, Not Found Any Post',
+          data: [],
+        });
+      })
+      .catch((error) => next(error));
+  },
+
+  getTopFiveVotedPosts: (_, res, next) => {
+    getTopFiveVotedPostsQuery()
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({ status: 200, data: post.rows });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, Not Found Any Post',
+          data: [],
+        });
+      })
+      .catch((error) => next(error));
+  },
+
+  updatePost: ({ body }, res, next) => {
+    const { postID, id: userId, title, content, urlImage } = body;
+    updatePostQuery(postID, userId, title, content, urlImage)
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({
+            status: 200,
+            message: 'Post Updated Successfully',
+            data: post.rows,
+          });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, this post is Not Exist',
+          data: [],
         });
       })
       .catch((error) => next(error));

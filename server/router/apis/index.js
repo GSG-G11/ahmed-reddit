@@ -8,8 +8,8 @@ const { authenticateToken } = require('../../middleware');
 const apiRoute = express();
 
 apiRoute.use('/', auth);
-apiRoute.use('/profile', authenticateToken, profile);
-apiRoute.use('/posts', authenticateToken, posts);
+apiRoute.use('/profile', profile);
+apiRoute.use('/posts', posts);
 apiRoute.use('/vote', authenticateToken, vote);
 
 module.exports = apiRoute;

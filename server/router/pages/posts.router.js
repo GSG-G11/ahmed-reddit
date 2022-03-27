@@ -4,6 +4,6 @@ const { getPostsPage, getShowPostPage } = require('../../controller');
 const posts = express.Router();
 
 posts.get('/', getPostsPage);
-posts.get('/show', getShowPostPage);
+posts.get('/:postId/show', getShowPostPage);
 
 module.exports = posts;

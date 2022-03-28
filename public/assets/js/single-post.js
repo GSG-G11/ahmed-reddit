@@ -211,50 +211,6 @@ window.onload = () => {
     linkSinglePost.href = '/posts';
   };
 
-  //  ------------------------- Render Form API singlePost -----------------------------
-  fetchGetPostApi(postID)
-    .then(({ status, message, data }) => {
-      if (status === 200) {
-        if (data && !Array.isArray(data)) {
-          const {
-            user_id: userId,
-            username: PostBy,
-            content: postContent,
-            title: postTitle,
-            created_at: PostAt,
-            url_image: postImage,
-            votes_counts: postVoteCount,
-            comments_counts: commentsCounts,
-          } = data;
-          renderSinglePostDom(
-            userId,
-            postImage,
-            postTitle,
-            postContent,
-            PostAt,
-            PostBy,
-            postVoteCount,
-          );
-          querySelector('#comment-counts').textContent = commentsCounts;
-        } else {
-          renderEmptyNotFoundPost(message);
-          querySelector('#single-post-comment-container').remove();
-          querySelector('#comment-counts').remove();
-        }
-      } else {
-        // handle send request
-        renderEmptyNotFoundPost(
-          'Sorry This Post is not Exist! 😭  Please Use Valid Post Id',
-        );
-      }
-    })
-    .catch(() => {
-      // handle send request
-      renderEmptyNotFoundPost(
-        'Sorry This Post is not Exist! 😭  Please Use Valid Post Id',
-      );
-    });
-
   //  ------------------------- render Empty Not Found Post -----------------------------
   const renderEmptyNotFoundComments = (message) => {
     // parent all card
@@ -414,7 +370,41 @@ window.onload = () => {
   };
 
   //  ------------------------- Render Form API singlePost -----------------------------
-  fetchGetPostCommentApi(postID)
+  fetchGetPostApi(postID)
+    .then(({ status, message, data }) => {
+      if (status === 200) {
+        if (data && !Array.isArray(data)) {
+          const {
+            user_id: userId,
+            username: PostBy,
+            content: postContent,
+            title: postTitle,
+            created_at: PostAt,
+            url_image: postImage,
+            votes_counts: postVoteCount,
+            comments_counts: commentsCounts,
+          } = data;
+          renderSinglePostDom(
+            userId,
+            postImage,
+            postTitle,
+            postContent,
+            PostAt,
+            PostBy,
+            postVoteCount,
+          );
+          querySelector('#comment-counts').textContent = commentsCounts;
+          //  ---------- Render Form API singlePost -----------
+          return fetchGetPostCommentApi(postID);
+        }
+        throw customError('Sorry This Post is not Exist! 😭 ', 400);
+      } else {
+        throw customError(
+          'Sorry This Post is not Exist! 😭  Please Use Valid Post Id',
+          400,
+        );
+      }
+    })
     .then(({ status, message, data }) => {
       if (status === 200) {
         numberOfComments = data.length;
@@ -445,8 +435,11 @@ window.onload = () => {
         renderEmptyNotFoundComments("Sorry This Post has't comments!");
       }
     })
-    .catch(() => {
-      renderEmptyNotFoundComments("Sorry This Post has't comments!");
+    .catch(({ message }) => {
+      if (querySelector('#single-post-comment-container')) {
+        querySelector('#single-post-comment-container').remove();
+      }
+      renderEmptyNotFoundPost(message);
     });
 
   // -------------------------- checkContent --------------------------

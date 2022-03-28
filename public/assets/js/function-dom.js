@@ -77,3 +77,10 @@ const formatDate = (date) => {
   };
   return new Date(date).toLocaleDateString('en-us', options);
 };
+
+//  ------------------------ Custom Function  Error ------------------------
+const customError = (message) => {
+  const notFoundPostError = new Error(message);
+  notFoundPostError.status = 400;
+  return notFoundPostError;
+};

@@ -46,6 +46,17 @@ body {
   font-family: 'Ubuntu', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: var(--white);
+  background: var(--primary);
+}
+
+::selection {
+  color: var(--white);
+  background: var(--primary);
+}
 select,
 button,
 button:focus,

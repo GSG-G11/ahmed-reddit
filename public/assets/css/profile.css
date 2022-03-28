@@ -42,6 +42,17 @@ body {
   color: #333;
 }
 
+::-moz-selection {
+  /* Code for Firefox */
+  color: var(--white);
+  background: var(--primary);
+}
+
+::selection {
+  color: var(--white);
+  background: var(--primary);
+}
+
 select,
 button,
 button:focus,

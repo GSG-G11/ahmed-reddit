@@ -280,7 +280,7 @@ window.onload = () => {
   // ------------------------------------- To post Vote Up ---------------------
   const postVoteUp = (postId) => {
     if (userID) {
-      fetchAddVoteToPostApi({ postId, vote: 1 })
+      fetchVoteUpToPostApi({ postId, vote: 1 })
         .then(({ status, message }) => {
           if (status !== 200) {
             throw customError(message, 400);
@@ -298,9 +298,10 @@ window.onload = () => {
     }
   };
   // ------------------------------------- To post Vote Down ---------------------
+
   const postVoteDown = (postId) => {
     if (userID) {
-      fetchAddVoteToPostApi({ postId, vote: -1 })
+      fetchVoteDownToPostApi({ postId, vote: -1 })
         .then(({ status, message }) => {
           if (status !== 200) {
             throw customError(message, 400);

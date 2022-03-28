@@ -1,12 +1,18 @@
 const express = require('express');
-const { addPostVotes ,checkUserVotes,getPostVotes} = require('../../controller');
+const {
+  checkUserVotes,
+  getPostVotes,
+  postVoteUp,
+  postVoteDown,
+} = require('../../controller');
+const { authenticateToken } = require('../../middleware');
 
 const vote = express.Router();
 
 vote.get('/post/:postId', getPostVotes);
 
-vote.post('/', addPostVotes);
-vote.get('/post/:postId/check', checkUserVotes);
-
+vote.get('/post/:postId/check', authenticateToken, checkUserVotes);
+vote.post('/up', authenticateToken, postVoteUp);
+vote.post('/down', authenticateToken, postVoteDown);
 
 module.exports = vote;

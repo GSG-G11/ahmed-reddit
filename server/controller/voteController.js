@@ -5,29 +5,10 @@ const {
   getPostVoteQuery,
 } = require('../database/queries');
 
-module.exports = {
-  addPostVotes: ({ body }, res, next) => {
-    const { id: userId, postId, vote } = body;
-    // first check if user has votes for this post
+const VOTE_UP = 1;
+const VOTE_DOWN = -1;
 
-    checkUserHasVoteQuery(userId, postId)
-      .then((data) => {
-        if (data.rowCount) {
-          // if true, update value
-          return updatePostVoteQuery(data.rows[0].id, userId, postId, vote);
-        }
-        // if false create new vote
-        return addPostVoteQuery(postId, userId, vote);
-      })
-      .then((data) => {
-        res.status(200).json({
-          status: 200,
-          message: 'your voted Saved successfully',
-          data: data.rows[0],
-        });
-      })
-      .catch((error) => next(error));
-  },
+module.exports = {
   getPostVotes: ({ params }, res, next) => {
     const { postId } = params;
     // first check if user has votes for this post
@@ -53,7 +34,7 @@ module.exports = {
   },
   checkUserVotes: ({ params, body }, res, next) => {
     const { postId } = params;
-    const { id:userId } = body;
+    const { id: userId } = body;
     // first check if user has votes for this post
 
     checkUserHasVoteQuery(userId, postId)
@@ -74,5 +55,54 @@ module.exports = {
       })
       .catch((error) => next(error));
     // .catch(console.log);
+  },
+
+  postVoteUp: ({ body }, res, next) => {
+    const { id: userId, postId } = body;
+    // first check if user has votes for this post
+
+    checkUserHasVoteQuery(userId, postId)
+      .then((data) => {
+        if (data.rowCount) {
+          // if true, update value
+          return updatePostVoteQuery(data.rows[0].id, userId, postId, VOTE_UP);
+        }
+        // if false create new vote
+        return addPostVoteQuery(postId, userId, VOTE_UP);
+      })
+      .then((data) => {
+        res.status(200).json({
+          status: 200,
+          message: 'your voted Up Saved successfully',
+          data: data.rows[0],
+        });
+      })
+      .catch((error) => next(error));
+  },
+  postVoteDown: ({ body }, res, next) => {
+    const { id: userId, postId } = body;
+    // first check if user has votes for this post
+    checkUserHasVoteQuery(userId, postId)
+      .then((data) => {
+        if (data.rowCount) {
+          // if true, update value
+          return updatePostVoteQuery(
+            data.rows[0].id,
+            userId,
+            postId,
+            VOTE_DOWN,
+          );
+        }
+        // if false create new vote
+        return addPostVoteQuery(postId, userId, VOTE_DOWN);
+      })
+      .then((data) => {
+        res.status(200).json({
+          status: 200,
+          message: 'your voted Down Saved successfully',
+          data: data.rows[0],
+        });
+      })
+      .catch((error) => next(error));
   },
 };

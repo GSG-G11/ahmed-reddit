@@ -232,8 +232,8 @@ const fetchDeletePostApi = async (postId) => {
   return response.json();
 };
 
-// ----------------------------- fetch Add Vote To Post Api ------------------------
-const fetchAddVoteToPostApi = async (inputs) => {
+// ----------------------------- fetch Add Vote To Post Api  fetchAddVoteToPostApi------------------------
+const fetchVoteUpToPostApi = async (inputs) => {
   const options = {
     method: 'POST',
     mode: 'cors',
@@ -246,7 +246,23 @@ const fetchAddVoteToPostApi = async (inputs) => {
     referrerPolicy: 'no-referrer',
     body: JSON.stringify(inputs),
   };
-  const response = await fetch('/api/v1/vote', options);
+  const response = await fetch('/api/v1/vote/up', options);
+  return response.json();
+};
+const fetchVoteDownToPostApi = async (inputs) => {
+  const options = {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(inputs),
+  };
+  const response = await fetch('/api/v1/vote/down', options);
   return response.json();
 };
 

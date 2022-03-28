@@ -20,50 +20,33 @@ window.onload = () => {
   //  ------------------------- Check Authentication -----------------------------
   fetchCheckAuthLoginApi()
     .then(({ status, id, username }) => {
-      userID = id;
-      if (status === 200) {
-        logoutContainer.classList.remove('hidden');
-        authContainer.classList.add('hidden');
-        authUsername.textContent = username;
-      } else {
-        authContainer.classList.remove('hidden');
-        logoutContainer.classList.add('hidden');
-        authUsername.textContent = '';
-        btnShowModal.remove();
+      if (status !== 200) {
+        throw customError('Sorry You are not logged in', 400);
       }
+      userID = id;
+      logoutContainer.classList.remove('hidden');
+      authContainer.classList.add('hidden');
+      authUsername.textContent = username;
     })
-    .catch((error) => {
-      useAlert(
-        'Error',
-        'Something was wrong ?',
-        'error',
-        'Ok',
-        'center',
-        2000,
-        false,
-      );
+    .catch(() => {
+      userID = undefined;
+      authContainer.classList.remove('hidden');
+      logoutContainer.classList.add('hidden');
+      authUsername.textContent = '';
+      btnShowModal.remove();
     });
 
   //  ------------------------- handle logout -----------------------------
   const handleLogout = () => {
     fetchLogoutApi()
       .then(({ status, message }) => {
-        if (status === 200) {
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          window.location.href = '/';
-        } else {
-          useAlert(
-            'Error',
-            'Something was wrong ?',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        if (status !== 200) {
+          throw customError('Sorry You are not logged in', 400);
         }
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        window.location.href = '/';
       })
-      .catch((err) =>
+      .catch(() =>
         useAlert(
           'Error',
           'Something was wrong ?',
@@ -246,27 +229,18 @@ window.onload = () => {
           if (result.isConfirmed) {
             return fetchDeleteCommentPostApi({ commentId });
           }
-          const cancel = new Error('Cancel delete Comment');
-          cancel.type = 'cancel';
-          throw cancel;
+          throw customError('Cancel delete Comment', 400);
         })
         .then(({ status, message }) => {
-          if (status === 200) {
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            querySelector(
-              `#post-${postID}-user-${userID}-comment-${commentId}`,
-            ).remove();
-          } else {
-            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+          if (status !== 200) {
+            throw customError(message, 400);
           }
+
+          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+          querySelector(
+            `#post-${postID}-user-${userID}-comment-${commentId}`,
+          ).remove();
+
           numberOfComments -= 1;
           querySelector('#comment-counts').textContent = numberOfComments;
           if (!numberOfComments) {
@@ -275,17 +249,9 @@ window.onload = () => {
             removeDefaultNotFoundComment();
           }
         })
-        .catch(({ type }) => {
-          if (type !== 'cancel') {
-            useAlert(
-              'Error!',
-              'Sorry! Some things went wrong',
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
+        .catch(({ message }) => {
+          if (message !== 'Cancel delete Comment') {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
         });
     } else {
@@ -468,11 +434,9 @@ window.onload = () => {
       if (userID) {
         fetchCreateCommentPostApi({ postID, content })
           .then(({ status, message, data }) => {
-            if (status === 400) {
-              useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-              return false;
+            if (status !== 200) {
+              throw customError(message, 400);
             }
-
             const {
               id: commentId,
               post_id: postId,
@@ -518,16 +482,8 @@ window.onload = () => {
               behavior: 'smooth',
             });
           })
-          .catch((error) => {
-            useAlert(
-              'Error',
-              error.message,
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
+          .catch(({ message }) => {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           });
       } else {
         window.location.href = '/auth/login';

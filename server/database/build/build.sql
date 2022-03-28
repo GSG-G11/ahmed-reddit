@@ -102,7 +102,7 @@ VALUES
   (2, 1, 'This is the third comment', NOW()),
   (3, 1, 'This is the first comment', NOW()),
   (3, 1, 'This is the second comment', NOW()),
-  (3, 1, 'This is the third comment', NOW());
+  (3, 1, 'This is the third comment for delete', NOW());
 
 INSERT INTO
   votes(user_id, post_id, vote_number)

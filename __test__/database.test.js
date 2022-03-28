@@ -9,7 +9,12 @@ const {
   getPostVoteQuery,
   addPostVoteQuery,
   updatePostVoteQuery,
+  getCommentsPostQuery,
+  deleteCommentsPostQuery,
+  createPostCommentQuery,
 } = require('../server/database/queries');
+
+const TimeNow = new Date();
 
 // run after each test
 beforeEach(() => dbBuilder());
@@ -49,7 +54,6 @@ describe('Test ::  ===>  Table Posts <=== :: In DataBase', () => {
       expect(rowCount).toBe(3);
     }));
 });
-
 
 // Test ::  ===>  Table Votes  <=== :: In DataBase
 describe('Test ::  ===>  Table Votes <=== :: In DataBase', () => {
@@ -98,17 +102,38 @@ describe('Test ::  ===>  Table Votes <=== :: In DataBase', () => {
     }));
 });
 
-
 // Test ::  ===>  Table Comments  <=== :: In DataBase
-// describe('Test ::  ===>  Table Comments <=== :: In DataBase', () => {
-//   test('Test Get All Posts Should return (Three), we have three post', () =>
-//     getPostVoteQuery(1).then(({ rowCount }) => {
-//       expect(rowCount).toBe(1);
-//     }));
+describe('Test ::  ===>  Table Comments <=== :: In DataBase', () => {
+  test('Test get Comments Post Should return true', () =>
+    getCommentsPostQuery(1).then(({ rowCount }) => {
+      expect(rowCount).toBe(3);
+    }));
 
-//   test('Test Get All Posts Should return (Three), we have three post', () =>
-//     checkUserHasVoteQuery(1, 1).then(({ rowCount }) => {
-//       expect(rowCount).toBe(1);
-//     }));
-// });
+  test('Test create Post Comment Should return true', () =>
+    createPostCommentQuery(1, 1, 'this is comment', TimeNow).then(
+      ({ rowCount, rows }) => {
+        expect(rowCount).toBe(1);
+        expect(rows[0].post_id).toBe(1);
+        expect(rows[0].user_id).toBe(1);
+        expect(rows[0].content).toBe('this is comment');
+      },
+    ));
+  test('Test delete Comments Post Should return true', () =>
+    deleteCommentsPostQuery(9, 1).then(({ rowCount, rows }) => {
+      expect(rowCount).toBe(1);
+      expect(rows[0].id).toBe(9);
+      expect(rows[0].post_id).toBe(3);
+      expect(rows[0].user_id).toBe(1);
+      expect(rows[0].content).toBe('This is the third comment for delete');
+    }));
 
+  test('Test get Comments Post Should return False, not found', () =>
+    getCommentsPostQuery(10).then(({ rowCount }) => {
+      expect(rowCount).toBe(0);
+    }));
+
+  test('Test delete Comments Post Should return False, not found', () =>
+    deleteCommentsPostQuery(10, 1).then(({ rowCount }) => {
+      expect(rowCount).toBe(0);
+    }));
+});

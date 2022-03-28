@@ -45,14 +45,16 @@ module.exports = {
   },
 
   createPost: ({ body }, res, next) => {
-    const { id, title, content, urlImage, createdAt } = body;
+    const { id, title, content, urlImage } = body;
+
+    const createdAt = new Date();
+
     // Server Side Validation
     createPostValidationSchema
       .validateAsync(
         {
           title,
           content,
-          createdAt,
           urlImage
         },
         { abortEarly: false },

@@ -345,6 +345,7 @@ window.onload = () => {
     userId,
     userImage,
     username,
+    createdAt,
   ) => {
     // parent all card
     const postCommentContainer = querySelector('#comment-container');
@@ -383,8 +384,8 @@ window.onload = () => {
     userName.textContent = username;
     userName.href = `/profile/user/${userId}/show`;
 
-    // const postAt = createElement('p', 'post__at', usernamePostComment);
-    // postAt.textContent = `Post At | ${formatDate(createdAt)}`;
+    const commentAt = createElement('p', 'comment__at', usernamePostComment);
+    commentAt.textContent = `On | ${formatDate(createdAt)}`;
 
     if (userID === userId) {
       const postCommentActions = createElement(
@@ -425,7 +426,7 @@ window.onload = () => {
               username: PostBy,
               user_image: userImage,
               content: commentContent,
-              // created_at: PostAt,
+              created_at: commentAt,
             } = comment;
             renderSinglePostCommentDom(
               commentId,
@@ -434,6 +435,7 @@ window.onload = () => {
               userId,
               userImage,
               PostBy,
+              commentAt,
             );
           });
         } else {
@@ -483,7 +485,7 @@ window.onload = () => {
               post_id: postId,
               user_id: userId,
               content: commentContent,
-              // created_at: postCreatedAt,
+              created_at: commentAt,
               urlImage: userImage,
               username,
             } = data;
@@ -495,6 +497,7 @@ window.onload = () => {
               userId,
               userImage,
               username,
+              commentAt,
             );
 
             numberOfComments += 1;

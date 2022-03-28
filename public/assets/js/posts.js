@@ -418,7 +418,8 @@ window.onload = () => {
     const userPostImg = createElement('a', 'user__post__img', postHeader);
     userPostImg.href = `/profile/user/${userId}/show`;
     const userImg = createElement('img', '', userPostImg);
-    userImg.src = userImage ?? '/img/default_user_img.png';
+    userImg.src =
+      userImage || userImage === null ? '/img/default_user_img.png' : userImage;
 
     const usernamePost = createElement('div', 'username__post', postHeader);
     const userName = createElement('a', 'username', usernamePost);
@@ -468,7 +469,7 @@ window.onload = () => {
     voteUp.addEventListener('click', () => postVoteUp(id));
 
     const numberVote = createElement('span', '', postVotes);
-    numberVote.textContent = votesCounts;
+    numberVote.textContent = votesCounts ?? 0;
     numberVote.id = `vote-${id}`;
 
     const voteDown = createElement('i', 'fas fa-angles-down', postVotes);

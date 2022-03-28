@@ -560,13 +560,13 @@ button {
   line-height: 23px;
 }
 
-/* .post__at {
+.comment__at {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
   color: #70707c;
-} */
+}
 
 .post__comment__actions {
   display: flex;

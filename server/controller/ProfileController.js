@@ -86,7 +86,6 @@ module.exports = {
   },
 
   passwordUpdate: ({ body }, res, next) => {
-    // console.log(body.id);
     const { id, currentPassword, password, confirmPassword } = body;
     // Create Update profile
 

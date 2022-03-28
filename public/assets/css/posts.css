@@ -766,6 +766,16 @@ modal style add posts
   height: 100vh;
   width: 100%;
 }
+.modal-search-overview {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(1px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+}
 
 .modal-post-content {
   background-color: var(--white);

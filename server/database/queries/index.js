@@ -18,6 +18,7 @@ const getCommentsPostQuery = require('./getCommentsPostQuery');
 const createPostCommentQuery = require('./createPostCommentQuery');
 const deleteCommentsPostQuery = require('./deleteCommentsPostQuery');
 const getPostVoteQuery = require('./getPostVoteQuery');
+const getSearchPostsQuery = require('./getSearchPostsQuery');
 
 module.exports = {
   checkExistUserQuery,
@@ -39,5 +40,6 @@ module.exports = {
   getCommentsPostQuery,
   createPostCommentQuery,
   deleteCommentsPostQuery,
-  getPostVoteQuery
+  getPostVoteQuery,
+  getSearchPostsQuery,
 };

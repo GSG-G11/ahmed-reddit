@@ -178,6 +178,23 @@ const fetchGetPostApi = async (postId) => {
   return response.json();
 };
 
+// ----------------------------- fetch Search Post Api ------------------------
+const fetchSearchPostApi = async (query) => {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  };
+  const response = await fetch(`/api/v1/posts/search?textSearch=${query}`, options);
+  return response.json();
+};
+
 // ----------------------------- fetch  Create Post  Api ------------------------
 const fetchCreatePostApi = async (inputs) => {
   const options = {

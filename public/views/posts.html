@@ -25,6 +25,10 @@
         <a class="list__item" href="/posts">Posts</a>
       </div>
 
+      <div class="auth__container" id="btn-search">
+        <i class="fas fa-search"></i>
+      </div>
+
       <div class="navbar__right">
         <div class="auth__container" id="auth-container">
           <a href="/auth/login" class="auth__login">Login</a>
@@ -120,7 +124,30 @@
       </div>
     </section>
 
-    <!-- section loading -->
+    <!-- ......  modal .....  -->
+
+    <section class="modal-post-create modal-hidden" id="modal-post-search">
+      <div class="modal-search-overview"></div>
+      <div class="modal-post-content">
+        <i class="fas fa-times" id="close-post-search-modal"></i>
+        <div class="add-post-content">
+          <div class="post-form-input">
+            <label for="query">Search</label>
+            <input
+              id="query"
+              type="text"
+              class="title-input"
+              placeholder="Input any Text to Search Posts ..."
+              autocomplete="off"
+              autofocus="title"
+            />
+          </div>
+        </div>
+
+        <div class="render__searched__post" id="render-searched-post"></div>
+      </div>
+    </section>
+
     <section class="loading" id="loading">
       <div class="loadingio-spinner-dual-ring-li5ynguz5s">
         <div class="ldio-sxh7rt7zby">

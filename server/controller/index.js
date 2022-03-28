@@ -23,6 +23,7 @@ const {
   getLastFivePosts,
   getTopFiveVotedPosts,
   updatePost,
+  searchPosts,
 } = require('./postsController');
 const {
   checkUserVotes,
@@ -68,4 +69,5 @@ module.exports = {
   deleteCommentsPost,
   postVoteUp,
   postVoteDown,
+  searchPosts,
 };

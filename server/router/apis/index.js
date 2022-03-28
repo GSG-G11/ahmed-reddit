@@ -4,14 +4,13 @@ const profile = require('./profile.router');
 const posts = require('./posts.router');
 const vote = require('./vote.router');
 const comments = require('./comments.router');
-const { authenticateToken } = require('../../middleware');
 
 const apiRoute = express();
 
 apiRoute.use('/', auth);
 apiRoute.use('/profile', profile);
 apiRoute.use('/posts', posts);
-apiRoute.use('/vote', authenticateToken, vote);
+apiRoute.use('/vote', vote);
 apiRoute.use('/comments', comments);
 
 module.exports = apiRoute;

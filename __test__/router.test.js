@@ -347,3 +347,51 @@ describe('Test the Posts path in server', () => {
       });
   });
 });
+
+describe('Test the Votes path in server', () => {
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/api/v1/vote/post/1/check')
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/api/v1/vote/post/1')
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .post('/api/v1/vote/up')
+      .send({ id: 1 })
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .post('/api/v1/vote/down')
+      .send({ id: 1 })
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+});

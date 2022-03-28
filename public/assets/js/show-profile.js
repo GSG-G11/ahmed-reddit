@@ -20,6 +20,29 @@ const userID = window.location.href.split('/')[5];
 const profileBody = querySelector('#profile-body');
 
 window.onload = () => {
+  fetchCheckAuthLoginApi()
+    .then(({ status, username }) => {
+      if (status === 200) {
+        logoutContainer.classList.remove('hidden');
+        authContainer.classList.add('hidden');
+        authUsername.textContent = username;
+      } else {
+        authContainer.classList.remove('hidden');
+        logoutContainer.classList.add('hidden');
+        authUsername.textContent = '';
+      }
+    })
+    .catch((error) => {
+      useAlert(
+        'Error',
+        'Something was wrong ?',
+        'error',
+        'Ok',
+        'center',
+        2000,
+        false,
+      );
+    });
   // ---------------------- *** ------------------     Fetch Profile    ----------- *** --------------------------------
   fetchShowUserProfileApi(userID)
     .then(({ status, message, data }) => {
@@ -50,28 +73,20 @@ window.onload = () => {
             `You have : ${commentCounts} Comments` ?? "You have't nay comment";
           textVotePostCounts.textContent =
             `You have : ${voteCounts} Votes` ?? "You have't nay Vote";
-
-          logoutContainer.classList.remove('hidden');
-          authContainer.classList.add('hidden');
-          authUsername.textContent = username;
         } else {
-          profileBody.textContent = '';
-          const notFound = createElement('p', 'not-found-user', profileBody);
-          notFound.textContent = message;
+          throw customError(message, 400);
         }
       } else {
-        authContainer.classList.remove('hidden');
-        logoutContainer.classList.add('hidden');
-        authUsername.textContent = '';
-
-        profileBody.textContent = '';
-        const notFound = createElement('p', 'not-found-user', profileBody);
-        notFound.textContent =
-          'Sorry This User is not Exist! Please Use Valid user';
+        throw customError(
+          'Sorry This User is not Exist! Please Use Valid user',
+          400,
+        );
       }
     })
-    .catch((error) => {
-      window.location.href = '/';
+    .catch(({ message }) => {
+      profileBody.textContent = '';
+      const notFound = createElement('p', 'not-found-user', profileBody);
+      notFound.textContent = message;
     });
 
   // ---------------------- *** ------------------     handle Logout    ----------- *** --------------------------------

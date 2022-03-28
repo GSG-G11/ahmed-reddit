@@ -229,7 +229,7 @@ window.onload = () => {
           if (result.isConfirmed) {
             return fetchDeleteCommentPostApi({ commentId });
           }
-          throw customError('Cancel delete Comment', 400);
+          throw customError('cancel-delete-comment', 400);
         })
         .then(({ status, message }) => {
           if (status !== 200) {
@@ -250,7 +250,7 @@ window.onload = () => {
           }
         })
         .catch(({ message }) => {
-          if (message !== 'Cancel delete Comment') {
+          if (message !== 'cancel-delete-comment') {
             useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
         });

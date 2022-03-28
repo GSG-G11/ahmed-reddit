@@ -7,7 +7,7 @@ const regexURL =
 const updatePostValidationSchema = Joi.object({
   title: Joi.string().min(2).max(100).required(),
   content: Joi.string().min(2).required(),
-  postID: Joi.number().required(),
+  postId: Joi.number().required(),
   urlImage: Joi.string().allow('').pattern(regexURL).optional(),
 });
 

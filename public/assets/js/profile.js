@@ -35,64 +35,56 @@ window.onload = () => {
   // ---------------------- *** ------------------     Fetch Profile    ----------- *** --------------------------------
   fetchProfileApi()
     .then(({ status, data }) => {
-      if (status === 200) {
-        const {
-          email,
-          username,
-          age,
-          bio,
-          url_image: urlImage,
-          post_counts: postCounts,
-          comment_counts: commentCounts,
-          vote_counts: voteCounts,
-        } = data;
-        authUsername.textContent = username;
-        inputUsername.value = username;
-        inputAge.value = age;
-        inputUrlImage.value = urlImage;
-        inputBio.value = bio;
-
-        if (urlImage) {
-          textImage.src = urlImage;
-        }
-
-        textEmail.textContent = `Email: ${email}`;
-        textAge.textContent = `Age: ${age}` ?? '';
-        textBio.textContent = `Bio: ${bio}` ?? '';
-        textPostCounts.textContent =
-          `You have : ${postCounts} Posts` ?? "You have't nay Post";
-        textCommentPostCounts.textContent =
-          `You have : ${commentCounts} Comments` ?? "You have't nay comment";
-        textVotePostCounts.textContent =
-          `You have : ${voteCounts} Votes` ?? "You have't nay Vote";
-      } else {
-        window.location.href = '/';
+      if (status !== 200) {
+        throw customError('Sorry You are not logged in', 400);
       }
+
+      const {
+        email,
+        username,
+        age,
+        bio,
+        url_image: urlImage,
+        post_counts: postCounts,
+        comment_counts: commentCounts,
+        vote_counts: voteCounts,
+      } = data;
+      authUsername.textContent = username;
+      inputUsername.value = username;
+      inputAge.value = age;
+      inputUrlImage.value = urlImage;
+      inputBio.value = bio;
+
+      if (urlImage) {
+        textImage.src = urlImage;
+      }
+
+      textEmail.textContent = `Email: ${email}`;
+      textAge.textContent = `Age: ${age}` ?? '';
+      textBio.textContent = `Bio: ${bio}` ?? '';
+      textPostCounts.textContent =
+        `You have : ${postCounts} Posts` ?? "You have't nay Post";
+      textCommentPostCounts.textContent =
+        `You have : ${commentCounts} Comments` ?? "You have't nay comment";
+      textVotePostCounts.textContent =
+        `You have : ${voteCounts} Votes` ?? "You have't nay Vote";
     })
     .catch(() => {
-      window.location.href = '/';
+      window.location.href = '/auth/login';
     });
 
   // ---------------------- *** ------------------     handle Logout    ----------- *** --------------------------------
   const handleLogout = () => {
     fetchLogoutApi()
       .then(({ status, message }) => {
-        if (status === 200) {
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          window.location.href = '/';
-        } else {
-          useAlert(
-            'Error',
-            'Something was wrong ?',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        if (status !== 200) {
+          throw customError('Sorry You are not logged in', 400);
         }
+
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        window.location.href = '/';
       })
-      .catch((err) =>
+      .catch(() =>
         useAlert(
           'Error',
           'Something was wrong ?',
@@ -129,9 +121,6 @@ window.onload = () => {
   addListener('#update-info', 'click', handleUpdateInfo);
 
   // ---------------------- *** ------------------ Check handle Update Password   ----------- *** -----------------------
-  // error-current-password-input
-  // error-password-input
-  // error-confirm-password-input
 
   const checkCurrentPassword = () => {
     const { value: currentPassword } = querySelector('#current-password');
@@ -214,10 +203,10 @@ window.onload = () => {
         confirmPassword: confirmNewPassword.value,
       })
         .then(({ message, status }) => {
-          if (status === 400) {
-            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-            return false;
+          if (status !== 200) {
+            throw customError(message, 400);
           }
+
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
           clearInputText([
             '#current-password',
@@ -225,8 +214,8 @@ window.onload = () => {
             '#confirm-password',
           ]);
         })
-        .catch((error) =>
-          useAlert('Error', error, 'error', 'Ok', 'center', 2000, false),
+        .catch(({ message }) =>
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false),
         );
     }
   };
@@ -306,10 +295,10 @@ window.onload = () => {
         bio: inputBio.value.trim(),
       })
         .then(({ message, status, data }) => {
-          if (status === 400) {
-            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-            return false;
+          if (status !== 200) {
+            throw customError(message, 400);
           }
+
           const { email, username, age, url_image: image, bio } = data;
           authUsername.textContent = username;
           inputUsername.value = username;
@@ -327,8 +316,8 @@ window.onload = () => {
 
           useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
         })
-        .catch((error) =>
-          useAlert('Error', error, 'error', 'Ok', 'center', 2000, false),
+        .catch(({ message }) =>
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false),
         );
     }
   };

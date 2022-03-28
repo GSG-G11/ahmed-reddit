@@ -58,9 +58,6 @@ window.onload = () => {
       } else if (voteNumber === -1) {
         voteUp.classList.remove('voted__up');
         voteDown.classList.add('voted__down');
-      } else {
-        voteUp.classList.remove('voted__up');
-        voteDown.classList.remove('voted__down');
       }
     });
   };

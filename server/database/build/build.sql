@@ -35,6 +35,7 @@ CREATE TABLE
     post_id INT NOT NULL,
     user_id INT NOT NULL,
     content TEXT NOT NULL,
+    created_at DATE NOT NULL,
     FOREIGN key (user_id) REFERENCES users(id)
     ON DELETE CASCADE,
     FOREIGN key (post_id) REFERENCES posts(id)

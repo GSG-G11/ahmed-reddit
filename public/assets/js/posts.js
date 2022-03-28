@@ -20,30 +20,22 @@ window.onload = () => {
   // --------- ***** ------ *** ---- check Authentication ---------- *** *** *** *** *** ------------
   fetchCheckAuthLoginApi()
     .then(({ status, id, username }) => {
-      userID = id;
-      if (status === 200) {
-        logoutContainer.classList.remove('hidden');
-        authContainer.classList.add('hidden');
-        authUsername.textContent = username;
-      } else {
-        authContainer.classList.remove('hidden');
-        logoutContainer.classList.add('hidden');
-        authUsername.textContent = '';
-        modalPostCreate.remove();
-        buttonShowModal.remove();
+      if (status !== 200) {
+        throw customError('Sorry You are not logged in', 400);
       }
+      userID = id;
+      logoutContainer.classList.remove('hidden');
+      authContainer.classList.add('hidden');
+      authUsername.textContent = username;
     })
-    .catch(() =>
-      useAlert(
-        'Error!',
-        'Sorry! Some things went wrong',
-        'error',
-        'Ok',
-        'center',
-        2000,
-        false,
-      ),
-    );
+    .catch(() => {
+      userID = undefined;
+      authContainer.classList.remove('hidden');
+      logoutContainer.classList.add('hidden');
+      authUsername.textContent = '';
+      modalPostCreate.remove();
+      buttonShowModal.remove();
+    });
 
   // --------- ***** ------ *** ---- handle a post Vote Value ---------- *** *** *** *** *** ------------
   const handleVoteValue = (postId) => {
@@ -66,9 +58,6 @@ window.onload = () => {
       } else if (voteNumber === -1) {
         voteUp.classList.remove('voted__up');
         voteDown.classList.add('voted__down');
-      } else {
-        voteUp.classList.remove('voted__up');
-        voteDown.classList.remove('voted__down');
       }
     });
   };
@@ -99,22 +88,14 @@ window.onload = () => {
   const handleLogout = () => {
     fetchLogoutApi()
       .then(({ status, message }) => {
-        if (status === 200) {
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          window.location.href = '/';
-        } else {
-          useAlert(
-            'Error',
-            'Something was wrong ?',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        if (status !== 200) {
+          throw customError('Sorry You are not logged in', 400);
         }
+
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        window.location.href = '/';
       })
-      .catch((err) =>
+      .catch(() =>
         useAlert(
           'Error',
           'Something was wrong ?',
@@ -144,7 +125,7 @@ window.onload = () => {
   };
   const removeDefaultPost = () => {
     if (querySelector('#not-found-card')) {
-      querySelector('#not-found-card').style.display = 'none';
+      querySelector('#not-found-card').remove();
     }
   };
 
@@ -173,84 +154,58 @@ window.onload = () => {
     const itemPost = createElement('li', 'last__post__item', listParents);
     itemPost.id = `${idParents}-null-posts`;
     const itemTitle = createElement('span', 'item__title', itemPost);
-    itemTitle.textContent = "Sorry We haven't any posts yet 😢";
+    itemTitle.textContent = 'Not Found Any Post! 😢';
   };
 
   // -----------------  last and top Voted 5 posts handle ---------------------
   const lastFivePostAdded = () => {
     fetchGetLatestPostsApi()
-      .then(({ status, data }) => {
+      .then(({ status, message, data }) => {
         const listParents = querySelector('#last-post-list');
         listParents.textContent = '';
-        if (status === 200) {
-          if (data.length) {
-            data.forEach((post) => {
-              const { id, title, created_at: CreatedAt } = post;
-              renderSideBarPosts('#last-post-list', id, title, CreatedAt);
-            });
-          } else {
-            renderSideBarNullPosts('#last-post-list');
-          }
-        } else {
-          useAlert(
-            'Error!',
-            'Sorry! Some things went wrong',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+
+        if (status !== 200) {
+          throw customError(message, 400);
         }
+        if (!data.length) {
+          throw customError('not-found-last-post', 400);
+        }
+
+        data.forEach((post) => {
+          const { id, title, created_at: CreatedAt } = post;
+          renderSideBarPosts('#last-post-list', id, title, CreatedAt);
+        });
       })
-      .catch((error) => {
-        useAlert(
-          'Error!',
-          'Sorry! Some things went wrong',
-          'error',
-          'Ok',
-          'center',
-          2000,
-          false,
-        );
+      .catch(({ message }) => {
+        if (message !== 'not-found-last-post') {
+          useAlert('Error!', message, 'error', 'Ok', 'center', 2000, false);
+        }
+        renderSideBarNullPosts('#last-post-list');
       });
   };
+
   const topVotedPostsAdded = () => {
     fetchGetIopVotedPostsApi()
       .then(({ status, data }) => {
         const listParents = querySelector('#top-post-list');
         listParents.textContent = '';
-        if (status === 200) {
-          if (data.length) {
-            data.forEach((post) => {
-              const { id, title, created_at: CreatedAt } = post;
-              renderSideBarPosts('#top-post-list', id, title, CreatedAt);
-            });
-          } else {
-            renderSideBarNullPosts('#top-post-list');
-          }
-        } else {
-          useAlert(
-            'Error!',
-            'Sorry! Some things went wrong',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        if (status !== 200) {
+          throw customError(message, 400);
         }
+        if (!data.length) {
+          throw customError('not-found-top-last-post', 400);
+        }
+
+        data.forEach((post) => {
+          const { id, title, created_at: CreatedAt } = post;
+          renderSideBarPosts('#top-post-list', id, title, CreatedAt);
+        });
       })
-      .catch((error) => {
-        useAlert(
-          'Error!',
-          'Sorry! Some things went wrong',
-          'error',
-          'Ok',
-          'center',
-          2000,
-          false,
-        );
+      .catch(({ message }) => {
+        if (message !== 'not-found-top-last-post') {
+          useAlert('Error!', message, 'error', 'Ok', 'center', 2000, false);
+        }
+        renderSideBarNullPosts('#top-post-list');
       });
   };
 
@@ -270,28 +225,20 @@ window.onload = () => {
           if (result.isConfirmed) {
             return fetchDeletePostApi({ postId });
           }
-          const cancel = new Error('Cancel delete post');
-          cancel.type = 'cancel';
-          throw cancel;
+          throw customError('cancel-delete-post', 400);
         })
         .then(({ status, message }) => {
-          if (status === 200) {
-            lastFivePostAdded();
-            topVotedPostsAdded();
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            querySelector(`#post-${postId}-user-${userID}`).style.display =
-              'none';
-          } else {
-            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+          if (status !== 200) {
+            throw customError(message, 400);
           }
+
+          lastFivePostAdded();
+          topVotedPostsAdded();
+
+          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+          querySelector(`#post-${postId}-user-${userID}`).style.display =
+            'none';
+
           showDefault -= 1;
           if (!showDefault) {
             createDefaultPost();
@@ -299,17 +246,9 @@ window.onload = () => {
             removeDefaultPost();
           }
         })
-        .catch(({ type }) => {
-          if (type !== 'cancel') {
-            useAlert(
-              'Error!',
-              'Sorry! Some things went wrong',
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
+        .catch(({ message }) => {
+          if (message !== 'cancel-delete-post') {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
         });
     } else {
@@ -319,20 +258,22 @@ window.onload = () => {
 
   // -------------------- function to Edit post ----------------------
   const showEditPost = (postId, postTitle, postContent, postURLImage) => {
-    if (userID) {
-      modalPostCreate.classList.toggle('modal-hidden');
-      postID = postId;
-      const headerPostTitle = querySelector('.add-post-title');
-      headerPostTitle.textContent = 'Update This Post';
-      const btnUpdatePost = querySelector('#submit-form');
-      btnUpdatePost.textContent = 'Update Post';
-      btnUpdatePost.setAttribute('data-update-post', true);
+    modalPostCreate.classList.toggle('modal-hidden');
+    postID = postId;
+    const headerPostTitle = querySelector('.add-post-title');
+    headerPostTitle.textContent = 'Update This Post';
+    const btnUpdatePost = querySelector('#submit-form');
+    btnUpdatePost.textContent = 'Update Post';
+    btnUpdatePost.setAttribute('data-update-post', true);
 
-      querySelector('#title').value = postTitle;
-      querySelector('#content').value = postContent;
-      querySelector('#imageUrl').value = postURLImage;
-    } else {
-      window.location.href = '/auth/login';
+    const cardImage = querySelector(`#card-image-${postId}-post`);
+    const hasImage = cardImage.children[0];
+
+    querySelector('#title').value = postTitle;
+    querySelector('#content').value = postContent;
+
+    if (hasImage) {
+      querySelector('#imageUrl').value = hasImage.src;
     }
   };
 
@@ -341,23 +282,16 @@ window.onload = () => {
     if (userID) {
       fetchAddVoteToPostApi({ postId, vote: 1 })
         .then(({ status, message }) => {
-          if (status === 200) {
+          if (status !== 200) {
+            throw customError(message, 400);
+          }
+          if (showDefault) {
             handleVoteValue(postId);
             handleCheckUserVoted(postId);
-          } else {
-            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
         })
-        .catch(() =>
-          useAlert(
-            'Error!',
-            'Sorry! Some things went wrong',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          ),
+        .catch(({ message }) =>
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false),
         );
     } else {
       window.location.href = '/auth/login';
@@ -368,23 +302,16 @@ window.onload = () => {
     if (userID) {
       fetchAddVoteToPostApi({ postId, vote: -1 })
         .then(({ status, message }) => {
-          if (status === 200) {
+          if (status !== 200) {
+            throw customError(message, 400);
+          }
+          if (showDefault) {
             handleVoteValue(postId);
             handleCheckUserVoted(postId);
-          } else {
-            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
         })
-        .catch(() =>
-          useAlert(
-            'Error!',
-            'Sorry! Some things went wrong',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          ),
+        .catch(({ message }) =>
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false),
         );
     } else {
       window.location.href = '/auth/login';
@@ -418,7 +345,9 @@ window.onload = () => {
     const userPostImg = createElement('a', 'user__post__img', postHeader);
     userPostImg.href = `/profile/user/${userId}/show`;
     const userImg = createElement('img', '', userPostImg);
-    userImg.src = userImage ?? '/img/default_user_img.png';
+
+    userImg.src =
+      typeof userImg !== 'string' ? '/img/default_user_img.png' : userImage;
 
     const usernamePost = createElement('div', 'username__post', postHeader);
     const userName = createElement('a', 'username', usernamePost);
@@ -468,7 +397,7 @@ window.onload = () => {
     voteUp.addEventListener('click', () => postVoteUp(id));
 
     const numberVote = createElement('span', '', postVotes);
-    numberVote.textContent = votesCounts;
+    numberVote.textContent = votesCounts ?? 0;
     numberVote.id = `vote-${id}`;
 
     const voteDown = createElement('i', 'fas fa-angles-down', postVotes);
@@ -487,57 +416,50 @@ window.onload = () => {
 
   // -------------------- function posts to use render Card Post ----------------------
   fetchGetAllPostsApi()
-    .then(({ status, data }) => {
-      if (status === 200) {
-        showDefault = data.length;
-        if (data.length) {
-          data.forEach(
-            ({
-              id,
-              user_id: userId,
-              title,
-              username,
-              content,
-              created_at: createdAt,
-              url_image: urlImage,
-              user_image: userImage,
-              votes_counts: votesCounts,
-              comments_counts: commentsCounts,
-            }) => {
-              renderCardPost(
-                id,
-                userId,
-                title,
-                username,
-                content,
-                createdAt,
-                urlImage,
-                userImage,
-                votesCounts,
-                commentsCounts,
-              );
-              if (userID) {
-                handleCheckUserVoted(id);
-              }
-            },
-          );
-        } else {
-          createDefaultPost();
-        }
-      } else {
-        createDefaultPost();
+    .then(({ status, message, data }) => {
+      if (status !== 200) {
+        throw customError(message, 400);
       }
-    })
-    .catch((error) => {
-      useAlert(
-        'Error!',
-        'Sorry! Some things went wrong',
-        'error',
-        'Ok',
-        'center',
-        2000,
-        false,
+      if (!data.length) {
+        throw customError('not-found-post', 400);
+      }
+      showDefault = data.length;
+      data.forEach(
+        ({
+          id,
+          user_id: userId,
+          title,
+          username,
+          content,
+          created_at: createdAt,
+          url_image: urlImage,
+          user_image: userImage,
+          votes_counts: votesCounts,
+          comments_counts: commentsCounts,
+        }) => {
+          renderCardPost(
+            id,
+            userId,
+            title,
+            username,
+            content,
+            createdAt,
+            urlImage,
+            userImage,
+            votesCounts,
+            commentsCounts,
+          );
+          if (userID) {
+            handleCheckUserVoted(id);
+          }
+        },
       );
+    })
+    .catch(({ message }) => {
+      if (message !== 'not-found-post') {
+        useAlert('Error!', message, 'error', 'Ok', 'center', 2000, false);
+      }
+      createDefaultPost();
     });
 
   // --------------------  Call lastFivePostAdded() <:::>  topVotedPostsAdded() ----------------------
@@ -564,6 +486,8 @@ window.onload = () => {
         postImg.src = urlImage;
         cardImage.href = `/posts/${postId}/show`;
       }
+    } else if (hasImage) {
+      hasImage.remove();
     }
   };
   // -------------------------- checkTitle --------------------------
@@ -609,6 +533,83 @@ window.onload = () => {
   addListener('#content', 'focusout', checkContent);
   addListener('#imageUrl', 'focusout', checkImageUrl);
 
+  const createORUpdatePost = (postId) => {
+    const title = querySelector('#title').value.trim();
+    const content = querySelector('#content').value.trim();
+    const urlImage = querySelector('#imageUrl').value;
+
+    const btnModal = querySelector('#submit-form');
+    const isUpdatePost = btnModal.getAttribute('data-update-post') === 'true';
+
+    if (isUpdatePost) {
+      return fetchUpdatePostApi({
+        postId,
+        title,
+        content,
+        urlImage,
+      }).then(({ status, message, data }) => {
+        if (status !== 200) {
+          throw customError(message, 400);
+        }
+        const {
+          id,
+          title: postTitle,
+          content: postContent,
+          url_image: postImag,
+        } = data;
+        // ------------------------ function to update dom when update any post -----------------
+        updateDomPost(id, postTitle, postContent, postImag);
+        handleModalPost();
+        clearInputText(['#title', '#content', '#imageUrl']);
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        lastFivePostAdded();
+        topVotedPostsAdded();
+      });
+    }
+    return fetchCreatePostApi({ title, content, urlImage }).then(
+      ({ status, message, data }) => {
+        if (status !== 200) {
+          throw customError(message, 400);
+        }
+
+        const {
+          id,
+          user_id: userId,
+          title: postTitle,
+          username: createdBy,
+          content: postContent,
+          created_at: postCreatedAt,
+          urlImage: userImg,
+          url_image: postImag,
+        } = data;
+
+        showDefault += 1;
+        if (showDefault) {
+          removeDefaultPost();
+        }
+
+        renderCardPost(
+          id,
+          userId,
+          postTitle,
+          createdBy,
+          postContent,
+          postCreatedAt,
+          postImag,
+          userImg,
+          0,
+          null,
+        );
+
+        handleModalPost();
+        clearInputText(['#title', '#content', '#imageUrl']);
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        lastFivePostAdded();
+        topVotedPostsAdded();
+      },
+    );
+  };
+
   // ---------------------- Form Create Post Submit To Create New Post -----------------------------
   const handleCreateNewPost = () => {
     if (checkTitle() && checkContent() && checkImageUrl()) {
@@ -617,134 +618,16 @@ window.onload = () => {
         '#error-content-input',
         '#error-image-url-input',
       ]);
-      // handle send request
 
-      const btnFormSubmitModal = querySelector('#submit-form');
-      const title = querySelector('#title').value.trim();
-      const content = querySelector('#content').value.trim();
-      const urlImage = querySelector('#imageUrl').value;
-      const createdAt = new Date();
-
-      // update-post
-      const isUpdate =
-        btnFormSubmitModal.getAttribute('data-update-post') === 'true';
-
-      if (isUpdate) {
-        if (userID) {
-          fetchUpdatePostApi({ postID, title, content, urlImage })
-            .then(({ status, message, data }) => {
-              if (status === 400) {
-                useAlert(
-                  'Error',
-                  message,
-                  'error',
-                  'Ok',
-                  'center',
-                  2000,
-                  false,
-                );
-                return false;
-              }
-
-              // ------------------------ function to update dom when update any post -----------------
-
-              updateDomPost(postID, title, content, urlImage);
-              // update this dom post
-
-              handleModalPost();
-              clearInputText(['#title', '#content', '#imageUrl']);
-              useAlert(
-                'Success',
-                message,
-                'success',
-                'Ok',
-                'center',
-                2000,
-                false,
-              );
-              lastFivePostAdded();
-              topVotedPostsAdded();
-            })
-            .catch((error) => {
-              useAlert(
-                'Error',
-                error.message,
-                'error',
-                'Ok',
-                'center',
-                2000,
-                false,
-              );
-            });
-        } else {
-          window.location.href = '/auth/login';
-        }
-      } else if (userID) {
-        fetchCreatePostApi({ title, content, urlImage, createdAt })
-          .then(({ status, message, data }) => {
-            if (status === 400) {
-              useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-              return false;
-            }
-
-            const {
-              id: postId,
-              user_id: userId,
-              title: postTitle,
-              username: createdBy,
-              content: postContent,
-              created_at: postCreatedAt,
-              urlImage: userImg,
-              url_image: postImag,
-            } = data;
-            showDefault += 1;
-            if (showDefault) {
-              removeDefaultPost();
-            }
-
-            renderCardPost(
-              postId,
-              userId,
-              postTitle,
-              createdBy,
-              postContent,
-              postCreatedAt,
-              postImag,
-              userImg,
-              0,
-              null,
-            );
-
-            handleModalPost();
-            clearInputText(['#title', '#content', '#imageUrl']);
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            lastFivePostAdded();
-            topVotedPostsAdded();
-          })
-          .catch((error) => {
-            useAlert(
-              'Error',
-              error.message,
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-          });
+      if (userID) {
+        createORUpdatePost(postID).catch(({ message }) => {
+          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+        });
       } else {
         window.location.href = '/auth/login';
       }
     } else {
-      // handle send request
+      // handle Error response
       useAlert(
         'Error!',
         'Sorry! You invalid credentials',

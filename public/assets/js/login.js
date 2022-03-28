@@ -51,11 +51,9 @@ const handleSubmitFrom = () => {
 
     fetchLoginApi({ email, password })
       .then(({ status, message }) => {
-        if (status === 400) {
-          useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-          return false;
+        if (status !== 200) {
+          throw customError(message, 400);
         }
-
         useAlert(
           'Success',
           'Login Successfully 😉',
@@ -69,8 +67,8 @@ const handleSubmitFrom = () => {
 
         window.location.href = '/posts';
       })
-      .catch((error) => {
-        useAlert('Error', error.message, 'error', 'Ok', 'center', 2000, false);
+      .catch(({ message }) => {
+        useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
       });
   } else {
     // handle send request

@@ -20,80 +20,78 @@ const userID = window.location.href.split('/')[5];
 const profileBody = querySelector('#profile-body');
 
 window.onload = () => {
+  fetchCheckAuthLoginApi()
+    .then(({ status, username }) => {
+      if (status !== 200) {
+        throw customError('Sorry You are not logged in', 400);
+      }
+      logoutContainer.classList.remove('hidden');
+      authContainer.classList.add('hidden');
+      authUsername.textContent = username;
+    })
+    .catch(() => {
+      authContainer.classList.remove('hidden');
+      logoutContainer.classList.add('hidden');
+      authUsername.textContent = '';
+    });
   // ---------------------- *** ------------------     Fetch Profile    ----------- *** --------------------------------
   fetchShowUserProfileApi(userID)
     .then(({ status, message, data }) => {
-      if (status === 200) {
-        if (data && !Array.isArray(data)) {
-          const {
-            email,
-            username,
-            age,
-            bio,
-            url_image: urlImage,
-            post_counts: postCounts,
-            comment_counts: commentCounts,
-            vote_counts: voteCounts,
-          } = data;
-          authUsername.textContent = username;
+      if (status !== 200) {
+        throw customError(
+          'Sorry This User is not Exist! Please Use Valid user',
+          400,
+        );
+      }
 
-          if (urlImage) {
-            textImage.src = urlImage;
-          }
+      if (data && !Array.isArray(data)) {
+        const {
+          email,
+          username,
+          age,
+          bio,
+          url_image: urlImage,
+          post_counts: postCounts,
+          comment_counts: commentCounts,
+          vote_counts: voteCounts,
+        } = data;
+        authUsername.textContent = username;
 
-          textEmail.textContent = `Email: ${email}`;
-          textAge.textContent = `Age: ${age}` ?? '';
-          textBio.textContent = `Bio: ${bio}` ?? '';
-          textPostCounts.textContent =
-            `You have : ${postCounts} Posts` ?? "You have't nay Post";
-          textCommentPostCounts.textContent =
-            `You have : ${commentCounts} Comments` ?? "You have't nay comment";
-          textVotePostCounts.textContent =
-            `You have : ${voteCounts} Votes` ?? "You have't nay Vote";
-
-          logoutContainer.classList.remove('hidden');
-          authContainer.classList.add('hidden');
-          authUsername.textContent = username;
-        } else {
-          profileBody.textContent = '';
-          const notFound = createElement('p', 'not-found-user', profileBody);
-          notFound.textContent = message;
+        if (urlImage) {
+          textImage.src = urlImage;
         }
-      } else {
-        authContainer.classList.remove('hidden');
-        logoutContainer.classList.add('hidden');
-        authUsername.textContent = '';
 
-        profileBody.textContent = '';
-        const notFound = createElement('p', 'not-found-user', profileBody);
-        notFound.textContent =
-          'Sorry This User is not Exist! Please Use Valid user';
+        textEmail.textContent = `Email: ${email}`;
+        textAge.textContent = `Age: ${age}` ?? '';
+        textBio.textContent = `Bio: ${bio}` ?? '';
+        textPostCounts.textContent =
+          `You have : ${postCounts} Posts` ?? "You have't nay Post";
+        textCommentPostCounts.textContent =
+          `You have : ${commentCounts} Comments` ?? "You have't nay comment";
+        textVotePostCounts.textContent =
+          `You have : ${voteCounts} Votes` ?? "You have't nay Vote";
+      } else {
+        throw customError(message, 400);
       }
     })
-    .catch((error) => {
-      window.location.href = '/';
+    .catch(({ message }) => {
+      profileBody.textContent = '';
+      const notFound = createElement('p', 'not-found-user', profileBody);
+      notFound.textContent = message;
     });
 
   // ---------------------- *** ------------------     handle Logout    ----------- *** --------------------------------
   const handleLogout = () => {
     fetchLogoutApi()
       .then(({ status, message }) => {
-        if (status === 200) {
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          window.location.href = '/';
-        } else {
-          useAlert(
-            'Error',
-            'Something was wrong ?',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        if (status !== 200) {
+          throw customError('Sorry You are not logged in', 400);
         }
+
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        window.location.href = '/';
       })
-      .catch((err) =>
+      .catch(() =>
         useAlert(
           'Error',
           'Something was wrong ?',

@@ -20,50 +20,33 @@ window.onload = () => {
   //  ------------------------- Check Authentication -----------------------------
   fetchCheckAuthLoginApi()
     .then(({ status, id, username }) => {
-      userID = id;
-      if (status === 200) {
-        logoutContainer.classList.remove('hidden');
-        authContainer.classList.add('hidden');
-        authUsername.textContent = username;
-      } else {
-        authContainer.classList.remove('hidden');
-        logoutContainer.classList.add('hidden');
-        authUsername.textContent = '';
-        btnShowModal.remove();
+      if (status !== 200) {
+        throw customError('Sorry You are not logged in', 400);
       }
+      userID = id;
+      logoutContainer.classList.remove('hidden');
+      authContainer.classList.add('hidden');
+      authUsername.textContent = username;
     })
-    .catch((error) => {
-      useAlert(
-        'Error',
-        'Something was wrong ?',
-        'error',
-        'Ok',
-        'center',
-        2000,
-        false,
-      );
+    .catch(() => {
+      userID = undefined;
+      authContainer.classList.remove('hidden');
+      logoutContainer.classList.add('hidden');
+      authUsername.textContent = '';
+      btnShowModal.remove();
     });
 
   //  ------------------------- handle logout -----------------------------
   const handleLogout = () => {
     fetchLogoutApi()
       .then(({ status, message }) => {
-        if (status === 200) {
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          window.location.href = '/';
-        } else {
-          useAlert(
-            'Error',
-            'Something was wrong ?',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        if (status !== 200) {
+          throw customError('Sorry You are not logged in', 400);
         }
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        window.location.href = '/';
       })
-      .catch((err) =>
+      .catch(() =>
         useAlert(
           'Error',
           'Something was wrong ?',
@@ -211,50 +194,6 @@ window.onload = () => {
     linkSinglePost.href = '/posts';
   };
 
-  //  ------------------------- Render Form API singlePost -----------------------------
-  fetchGetPostApi(postID)
-    .then(({ status, message, data }) => {
-      if (status === 200) {
-        if (data && !Array.isArray(data)) {
-          const {
-            user_id: userId,
-            username: PostBy,
-            content: postContent,
-            title: postTitle,
-            created_at: PostAt,
-            url_image: postImage,
-            votes_counts: postVoteCount,
-            comments_counts: commentsCounts,
-          } = data;
-          renderSinglePostDom(
-            userId,
-            postImage,
-            postTitle,
-            postContent,
-            PostAt,
-            PostBy,
-            postVoteCount,
-          );
-          querySelector('#comment-counts').textContent = commentsCounts;
-        } else {
-          renderEmptyNotFoundPost(message);
-          querySelector('#single-post-comment-container').remove();
-          querySelector('#comment-counts').remove();
-        }
-      } else {
-        // handle send request
-        renderEmptyNotFoundPost(
-          'Sorry This Post is not Exist! 😭  Please Use Valid Post Id',
-        );
-      }
-    })
-    .catch(() => {
-      // handle send request
-      renderEmptyNotFoundPost(
-        'Sorry This Post is not Exist! 😭  Please Use Valid Post Id',
-      );
-    });
-
   //  ------------------------- render Empty Not Found Post -----------------------------
   const renderEmptyNotFoundComments = (message) => {
     // parent all card
@@ -290,27 +229,18 @@ window.onload = () => {
           if (result.isConfirmed) {
             return fetchDeleteCommentPostApi({ commentId });
           }
-          const cancel = new Error('Cancel delete Comment');
-          cancel.type = 'cancel';
-          throw cancel;
+          throw customError('cancel-delete-comment', 400);
         })
         .then(({ status, message }) => {
-          if (status === 200) {
-            useAlert(
-              'Success',
-              message,
-              'success',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
-            querySelector(
-              `#post-${postID}-user-${userID}-comment-${commentId}`,
-            ).remove();
-          } else {
-            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
+          if (status !== 200) {
+            throw customError(message, 400);
           }
+
+          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+          querySelector(
+            `#post-${postID}-user-${userID}-comment-${commentId}`,
+          ).remove();
+
           numberOfComments -= 1;
           querySelector('#comment-counts').textContent = numberOfComments;
           if (!numberOfComments) {
@@ -319,17 +249,9 @@ window.onload = () => {
             removeDefaultNotFoundComment();
           }
         })
-        .catch(({ type }) => {
-          if (type !== 'cancel') {
-            useAlert(
-              'Error!',
-              'Sorry! Some things went wrong',
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
+        .catch(({ message }) => {
+          if (message !== 'cancel-delete-comment') {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           }
         });
     } else {
@@ -345,6 +267,7 @@ window.onload = () => {
     userId,
     userImage,
     username,
+    createdAt,
   ) => {
     // parent all card
     const postCommentContainer = querySelector('#comment-container');
@@ -383,8 +306,8 @@ window.onload = () => {
     userName.textContent = username;
     userName.href = `/profile/user/${userId}/show`;
 
-    // const postAt = createElement('p', 'post__at', usernamePostComment);
-    // postAt.textContent = `Post At | ${formatDate(createdAt)}`;
+    const commentAt = createElement('p', 'comment__at', usernamePostComment);
+    commentAt.textContent = `On | ${formatDate(createdAt)}`;
 
     if (userID === userId) {
       const postCommentActions = createElement(
@@ -413,7 +336,41 @@ window.onload = () => {
   };
 
   //  ------------------------- Render Form API singlePost -----------------------------
-  fetchGetPostCommentApi(postID)
+  fetchGetPostApi(postID)
+    .then(({ status, message, data }) => {
+      if (status === 200) {
+        if (data && !Array.isArray(data)) {
+          const {
+            user_id: userId,
+            username: PostBy,
+            content: postContent,
+            title: postTitle,
+            created_at: PostAt,
+            url_image: postImage,
+            votes_counts: postVoteCount,
+            comments_counts: commentsCounts,
+          } = data;
+          renderSinglePostDom(
+            userId,
+            postImage,
+            postTitle,
+            postContent,
+            PostAt,
+            PostBy,
+            postVoteCount,
+          );
+          querySelector('#comment-counts').textContent = commentsCounts;
+          //  ---------- Render Form API singlePost -----------
+          return fetchGetPostCommentApi(postID);
+        }
+        throw customError('Sorry This Post is not Exist! 😭 ', 400);
+      } else {
+        throw customError(
+          'Sorry This Post is not Exist! 😭  Please Use Valid Post Id',
+          400,
+        );
+      }
+    })
     .then(({ status, message, data }) => {
       if (status === 200) {
         numberOfComments = data.length;
@@ -425,7 +382,7 @@ window.onload = () => {
               username: PostBy,
               user_image: userImage,
               content: commentContent,
-              // created_at: PostAt,
+              created_at: commentAt,
             } = comment;
             renderSinglePostCommentDom(
               commentId,
@@ -434,6 +391,7 @@ window.onload = () => {
               userId,
               userImage,
               PostBy,
+              commentAt,
             );
           });
         } else {
@@ -443,8 +401,11 @@ window.onload = () => {
         renderEmptyNotFoundComments("Sorry This Post has't comments!");
       }
     })
-    .catch(() => {
-      renderEmptyNotFoundComments("Sorry This Post has't comments!");
+    .catch(({ message }) => {
+      if (querySelector('#single-post-comment-container')) {
+        querySelector('#single-post-comment-container').remove();
+      }
+      renderEmptyNotFoundPost(message);
     });
 
   // -------------------------- checkContent --------------------------
@@ -473,17 +434,15 @@ window.onload = () => {
       if (userID) {
         fetchCreateCommentPostApi({ postID, content })
           .then(({ status, message, data }) => {
-            if (status === 400) {
-              useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
-              return false;
+            if (status !== 200) {
+              throw customError(message, 400);
             }
-
             const {
               id: commentId,
               post_id: postId,
               user_id: userId,
               content: commentContent,
-              // created_at: postCreatedAt,
+              created_at: commentAt,
               urlImage: userImage,
               username,
             } = data;
@@ -495,6 +454,7 @@ window.onload = () => {
               userId,
               userImage,
               username,
+              commentAt,
             );
 
             numberOfComments += 1;
@@ -522,16 +482,8 @@ window.onload = () => {
               behavior: 'smooth',
             });
           })
-          .catch((error) => {
-            useAlert(
-              'Error',
-              error.message,
-              'error',
-              'Ok',
-              'center',
-              2000,
-              false,
-            );
+          .catch(({ message }) => {
+            useAlert('Error', message, 'error', 'Ok', 'center', 2000, false);
           });
       } else {
         window.location.href = '/auth/login';

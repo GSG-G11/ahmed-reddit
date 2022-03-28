@@ -7,8 +7,8 @@ module.exports = (postId) => {
               c.user_id,
               c.content,
               u.username,
-              u.url_image AS user_image
-              
+              u.url_image AS user_image,
+              c.created_at
             FROM
               comments c
               JOIN users u

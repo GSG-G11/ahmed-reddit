@@ -45,15 +45,17 @@ module.exports = {
   },
 
   createPost: ({ body }, res, next) => {
-    const { id, title, content, urlImage, createdAt } = body;
+    const { id, title, content, urlImage } = body;
+
+    const createdAt = new Date();
+
     // Server Side Validation
     createPostValidationSchema
       .validateAsync(
         {
           title,
           content,
-          createdAt,
-          urlImage
+          urlImage,
         },
         { abortEarly: false },
       )
@@ -163,25 +165,25 @@ module.exports = {
   },
 
   updatePost: ({ body }, res, next) => {
-    const { postID, id: userId, title, content, urlImage } = body;
+    const { postId, id: userId, title, content, urlImage } = body;
 
     updatePostValidationSchema
       .validateAsync(
         {
-          postID,
+          postId,
           title,
           content,
-          urlImage
+          urlImage,
         },
         { abortEarly: false },
       )
-      .then(() => updatePostQuery(postID, userId, title, content, urlImage))
+      .then(() => updatePostQuery(postId, userId, title, content, urlImage))
       .then((post) => {
         if (post.rowCount) {
           return res.status(200).json({
             status: 200,
             message: 'Post Updated Successfully',
-            data: post.rows,
+            data: post.rows[0],
           });
         }
         return res.status(200).json({

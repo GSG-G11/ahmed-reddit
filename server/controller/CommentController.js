@@ -29,9 +29,11 @@ module.exports = {
   createCommentsPost: ({ body }, res, next) => {
     const { id: userId, content, postID } = body;
 
+    const createdAt = new Date();
+
     createCommentValidationSchema
       .validateAsync({ postID, content }, { abortEarly: false })
-      .then(() => createPostCommentQuery(postID, userId, content))
+      .then(() => createPostCommentQuery(postID, userId, content, createdAt))
       .then((post) => {
         newComment = post.rows[0];
         return getUserProfileQuery(newComment.user_id);

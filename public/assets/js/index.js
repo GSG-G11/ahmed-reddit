@@ -8,50 +8,34 @@ const authUsername = querySelector('#auth-username');
 const btnLogout = querySelector('#auth-logout');
 const loading = querySelector('#loading');
 window.onload = () => {
+  //  ----------------------- fetch Check Auth Login Api -------------------------------
   fetchCheckAuthLoginApi()
     .then(({ status, username }) => {
-      if (status === 200) {
-        logoutContainer.classList.remove('hidden');
-        authContainer.classList.add('hidden');
-        authUsername.textContent = username;
-      } else {
-        authContainer.classList.remove('hidden');
-        logoutContainer.classList.add('hidden');
-        authUsername.textContent = '';
+      if (status !== 200) {
+        throw customError('Sorry You are not logged in', 400);
       }
+      logoutContainer.classList.remove('hidden');
+      authContainer.classList.add('hidden');
+      authUsername.textContent = username;
     })
-    .catch((error) => {
-      useAlert(
-        'Error',
-        'Something was wrong ?',
-        'error',
-        'Ok',
-        'center',
-        2000,
-        false,
-      );
+    .catch(() => {
+      authContainer.classList.remove('hidden');
+      logoutContainer.classList.add('hidden');
+      authUsername.textContent = '';
     });
 
-  // logout
+  //  ----------------------- logout -------------------------------
   const handleLogout = () => {
     fetchLogoutApi()
       .then(({ status, message }) => {
-        if (status === 200) {
-          useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
-          window.location.href = '/';
-        } else {
-          useAlert(
-            'Error',
-            'Something was wrong ?',
-            'error',
-            'Ok',
-            'center',
-            2000,
-            false,
-          );
+        if (status !== 200) {
+          throw customError('Sorry You are not logged in', 400);
         }
+
+        useAlert('Success', message, 'success', 'Ok', 'center', 2000, false);
+        window.location.href = '/';
       })
-      .catch((err) =>
+      .catch(() =>
         useAlert(
           'Error',
           'Something was wrong ?',

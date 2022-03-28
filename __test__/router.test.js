@@ -395,3 +395,40 @@ describe('Test the Votes path in server', () => {
       });
   });
 });
+
+describe('Test the Votes path in server', () => {
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/api/v1/comments/1/show')
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .post('/api/v1/comments')
+      .send({ postID: 1, content: 'test' })
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .delete('/api/v1/comments')
+      .send({ commentId: 1 })
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+});

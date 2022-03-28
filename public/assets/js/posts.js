@@ -266,9 +266,15 @@ window.onload = () => {
     btnUpdatePost.textContent = 'Update Post';
     btnUpdatePost.setAttribute('data-update-post', true);
 
+    const cardImage = querySelector(`#card-image-${postId}-post`);
+    const hasImage = cardImage.children[0];
+
     querySelector('#title').value = postTitle;
     querySelector('#content').value = postContent;
-    querySelector('#imageUrl').value = postURLImage;
+
+    if (hasImage) {
+      querySelector('#imageUrl').value = hasImage.src;
+    }
   };
 
   // ------------------------------------- To post Vote Up ---------------------
@@ -480,6 +486,8 @@ window.onload = () => {
         postImg.src = urlImage;
         cardImage.href = `/posts/${postId}/show`;
       }
+    } else if (hasImage) {
+      hasImage.remove();
     }
   };
   // -------------------------- checkTitle --------------------------

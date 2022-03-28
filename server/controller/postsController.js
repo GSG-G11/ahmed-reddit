@@ -183,7 +183,7 @@ module.exports = {
           return res.status(200).json({
             status: 200,
             message: 'Post Updated Successfully',
-            data: post.rows,
+            data: post.rows[0],
           });
         }
         return res.status(200).json({

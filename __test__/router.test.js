@@ -32,6 +32,20 @@ const updatePasswordInput = {
   password: 'pa$$W0rd!',
   confirmPassword: 'pa$$W0rd!',
 };
+const postInput = {
+  title: 'First Post',
+  content: 'First Post content ',
+  urlImage:
+    'https://images.unsplash.com/photo-1602418013963-c1f017b3bb63?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmVhdXRpZnVsJTIwY2F0fGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+};
+
+const postUpdateInput = {
+  postId: 2,
+  title: 'First Post',
+  content: 'First Post content ',
+  urlImage:
+    'https://images.unsplash.com/photo-1602418013963-c1f017b3bb63?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmVhdXRpZnVsJTIwY2F0fGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+};
 
 describe('Test the root path', () => {
   test('It should response the GET method', (done) => {
@@ -223,6 +237,108 @@ describe('Test the Profile path in server', () => {
     request(app)
       .put('/api/v1/profile/password/update')
       .send(updatePasswordInput)
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+});
+
+describe('Test the Posts path in server', () => {
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/posts')
+      .expect(301)
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/posts/1/show')
+      .expect(301)
+      .expect('Content-Type', 'text/html; charset=UTF-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/api/v1/posts')
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/api/v1/posts/1/show')
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/api/v1/posts/latest')
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get('/api/v1/posts/top-voted')
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .post('/api/v1/posts')
+      .send(postInput)
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+  test('It should response the GET method', (done) => {
+    request(app)
+      .put('/api/v1/posts')
+      .send(postUpdateInput)
+      .expect(302)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .delete('/api/v1/posts')
+      .send({ id: 1 })
       .expect(302)
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .end((error) => {

@@ -12,9 +12,32 @@ const {
   getCommentsPostQuery,
   deleteCommentsPostQuery,
   createPostCommentQuery,
+  createUserQuery,
+  updateUserProfileQuery,
+  getUserPasswordQuery,
+  updateUserPasswordQuery,
 } = require('../server/database/queries');
+const { hashPassword } = require('../server/util');
 
 const TimeNow = new Date();
+const [
+  idValid,
+  usernameValid,
+  emailValid,
+  ageValid,
+  bioValid,
+  imgValid,
+  passwordValid,
+] = [
+  1235,
+  'test_user',
+  'test_user@gmail.com',
+  23,
+  'test_user bio',
+  'https://oshiprint.in/image/data/poster/new/mqp1193.jpeg',
+  hashPassword('test_user_Pa$$w0rd'),
+];
+const [id, email] = [1, 'ahmed_qeshta@gmail.com'];
 
 // run after each test
 beforeEach(() => dbBuilder());
@@ -25,24 +48,71 @@ afterAll(() => connection.end());
 // Test ::  ===>  Table Users <=== :: In DataBase
 describe('Test ::  ===>  Table Users <=== :: In DataBase', () => {
   test('Test Get User by Email  Should return (One), we have One user', () =>
-    checkExistUserQuery('ahmed_qeshta@gmail.com').then(({ rowCount }) => {
+    checkExistUserQuery(email).then(({ rowCount }) => {
       expect(rowCount).toBe(1);
     }));
 
   test('Test Get User by Email  Should return Zero - not found this user', () =>
-    checkExistUserQuery('this.email.not.exist@gmail.com').then(
-      ({ rowCount }) => {
-        expect(rowCount).toBe(0);
-      },
-    ));
+    checkExistUserQuery(emailValid).then(({ rowCount }) => {
+      expect(rowCount).toBe(0);
+    }));
 
   test('Test Get User by ID Should return (One), we have One user', () =>
-    getUserProfileQuery(1).then(({ rowCount }) => {
+    getUserProfileQuery(id).then(({ rowCount }) => {
       expect(rowCount).toBe(1);
     }));
 
   test('Test Get User by ID Should return Zero - not found this user', () =>
-    getUserProfileQuery(123515132).then(({ rowCount }) => {
+    getUserProfileQuery(idValid).then(({ rowCount }) => {
+      expect(rowCount).toBe(0);
+    }));
+
+  test('Test Register new User Should return true', () =>
+    createUserQuery(usernameValid, emailValid, passwordValid).then(
+      ({ rowCount }) => {
+        expect(rowCount).toBe(1);
+      },
+    ));
+
+  test('Test update User Profile new User Should return true', () =>
+    updateUserProfileQuery(
+      id,
+      usernameValid,
+      ageValid,
+      imgValid,
+      bioValid,
+    ).then(({ rowCount, rows }) => {
+      expect(rowCount).toBe(1);
+      expect(rows[0].id).toBe(id);
+      expect(rows[0].email).toBe(email);
+      expect(rows[0].username).toBe(usernameValid);
+      expect(rows[0].age).toBe(ageValid);
+      expect(rows[0].url_image).toBe(imgValid);
+      expect(rows[0].bio).toBe(bioValid);
+    }));
+
+  test('Test get User Password Should return true', () =>
+    getUserPasswordQuery(id).then(({ rowCount }) => {
+      expect(rowCount).toBe(1);
+    }));
+
+  test('Test get User Password  Should return false', () =>
+    getUserPasswordQuery(idValid).then(({ rowCount }) => {
+      expect(rowCount).toBe(0);
+    }));
+
+  test('Test get User Password  Should return false', () =>
+    getUserPasswordQuery(idValid).then(({ rowCount }) => {
+      expect(rowCount).toBe(0);
+    }));
+
+  test('Test update User Password Should return true', () =>
+    updateUserPasswordQuery(id, passwordValid).then(({ rowCount }) => {
+      expect(rowCount).toBe(1);
+    }));
+
+  test('Test update User Password  Should return false', () =>
+    updateUserPasswordQuery(idValid, passwordValid).then(({ rowCount }) => {
       expect(rowCount).toBe(0);
     }));
 });

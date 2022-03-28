@@ -347,8 +347,9 @@ window.onload = () => {
     userPostImg.href = `/profile/user/${userId}/show`;
     const userImg = createElement('img', '', userPostImg);
 
-    userImg.src =
-      typeof userImg !== 'string' ? '/img/default_user_img.png' : userImage;
+    const isHasImage =
+      userImage === '' || userImage === null || userImage === undefined;
+    userImg.src = isHasImage ? '/img/default_user_img.png' : userImage;
 
     const usernamePost = createElement('div', 'username__post', postHeader);
     const userName = createElement('a', 'username', usernamePost);

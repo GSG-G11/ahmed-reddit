@@ -204,7 +204,7 @@ module.exports = {
   },
   searchPosts: ({ query }, res, next) => {
     const { textSearch } = query;
-    getSearchPostsQuery(`%${textSearch}%`)
+    getSearchPostsQuery(`%${textSearch.toLowerCase()}%`)
       .then((post) => {
         if (post.rowCount) {
           return res.status(200).json({ status: 200, data: post.rows });

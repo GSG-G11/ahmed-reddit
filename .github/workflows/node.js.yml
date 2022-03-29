@@ -42,7 +42,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_DB: postgres
           POSTGRES_PORT: 5432
-          TEST_DB_URL: postgres://postgres:postgres@postgres:5432/postgres
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready

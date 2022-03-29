@@ -39,16 +39,19 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres_user
-          POSTGRES_DB: postgres_db
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
           POSTGRES_PORT: 5432
+          TEST_DB_URL: postgres://postgres:postgres@postgres:5432/postgres
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     steps:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
@@ -66,3 +69,4 @@ jobs:
         # Environment variables used by the `client.js` script to create a new PostgreSQL table.
         env:
           TEST_DB_URL: postgres://postgres_user:postgres@postgres:5432/postgres_db
+          ACCESS_TOKEN_SECRET: ${{secrets.ACCESS_TOKEN_SECRET}}

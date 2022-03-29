@@ -1,10 +1,4 @@
-/* ------------------------------------------------------------------
-                          [Table of contents]
-        ***     01.  ==>   Root Variables And Font Family 
-        ***     02.  ==>   General Style   
-
---------------------------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+/* ------------------------------------------------------------------                          [Table of contents]        ***     01.  ==>   Root Variables And Font Family         ***     02.  ==>   General Style   --------------------------------------------------------------------- */@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
 
 /* Root Variables */
 
@@ -14,9 +8,10 @@
   --orange: #ef4c10;
   --light-orange: #af441d;
   --btn-color: #ff4500;
-  --bg-color-container: #f1f1f1;
+  --bg-color-container: #ffffff;
   --red: #a64452;
   --primary: #e55f34;
+  --body-bg-color: #dae0e6;
 }
 
 /* ------------------------------------------------------------------
@@ -39,7 +34,7 @@ body {
   font-family: 'Ubuntu', cursive, sans-serif;
   width: 100%;
   height: 100vh;
-  background-color: var(--white);
+  background-color: var(--body-bg-color);
   overflow-x: hidden;
   color: #333;
 }
@@ -90,7 +85,7 @@ button {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--white);
+  background: transparent;
 }
 
 /* Handle */
@@ -110,7 +105,7 @@ button {
   align-items: center;
   padding: 10px 30px;
   height: 8vh;
-  background: #f7f7f7;
+  background: var(--white);
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -266,15 +261,15 @@ button {
 .group__card__input input {
   width: 100%;
   background: var(--white);
-  border-radius: 8px;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 16px;
   color: #818181;
   height: 35px;
-  padding: 5px 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 5px 0;
+  border-bottom: 2px solid #bebebe;
+  margin-bottom: 5px;
 }
 .group__card__input input::placeholder {
   color: #cccccc;

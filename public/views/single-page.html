@@ -15,9 +15,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" href="/css/animation.css" />
   </head>
   <body>
-    <nav class="navbar__container">
+    <nav class="navbar__container fade__appear" style="--i: 1.5">
       <div class="navbar__left">
         <a href="/" class="navbar_img">
           <img src="/img/reddit_logo.svg" alt="reddit logo" />
@@ -47,14 +48,25 @@
       id="single-post-comment-container"
     >
       <div class="single__post__comment__head">
-        <h3 class="single__post__comment__title">
+        <h3
+          class="single__post__comment__title fade__in__left"
+          style="--i: 4.5"
+        >
           Comments <sup class="comment__counts" id="comment-counts"></sup>
         </h3>
-        <button id="btn-show-modal" class="btn__show__modal">
+        <button
+          id="btn-show-modal"
+          class="btn__show__modal fade__in__right"
+          style="--i: 4.8"
+        >
           Add Comment
         </button>
       </div>
-      <div class="comment__container" id="comment-container"></div>
+      <div
+        class="comment__container fade__appear"
+        id="comment-container"
+        style="--i: 5.1"
+      ></div>
     </section>
 
     <!-- ......  modal .....  -->

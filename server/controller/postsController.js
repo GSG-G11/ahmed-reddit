@@ -9,6 +9,7 @@ const {
   getLastFivePostsQuery,
   getTopFiveVotedPostsQuery,
   updatePostQuery,
+  getSearchPostsQuery,
 } = require('../database/queries');
 const {
   CustomError,
@@ -200,5 +201,20 @@ module.exports = {
           next(error);
         }
       });
+  },
+  searchPosts: ({ query }, res, next) => {
+    const { textSearch } = query;
+    getSearchPostsQuery(`%${textSearch}%`)
+      .then((post) => {
+        if (post.rowCount) {
+          return res.status(200).json({ status: 200, data: post.rows });
+        }
+        return res.status(200).json({
+          status: 200,
+          message: 'Sorry, Not Found Any Post',
+          data: [],
+        });
+      })
+      .catch((error) => next(error));
   },
 };

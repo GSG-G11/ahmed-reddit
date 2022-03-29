@@ -15,9 +15,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" href="/css/animation.css" />
   </head>
   <body>
-    <nav class="navbar__container">
+    <nav class="navbar__container fade__appear" style="--i: 1.5">
       <div class="navbar__left">
         <a href="/" class="navbar_img">
           <img src="/img/reddit_logo.svg" alt="reddit logo" />
@@ -38,21 +39,38 @@
     </nav>
 
     <section class="body__section">
-      <div class="container__posts" id="container-posts">
+      <div
+        class="container__posts fade__appear"
+        style="--i: 1"
+        id="container-posts"
+      >
         <!-- list of posts -->
       </div>
       <div class="sidebar__container">
-        <div class="create__post__container">
+        <div class="create__post__container fade__in__right" style="--i: 1">
           <button class="btn__create__post" id="btn-show-modal">
             Create Post
           </button>
         </div>
-        <div class="last__post">
+
+        <div class="search__form__container fade__in__right" style="--i: 1.5">
+          <div class="search__form__input">
+            <input
+              id="query"
+              type="text"
+              class="query-input"
+              placeholder="Input any Text to Search Posts ..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div class="last__post fade__in__right" style="--i: 2">
           <h3 class="last__post__title">Last Post Added</h3>
           <ul class="last__post__list" id="last-post-list"></ul>
         </div>
 
-        <div class="top__post__voted">
+        <div class="top__post__voted fade__in__right" style="--i: 2.5">
           <h3 class="top__post__title">Top Voted Post</h3>
           <ul class="top__post__list" id="top-post-list"></ul>
         </div>
@@ -120,7 +138,16 @@
       </div>
     </section>
 
-    <!-- section loading -->
+    <!-- ......  modal .....  -->
+
+    <section class="modal-search-post modal-hidden" id="modal-post-search">
+      <div class="modal-search-overview"></div>
+      <div class="modal-search-content">
+        <i class="fas fa-times" id="close-post-search-modal"></i>
+        <div class="render__searched__post" id="render-searched-post"></div>
+      </div>
+    </section>
+
     <section class="loading" id="loading">
       <div class="loadingio-spinner-dual-ring-li5ynguz5s">
         <div class="ldio-sxh7rt7zby">

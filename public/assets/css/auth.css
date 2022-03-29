@@ -231,6 +231,7 @@ button {
   border-radius: 8px;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.45);
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .group__card_login {
@@ -244,6 +245,7 @@ button {
   border-radius: 8px;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.45);
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .auth__card__title {

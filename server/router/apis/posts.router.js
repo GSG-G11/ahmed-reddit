@@ -7,6 +7,7 @@ const {
   getLastFivePosts,
   getTopFiveVotedPosts,
   updatePost,
+  searchPosts
 } = require('../../controller');
 const { authenticateToken } = require('../../middleware');
 
@@ -17,6 +18,7 @@ posts.get('/:postId/show', showPost);
 posts.get('/', getAllPosts);
 posts.get('/latest', getLastFivePosts);
 posts.get('/top-voted', getTopFiveVotedPosts);
+posts.get('/search', searchPosts);
 
 // ----------------------- protected route ----------------
 posts.use(authenticateToken);

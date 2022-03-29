@@ -10,6 +10,7 @@ const authUsername = querySelector('#auth-username');
 const btnLogout = querySelector('#auth-logout');
 const loading = querySelector('#loading');
 const modalPostCreate = querySelector('#modal-post-create');
+const modalSearchPost = querySelector('#modal-post-search');
 const buttonShowModal = querySelector('#btn-show-modal');
 
 let userID;
@@ -62,22 +63,142 @@ window.onload = () => {
     });
   };
 
-  // --------------------------- modal Post ----------------------
-  // ----------------------------  show/hide modal --------------------------------
-  const handleModalPost = () => {
-    if (userID) {
-      modalPostCreate.classList.toggle('modal-hidden');
+  // -----------***** ------ *** ---------  show/hide Search modal -------------***** ------ *** -----------
+  const handleModalSearchPost = () => {
+    modalSearchPost.classList.toggle('modal-hidden');
+  };
 
-      const btnUpdatePost = querySelector('#submit-form');
-      const headerPostTitle = querySelector('.add-post-title');
+  const handleCloseModalSearchPost = () => {
+    modalSearchPost.classList.toggle('modal-hidden');
+    setTimeout(() => {
+      clearInputText(['#query']);
+      clearText(['#render-searched-post']);
+    }, 250);
+  };
 
-      clearInputText(['#title', '#content', '#imageUrl']);
+  addListener('.modal-search-overview', 'click', handleCloseModalSearchPost);
+  addListener('#close-post-search-modal', 'click', handleCloseModalSearchPost);
 
-      postID = undefined;
-      headerPostTitle.textContent = 'Add More Post';
-      btnUpdatePost.textContent = 'Add Post';
-      btnUpdatePost.setAttribute('data-update-post', false);
+  const renderDomeSearchedPosts = (
+    indexRoot,
+    containerSearchPosts,
+    postId,
+    title,
+    urlImage,
+    CreatedAt,
+  ) => {
+    const subCardPost = createElement(
+      'div',
+      'search__post__card fade__in__left',
+      containerSearchPosts,
+    );
+
+    const animationTime = indexRoot + 1;
+    subCardPost.style.setProperty('--i', animationTime);
+
+    if (urlImage) {
+      const cardImagePost = createElement(
+        'a',
+        'card__image__search__post',
+        subCardPost,
+      );
+      cardImagePost.href = `/posts/${postId}/show`;
+      cardImagePost.style.backgroundImage = `url(${urlImage})`;
+      cardImagePost.style.backgroundSize = 'cover';
+      cardImagePost.style.backgroundPosition = 'center';
+      cardImagePost.style.backgroundRepeat = 'no-repeat';
     }
+
+    const bodySearchPost = createElement(
+      'a',
+      'body__search__post',
+      subCardPost,
+    );
+    bodySearchPost.href = `/posts/${postId}/show`;
+
+    const itemTitle = createElement('p', 'search__post__title', bodySearchPost);
+    itemTitle.textContent = title;
+    const itemCreateAt = createElement(
+      'p',
+      'search__post__create_at',
+      bodySearchPost,
+    );
+    itemCreateAt.textContent = `on ${formatDate(CreatedAt)}`;
+  };
+
+  const renderDomeEmptySearchedPosts = () => {
+    const containerSearchPosts = querySelector('#render-searched-post');
+    containerSearchPosts.textContent = '';
+    const notFoundCard = createElement(
+      'div',
+      'not__found__search_post',
+      containerSearchPosts,
+    );
+    notFoundCard.id = 'not-found-search';
+
+    const text = createElement('p', 'not__found-search__post', notFoundCard);
+    text.textContent = 'Not Found Any Post! 😢';
+  };
+
+  const handleSearchPost = (event) => {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      handleModalSearchPost();
+      const { value: query } = querySelector('#query');
+      fetchSearchPostApi(query)
+        .then(({ status, message, data }) => {
+          if (status !== 200) {
+            throw customError(message, 400);
+          }
+
+          if (!data.length) {
+            throw customError('not-found-searched-post', 400);
+          }
+
+          const containerSearchPosts = querySelector('#render-searched-post');
+          containerSearchPosts.textContent = '';
+
+          data.forEach((post, index) => {
+            const {
+              id,
+              title,
+              url_image: urlImage,
+              created_at: CreatedAt,
+            } = post;
+
+            renderDomeSearchedPosts(
+              index,
+              containerSearchPosts,
+              id,
+              title,
+              urlImage,
+              CreatedAt,
+            );
+          });
+        })
+        .catch(({ message }) => {
+          if (message !== 'not-found-searched-post') {
+            useAlert('Error!', message, 'error', 'Ok', 'center', 2000, false);
+          }
+          renderDomeEmptySearchedPosts();
+        });
+    }
+  };
+  addListener('#query', 'keyup', handleSearchPost);
+
+  // -----------***** ------ *** ---------  show/hide Post modal --------- ***** ------ *** --------
+  const handleModalPost = () => {
+    modalPostCreate.classList.toggle('modal-hidden');
+
+    const btnUpdatePost = querySelector('#submit-form');
+    const headerPostTitle = querySelector('.add-post-title');
+
+    clearInputText(['#title', '#content', '#imageUrl']);
+
+    postID = undefined;
+    headerPostTitle.textContent = 'Add More Post';
+    btnUpdatePost.textContent = 'Add Post';
+    btnUpdatePost.setAttribute('data-update-post', false);
   };
 
   addListener('#btn-show-modal', 'click', handleModalPost);
@@ -321,6 +442,7 @@ window.onload = () => {
 
   // -------------------- function of render Card Post ----------------------
   const renderCardPost = (
+    animationTime,
     id,
     userId,
     title,
@@ -336,8 +458,13 @@ window.onload = () => {
     const containerPosts = querySelector('#container-posts');
 
     // Create sub parent post
-    const cardPosts = createElement('div', 'card__posts', containerPosts);
+    const cardPosts = createElement(
+      'div',
+      'card__posts fade__in__left',
+      containerPosts,
+    );
     cardPosts.id = `post-${id}-user-${userId}`;
+    cardPosts.style.setProperty('--i', animationTime);
 
     // ---- post header ----
     const cardHeader = createElement('div', 'card__header', cardPosts);
@@ -427,19 +554,24 @@ window.onload = () => {
       }
       showDefault = data.length;
       data.forEach(
-        ({
-          id,
-          user_id: userId,
-          title,
-          username,
-          content,
-          created_at: createdAt,
-          url_image: urlImage,
-          user_image: userImage,
-          votes_counts: votesCounts,
-          comments_counts: commentsCounts,
-        }) => {
+        (
+          {
+            id,
+            user_id: userId,
+            title,
+            username,
+            content,
+            created_at: createdAt,
+            url_image: urlImage,
+            user_image: userImage,
+            votes_counts: votesCounts,
+            comments_counts: commentsCounts,
+          },
+          index,
+        ) => {
+          const animationTime = showDefault - index + 1;
           renderCardPost(
+            animationTime,
             id,
             userId,
             title,
@@ -591,6 +723,7 @@ window.onload = () => {
         }
 
         renderCardPost(
+          1,
           id,
           userId,
           postTitle,

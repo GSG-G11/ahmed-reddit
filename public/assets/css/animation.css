@@ -1,0 +1,54 @@
+.fade__in__left {
+  animation: AnimationMainAxisLeft calc(0.5s * var(--i)) ease-in-out;
+}
+@keyframes AnimationMainAxisLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100vw) scale(0);
+  }
+}
+
+.fade__in__right {
+  animation: AnimationMainAxisRight calc(0.5s * var(--i)) ease-in-out;
+}
+
+@keyframes AnimationMainAxisRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100vw) scale(0);
+  }
+}
+
+
+.fade__in__top {
+  animation: AnimationVerticalAxisTop calc(0.5s * var(--i)) ease-in-out;
+}
+
+@keyframes AnimationVerticalAxisTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100vw) scale(0);
+  }
+}
+
+.fade__in__bottom {
+  animation: AnimationVerticalAxisBottom calc(0.5s * var(--i)) ease-in-out;
+}
+
+@keyframes AnimationVerticalAxisBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(100vw) scale(0);
+  }
+}
+
+
+.fade__appear {
+  animation: AnimationAppear calc(0.5s * var(--i)) ease-in-out;
+}
+
+@keyframes AnimationAppear {
+  0% {
+    opacity: 0;
+  }
+}

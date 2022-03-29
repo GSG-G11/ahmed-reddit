@@ -22,6 +22,7 @@ const {
   updatePostQuery,
   getLastFivePostsQuery,
   getTopFiveVotedPostsQuery,
+  getSearchPostsQuery,
 } = require('../server/database/queries');
 const { hashPassword } = require('../server/util');
 
@@ -53,6 +54,8 @@ const [postId, userId, postTitle, postContent, postUrlImage, postCreatedAt] = [
   'https://oshiprint.in/image/data/poster/new/mqp1193.jpeg',
   TimeNow,
 ];
+
+const [textSearch, notFoundTextSearch] = ['po', 'hhh_test_not_found'];
 
 // run after each test
 beforeEach(() => dbBuilder());
@@ -210,6 +213,15 @@ describe('Test ::  ===>  Table Posts <=== :: In DataBase', () => {
   test('Test get Top Five Voted Posts Should return (true), we have three post', () =>
     getTopFiveVotedPostsQuery().then(({ rowCount }) => {
       expect(rowCount).toBe(3);
+    }));
+
+  test('Test Get Search Posts Should return (true), we have three post', () =>
+    getSearchPostsQuery(`%${textSearch}%`).then(({ rowCount }) => {
+      expect(rowCount).toBe(3);
+    }));
+  test('Test Get Search Posts Should return (true), we have three post', () =>
+    getSearchPostsQuery(`%${notFoundTextSearch}%`).then(({ rowCount }) => {
+      expect(rowCount).toBe(0);
     }));
 });
 

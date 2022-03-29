@@ -119,17 +119,7 @@ describe('Test the path auth path in server', () => {
       });
   });
 
-  test('It should response the post method', (done) => {
-    request(app)
-      .post('/api/v1/login')
-      .send(loginInput)
-      .expect(200)
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .end((error) => {
-        if (error) return done(error);
-        return done();
-      });
-  });
+
 
   test('It should response the post method', (done) => {
     request(app)
@@ -154,17 +144,7 @@ describe('Test the path auth path in server', () => {
         return done();
       });
   });
-  test('It should response the post method', (done) => {
-    request(app)
-      .post('/api/v1/register')
-      .send(registerNotExistInput)
-      .expect(200)
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .end((error) => {
-        if (error) return done(error);
-        return done();
-      });
-  });
+
 
   test('It should response the post method', (done) => {
     request(app)

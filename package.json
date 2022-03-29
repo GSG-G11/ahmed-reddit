@@ -11,6 +11,8 @@
     "dev": "cross-env NODE_ENV=development nodemon server/index.js",
     "build": "cross-env NODE_ENV=production node server/database/build/command-build.js",
     "test": "cross-env NODE_ENV=test jest",
+    "test:database": "cross-env NODE_ENV=test jest ./__test__/database.test.js",
+    "test:router": "cross-env NODE_ENV=test jest ./__test__/router.test.js",
     "build:dev": "cross-env NODE_ENV=development node server/database/build/command-build.js"
   },
   "repository": {

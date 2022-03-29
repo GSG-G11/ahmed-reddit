@@ -1,6 +1,4 @@
-/* ------------------------------------------------------------------
-                          [Table of contents]
-        ***     01.  ==>   Root Variables And Font Family 
+/* ------------------------------------------------------------------                          [Table of contents]        ***     01.  ==>   Root Variables And Font Family 
         ***     02.  ==>   General Style   
 
 --------------------------------------------------------------------- */
@@ -46,7 +44,6 @@ body {
   font-family: 'Ubuntu', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
 ::-moz-selection {
   /* Code for Firefox */
   color: var(--white);
@@ -90,7 +87,7 @@ button {
   background: var(--white);
   font-family: 'Arvo', serif;
   width: 70%;
-  height: 70%;
+  /* height: 40%; */
   margin: 0 auto;
   text-align: center;
 }
@@ -104,7 +101,7 @@ button {
   background-position: center;
   background-repeat: no-repeat;
 
-  height: 600px;
+  height: 500px;
   background-position: center;
 }
 

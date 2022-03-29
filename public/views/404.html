@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -7,6 +6,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/css/error.css" />
+    <link rel="stylesheet" href="/css/animation.css" />
     <title>404 | Not Found</title>
   </head>
   <body>
@@ -15,16 +15,22 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="col-sm-10 col-sm-offset-1 text-center">
-              <div class="four_zero_four_bg">
+              <div class="four_zero_four_bg fade__appear" style="--i: 1.2">
                 <h1 class="text-center">404</h1>
               </div>
 
               <div class="contant_box_404">
-                <h3 class="h2">Look like you're lost</h3>
+                <h3 class="h2 fade__in__left" style="--i: 1.4">
+                  Look like you're lost
+                </h3>
 
-                <p>the page you are looking for not avaible!</p>
+                <p class="fade__in__left" style="--i: 1.6">
+                  the page you are looking for not avaible!
+                </p>
 
-                <a href="/" class="link_404">Go to Home</a>
+                <a href="/" class="link_404 fade__in__bottom" style="--i: 1.8"
+                  >Go to Home</a
+                >
               </div>
             </div>
           </div>

@@ -47,6 +47,8 @@ const postUpdateInput = {
     'https://images.unsplash.com/photo-1602418013963-c1f017b3bb63?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmVhdXRpZnVsJTIwY2F0fGVufDB8fDB8fA%3D%3D&w=1000&q=80',
 };
 
+const [textSearch] = ['po'];
+
 describe('Test the root path', () => {
   test('It should response the GET method', (done) => {
     request(app)
@@ -304,6 +306,17 @@ describe('Test the Posts path in server', () => {
   test('It should response the GET method', (done) => {
     request(app)
       .get('/api/v1/posts/top-voted')
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((error) => {
+        if (error) return done(error);
+        return done();
+      });
+  });
+
+  test('It should response the GET method', (done) => {
+    request(app)
+      .get(`/api/v1/posts/search?textSearch=${textSearch}`)
       .expect(200)
       .expect('Content-Type', 'application/json; charset=utf-8')
       .end((error) => {

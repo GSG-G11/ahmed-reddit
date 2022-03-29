@@ -377,9 +377,15 @@ button {
 
 .user__post__img {
   width: 38px;
-  height: auto;
+  height: 38px;
   max-width: 38px;
   min-width: 38px;
+  max-height: 38px;
+  min-height: 38px;
+  overflow: hidden;
+  border-radius: 50%;
+  transition: all ease-in-out 0.4s;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
 }
 
 .user__post__img img {
@@ -389,9 +395,13 @@ button {
   min-width: 38px;
   max-height: 38px;
   min-height: 38px;
-  border-radius: 50%;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
+
+.user__post__img:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
 .username__post {
   display: flex;
   flex-direction: column;
@@ -476,15 +486,23 @@ button {
 
 .post__img {
   width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .post__img img {
   width: 100%;
-  height: 300px;
-  max-height: 300px;
-  min-height: 300px;
-  border-radius: 8px;
+  height: 100%;
+  max-height: 200px;
+  min-height: 200px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: all ease-in-out 0.4s;
+}
+
+.post__img img:hover {
+  transform: scale(1.5) rotate(5deg);
 }
 
 .post__footer {
@@ -654,9 +672,14 @@ button {
     margin-top: 0;
   }
 
-  .post__img img {
+  .post__img {
     width: 100%;
     height: 225px;
+  }
+
+  .post__img img {
+    width: 100%;
+    height: 100%;
     max-height: 225px;
     min-height: 225px;
   }
@@ -685,11 +708,16 @@ button {
     gap: 30px;
   }
 
+  .post__img {
+    width: 100%;
+    height: 280px;
+  }
+
   .post__img img {
     width: 100%;
-    height: 350px;
-    max-height: 350px;
-    min-height: 350px;
+    height: 100%;
+    max-height: 280px;
+    min-height: 280px;
   }
 
   .sidebar__container {
@@ -713,9 +741,14 @@ button {
     gap: 30px;
   }
 
-  .post__img img {
+  .post__img {
     width: 100%;
     height: 350px;
+  }
+
+  .post__img img {
+    width: 100%;
+    height: 100%;
     max-height: 350px;
     min-height: 350px;
   }
@@ -743,11 +776,16 @@ button {
     margin: 0 auto;
   }
 
+  .post__img {
+    width: 100%;
+    height: 400px;
+  }
+
   .post__img img {
     width: 100%;
-    height: 450px;
-    max-height: 450px;
-    min-height: 450px;
+    height: 100%;
+    max-height: 400px;
+    min-height: 400px;
   }
 
   .sidebar__container {
@@ -1006,6 +1044,7 @@ modal style add posts
   margin: 0 auto;
   padding: 15px 30px;
   width: 90%;
+  overflow: hidden;
 }
 
 .modal-search-content .fa-times {

@@ -101,11 +101,16 @@ window.onload = () => {
 
     // ---- post card Image header ----
     if (postImage) {
-      const cardImage = createElement('div', 'card__image', cardSinglePost);
+      const cardImage = createElement(
+        'div',
+        'card__image fade__appear',
+        cardSinglePost,
+      );
       cardImage.style.background = `url('${postImage}')`;
       cardImage.style.backgroundSize = 'cover';
       cardImage.style.backgroundRepeat = 'no-repeat';
       cardImage.style.backgroundPosition = 'center';
+      cardImage.style.setProperty('--i', 1.5);
     }
 
     const cardBodySinglePost = createElement(
@@ -115,17 +120,19 @@ window.onload = () => {
     );
     const singlePostTitle = createElement(
       'h1',
-      'singlePost__title',
+      'singlePost__title fade__in__left',
       cardBodySinglePost,
     );
     singlePostTitle.textContent = postTitle;
+    singlePostTitle.style.setProperty('--i', 2);
 
     const singlePostContent = createElement(
       'p',
-      'singlePost__content',
+      'singlePost__content fade__in__left',
       cardBodySinglePost,
     );
     singlePostContent.textContent = postContent;
+    singlePostContent.style.setProperty('--i', 2.5);
 
     const singlePostFooter = createElement(
       'div',
@@ -135,37 +142,47 @@ window.onload = () => {
 
     const singlePostAt = createElement(
       'p',
-      'footer__post__at',
+      'footer__post__at fade__in__left',
       singlePostFooter,
     );
     singlePostAt.textContent = formatDate(PostAt);
+    singlePostAt.style.setProperty('--i', 3);
 
     const singlePostVote = createElement(
       'p',
-      'footer__post__vote',
+      'footer__post__vote fade__in__right',
       singlePostFooter,
     );
     singlePostVote.textContent = postVoteCount
       ? `${postVoteCount} Votes`
       : "haven't any votes yet.";
+    singlePostVote.style.setProperty('--i', 3.5);
 
     // ----------------
 
     const singlePostByCard = createElement(
       'a',
-      'card__post__by',
+      'card__post__by  fade__appear',
       cardBodySinglePost,
     );
     singlePostByCard.href = `/profile/user/${userId}/show`;
+    singlePostByCard.style.setProperty('--i', 6);
+
     const textSinglePostBy = createElement(
       'span',
-      'text__post__by',
+      'text__post__by fade__in__left',
       singlePostByCard,
     );
+    textSinglePostBy.style.setProperty('--i', 4);
     textSinglePostBy.textContent = 'Post By|';
 
-    const singlePostBy = createElement('span', 'p__post__by', singlePostByCard);
+    const singlePostBy = createElement(
+      'span',
+      'p__post__by fade__in__left',
+      singlePostByCard,
+    );
     singlePostBy.textContent = PostBy;
+    singlePostBy.style.setProperty('--i', 4);
   };
 
   //  ------------------------- render Empty Not Found Post -----------------------------
@@ -261,6 +278,7 @@ window.onload = () => {
 
   //  ---------------- render Single Post Comments Dom --------------
   const renderSinglePostCommentDom = (
+    animationTime,
     commentId,
     postId,
     content,
@@ -275,10 +293,12 @@ window.onload = () => {
     // Create sub parent post
     const cardPostComment = createElement(
       'div',
-      'card__post__comment',
+      'card__post__comment fade__in__left',
       postCommentContainer,
     );
     cardPostComment.id = `post-${postId}-user-${userId}-comment-${commentId}`;
+
+    cardPostComment.style.setProperty('--i', animationTime);
 
     // ---- post header ----
     const cardHeader = createElement('div', 'card__header', cardPostComment);
@@ -374,8 +394,9 @@ window.onload = () => {
     .then(({ status, message, data }) => {
       if (status === 200) {
         numberOfComments = data.length;
+
         if (data.length) {
-          data.forEach((comment) => {
+          data.forEach((comment, index) => {
             const {
               id: commentId,
               user_id: userId,
@@ -384,7 +405,9 @@ window.onload = () => {
               content: commentContent,
               created_at: commentAt,
             } = comment;
+            const animationTime = numberOfComments - index + 1;
             renderSinglePostCommentDom(
+              animationTime,
               commentId,
               postID,
               commentContent,
@@ -446,8 +469,10 @@ window.onload = () => {
               urlImage: userImage,
               username,
             } = data;
+            numberOfComments += 1;
 
             renderSinglePostCommentDom(
+              1,
               commentId,
               postId,
               commentContent,
@@ -456,8 +481,6 @@ window.onload = () => {
               username,
               commentAt,
             );
-
-            numberOfComments += 1;
 
             if (numberOfComments) {
               removeDefaultNotFoundComment();

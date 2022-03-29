@@ -8,9 +8,10 @@
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
     <title>Reddit Home Page</title>
     <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/animation.css" />
   </head>
   <body>
-    <nav class="navbar__container">
+    <nav class="navbar__container fade__appear" style="--i: 1.5">
       <div class="navbar__left">
         <a href="/" class="navbar_img">
           <img src="/img/reddit_logo.svg" alt="reddit logo" />
@@ -32,15 +33,15 @@
 
     <section class="section__container">
       <div class="section__content">
-        <h2 class="section__title">REDDIT</h2>
-        <p class="section__text">
+        <h2 class="section__title fade__in__left" style="--i: 1">REDDIT</h2>
+        <p class="section__text fade__in__left" style="--i: 2">
           Reddit is a network of communities where people can dive into their
-          interests, hobbies and passions. There’s a community for whatever
-          you’re interested in on Reddit.
+          interests, hobbies and passions. There's a community for whatever
+          you're interested in on Reddit.
         </p>
       </div>
 
-      <div class="section__img">
+      <div class="section__img fade__in__right" style="--i: 2">
         <img src="/img/banar.svg" alt="banner" />
       </div>
     </section>

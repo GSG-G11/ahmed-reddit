@@ -80,6 +80,7 @@ window.onload = () => {
   addListener('#close-post-search-modal', 'click', handleCloseModalSearchPost);
 
   const renderDomeSearchedPosts = (
+    indexRoot,
     containerSearchPosts,
     postId,
     title,
@@ -88,9 +89,12 @@ window.onload = () => {
   ) => {
     const subCardPost = createElement(
       'div',
-      'search__post__card',
+      'search__post__card fade__in__left',
       containerSearchPosts,
     );
+
+    const animationTime = indexRoot + 1;
+    subCardPost.style.setProperty('--i', animationTime);
 
     if (urlImage) {
       const cardImagePost = createElement(
@@ -154,7 +158,7 @@ window.onload = () => {
           const containerSearchPosts = querySelector('#render-searched-post');
           containerSearchPosts.textContent = '';
 
-          data.forEach((post) => {
+          data.forEach((post, index) => {
             const {
               id,
               title,
@@ -163,6 +167,7 @@ window.onload = () => {
             } = post;
 
             renderDomeSearchedPosts(
+              index,
               containerSearchPosts,
               id,
               title,
@@ -437,6 +442,7 @@ window.onload = () => {
 
   // -------------------- function of render Card Post ----------------------
   const renderCardPost = (
+    animationTime,
     id,
     userId,
     title,
@@ -452,8 +458,13 @@ window.onload = () => {
     const containerPosts = querySelector('#container-posts');
 
     // Create sub parent post
-    const cardPosts = createElement('div', 'card__posts', containerPosts);
+    const cardPosts = createElement(
+      'div',
+      'card__posts fade__in__left',
+      containerPosts,
+    );
     cardPosts.id = `post-${id}-user-${userId}`;
+    cardPosts.style.setProperty('--i', animationTime);
 
     // ---- post header ----
     const cardHeader = createElement('div', 'card__header', cardPosts);
@@ -543,19 +554,24 @@ window.onload = () => {
       }
       showDefault = data.length;
       data.forEach(
-        ({
-          id,
-          user_id: userId,
-          title,
-          username,
-          content,
-          created_at: createdAt,
-          url_image: urlImage,
-          user_image: userImage,
-          votes_counts: votesCounts,
-          comments_counts: commentsCounts,
-        }) => {
+        (
+          {
+            id,
+            user_id: userId,
+            title,
+            username,
+            content,
+            created_at: createdAt,
+            url_image: urlImage,
+            user_image: userImage,
+            votes_counts: votesCounts,
+            comments_counts: commentsCounts,
+          },
+          index,
+        ) => {
+          const animationTime = showDefault - index + 1;
           renderCardPost(
+            animationTime,
             id,
             userId,
             title,
@@ -707,6 +723,7 @@ window.onload = () => {
         }
 
         renderCardPost(
+          1,
           id,
           userId,
           postTitle,

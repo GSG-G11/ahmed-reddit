@@ -12,10 +12,10 @@ module.exports = (query) => {
             FROM
               posts p
             WHERE 
-               p.title 
+              LOWER(p.title)
             LIKE $1
             OR
-              p.content 
+              LOWER(p.content)
             LIKE $1
             ORDER BY p.id;`,
     values: [query],

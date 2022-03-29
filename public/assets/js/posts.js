@@ -63,16 +63,21 @@ window.onload = () => {
     });
   };
 
-  // ----------------------------  show/hide modal --------------------------------
+  // -----------***** ------ *** ---------  show/hide Search modal -------------***** ------ *** -----------
   const handleModalSearchPost = () => {
     modalSearchPost.classList.toggle('modal-hidden');
-    clearInputText(['#query']);
-    clearText(['#render-searched-post']);
   };
 
-  addListener('#btn-search', 'click', handleModalSearchPost);
-  addListener('.modal-search-overview', 'click', handleModalSearchPost);
-  addListener('#close-post-search-modal', 'click', handleModalSearchPost);
+  const handleCloseModalSearchPost = () => {
+    modalSearchPost.classList.toggle('modal-hidden');
+    setTimeout(() => {
+      clearInputText(['#query']);
+      clearText(['#render-searched-post']);
+    }, 250);
+  };
+
+  addListener('.modal-search-overview', 'click', handleCloseModalSearchPost);
+  addListener('#close-post-search-modal', 'click', handleCloseModalSearchPost);
 
   const renderDomeSearchedPosts = (
     containerSearchPosts,
@@ -94,12 +99,10 @@ window.onload = () => {
         subCardPost,
       );
       cardImagePost.href = `/posts/${postId}/show`;
-      const imagePost = createElement(
-        'img',
-        'image__search__post',
-        cardImagePost,
-      );
-      imagePost.src = urlImage;
+      cardImagePost.style.backgroundImage = `url(${urlImage})`;
+      cardImagePost.style.backgroundSize = 'cover';
+      cardImagePost.style.backgroundPosition = 'center';
+      cardImagePost.style.backgroundRepeat = 'no-repeat';
     }
 
     const bodySearchPost = createElement(
@@ -116,7 +119,7 @@ window.onload = () => {
       'search__post__create_at',
       bodySearchPost,
     );
-    itemCreateAt.textContent = ` | ${formatDate(CreatedAt)}`;
+    itemCreateAt.textContent = `on ${formatDate(CreatedAt)}`;
   };
 
   const renderDomeEmptySearchedPosts = () => {
@@ -134,9 +137,10 @@ window.onload = () => {
   };
 
   const handleSearchPost = (event) => {
+    event.preventDefault();
     if (event.keyCode === 13) {
+      handleModalSearchPost();
       const { value: query } = querySelector('#query');
-      event.preventDefault();
       fetchSearchPostApi(query)
         .then(({ status, message, data }) => {
           if (status !== 200) {
@@ -177,8 +181,7 @@ window.onload = () => {
   };
   addListener('#query', 'keyup', handleSearchPost);
 
-  // --------------------------- modal Post ----------------------
-  // ----------------------------  show/hide modal --------------------------------
+  // -----------***** ------ *** ---------  show/hide Post modal --------- ***** ------ *** --------
   const handleModalPost = () => {
     modalPostCreate.classList.toggle('modal-hidden');
 
